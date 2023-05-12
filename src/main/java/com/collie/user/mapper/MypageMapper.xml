@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.collie.user.mypage">
+	
+	<!-- 주문 내역 목록을 불러오는 일 : field_name = member_num -->
+	<select id="selectOrderList" parameterType="pagination.src.com.collie.user.RangeVO" resultType="domain.mypage.src.com.collie.user.OrderListDomain">
+		select order_num, total_price, item_name, item_img, input_date
+		from(select f.order_num, f.total_price, LISTAGG(i.item_name, ',')WITHIN GROUP(ORDER BY i.item_name)item_name,
+						LISTAGG(i.item_img, ',')WITHIN GROUP(ORDER BY i.item_name)item_img, f.input_date,
+						row_number() over(order by f.order_num desc) rnum
+				from order_form f, item i, order_item oi
+				where oi.order_num = f.order_num and oi.item_num = i.item_num
+							and ${ field_name } = #{ field_value }
+				group by f.order_num, f.total_price, f.input_date)
+		where rnum between #{ start_num } and #{ end_num }
+	</select>
+	
+	<!-- 주문 내역 목록 페이지네이션을 위해 개수를 세는 일 -->
+	<select id="selectOrderListCnt" resultType="int" parameterType="pagination.src.com.collie.user.RangeVO">
+		select count(*)
+		from order_form
+		where ${ field_name } = #{ field_value }
+	</select>
+	
+	<!-- 주문 내역 상세페이지를 불러오는 일 -->
+	<resultMap id="selectOrderDetail" type="domain.mypage.src.com.collie.user.OrderDetailDomain">
+		<result property="total_price" column="TOTAL_PRICE"/>
+		<result property="input_date" column="INPUT_DATE"/>
+		<result property="card_num" column="CARD_NUM"/>
+		<result property="card_bank" column="CARD_BANK"/>
+		<result property="receive_name" column="RECEIVE_NAME"/>
+		<result property="receive_phone" column="RECEIVE_PHONE"/>
+		<result property="receive_addr" column="RECEIVE_ADDR"/>
+		<result property="receive_addr_detail" column="RECEIVE_ADDR_DETAIL"/>
+		<result property="receive_zipcode" column="RECEIVE_ZIPCODE"/>
+		<result property="company" column="COMPANY"/>
+		<result property="invoice_no" column="INVOICE_NO"/>
+		<result property="shipping_flag" column="SHIPPING_FLAG"/>
+		<collection property="orderItemList" column="{member_num=MEMBER_NUM, order_num=ORDER_NUM}" javaType="java.util.ArrayList" ofType="domain.mypage.src.com.collie.user.OrderItemDomain" select="selectOrderItem"/>
+	</resultMap>
+	<select id="selectOrderInfo" parameterType="vo.mypage.src.com.collie.user.MyOrderVO" resultMap="selectOrderDetail">
+		select f.total_price, f.input_date, p.card_num, p.card_bank, d.receive_name, d.receive_phone, d.receive_addr, d.receive_addr_detail, d.receive_zipcode, f.member_num, f.order_num, f.company, f.invoice_no, f.shipping_flag
+		from order_form f, payment p, destination d, member m
+		where (p.order_num=f.order_num and d.order_num=f.order_num and f.member_num=m.member_num)
+					and f.member_num = #{ member_num } and f.order_num = #{ order_num }
+	</select>
+	<!-- 주문 내역 상세페이지에 속한 List<OrderItemDomain> 불러오는 일 -->
+	<select id="selectOrderItem" parameterType="java.util.Map" resultType="domain.mypage.src.com.collie.user.OrderItemDomain">
+		select i.item_name, i.item_img, i.item_price, oi.item_cnt, i.item_num
+		from item i, order_item oi, order_form f
+		where (oi.item_num=i.item_num and oi.order_num=f.order_num)
+					and f.member_num = #{ member_num } and f.order_num = #{ order_num }
+	</select>
+	
+	<!-- 주문내역을 취소하는 일 -->
+	<delete id="deleteOrder" parameterType="vo.mypage.src.com.collie.user.MyOrderVO">
+		delete from order_form
+		where member_num = #{ member_num } and order_num = #{ order_num }
+	</delete>
+	
+	<!-- 현재 비밀번호를 확인하는 일 : 세션의 아이디와 사용자가 입력한 비밀번호를 받아 일치하는 회원이 있는지 조회 -->
+	<select id="selectMemberPass" parameterType="vo.mypage.src.com.collie.user.PassCheckVO" resultType="int">
+		select member_num
+		from member
+		where member_num = #{ member_num } and pass = #{ pass }
+	</select>
+	
+	<!-- 비밀번호를 변경하는 일 -->
+	<update id="updateMemberPass" parameterType="vo.mypage.src.com.collie.user.UpdatePassVO">
+		update member
+		set pass = #{ pass }
+		where member_num = #{ member_num }
+	</update>
+	
+	<!-- 정보 가져오기 -->
+	<select id="selectMemberInfo" parameterType="vo.mypage.src.com.collie.user.PassCheckVO" resultType="domain.mypage.src.com.collie.user.MemberInfoDomain">
+		select	id, name, email, phone, addr, addr_detail, zipcode
+		from member
+		where member_num = #{ member_num } and pass = #{ pass } 
+	</select>
+ 
+	
+	      <!-- 개인정보 수정하는 일  -->
+       <update id="updateMember" parameterType="vo.mypage.src.com.collie.user.ModifyMemberVO" >
+              update member
+              set name= #{ name }, phone = #{ phone } , addr= #{ addr } , zipcode=#{ zipcode }, addr_detail= #{ addr_detail }
+              where id= #{ id }
+       </update>
+
+    <!-- 개인정보 확인하는 일  -->
+       <select id="selectMember" resultType="domain.mypage.src.com.collie.user.MemberInfoDomain">
+       select id, name, email, phone, addr, addr_detail, zipcode
+       from member
+       </select>
+       
+       <!-- 회원 탈퇴하는 일  -->
+       <update id="removeMember" parameterType="vo.mypage.src.com.collie.user.DeleteMemberVO">
+            update member
+            set  member_flag = 'N', id=null, pass=null, name=null, email=null,phone=null,zipcode=null, addr=null, addr_detail=null, ip=null
+            where  member_num = #{ member_num } and pass=#{ pass }
+       </update>
+       
+       <!-- 회원의 모든 문의내역 개수 -->
+       <select resultType="int" parameterType="int" id="selectQnaTotalCnt">
+	       select count(*)
+	       from qna
+	       where member_num=#{ member_num } 
+       </select>
+	
+		<!-- 문의내역 리스트 조회 -->
+		<select resultType="domain.mypage.src.com.collie.user.QnaListDomain" parameterType="pagination.src.com.collie.user.RangeVO" id="selectQnaList">
+		select qna_num, qna_subject, qna_flag ,to_char(input_date,'yyyy-mm-dd')input_date, idx
+			from(select qna_num, qna_subject, qna_flag ,input_date, idx, row_number() over(order by idx desc) rnum
+				from(select qna_num, qna_subject, qna_flag , input_date, row_number() over(order by qna_num) idx
+					from qna
+					where ${ field_name } = #{field_value}))
+		where rnum between #{start_num} and #{end_num} 
+		</select>
+		
+		<!-- 문의내역 상세 조회 -->
+		<select id="selectQnaDetail" parameterType="vo.mypage.src.com.collie.user.QnaVO" resultType="domain.mypage.src.com.collie.user.QnaDetailDomain">
+			select qna_content, qna_reply, to_char(reply_date,'yyyy-mm-dd') reply_date
+			from qna
+			where member_num=#{member_num} and qna_num=#{qna_num}
+		</select>
+</mapper>

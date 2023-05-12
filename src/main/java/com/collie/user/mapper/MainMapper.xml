@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.collie.user.main">
+  <select id="selectCateList" resultType="domain.main.src.com.collie.user.CategoryDomain">
+  	select CATE_NUM, CATE_NAME	
+  	from category
+  </select>
+  
+  <select id="selectNewItemList" resultType="domain.main.src.com.collie.user.NewItemDomain">
+  	select item_num, item_name, item_price, item_img,  input_date, row_number() over(order by input_date desc) rnum
+  	from item
+  	where input_date >
+			( select add_months(sysdate, -1) beforeMonth
+  				from dual
+			)
+  </select>
+  
+</mapper>
