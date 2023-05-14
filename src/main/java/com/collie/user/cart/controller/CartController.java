@@ -7,7 +7,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.collie.user.cart.domain.CartGoodsDomain;
 import com.collie.user.cart.service.CartService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -29,7 +28,7 @@ public class CartController {
 	 * @param cVO
 	 * @return
 	 */
-	@RequestMapping(value="/item/cart.do", method=POST)
+	@RequestMapping(value="/item/cart", method=POST)
 	@ResponseBody
 	public void addCart(HttpSession session, CartVO cVO) {
 		LoginDomain ld = (LoginDomain)session.getAttribute("user_info");
@@ -40,7 +39,7 @@ public class CartController {
 		}//end if
 	}//addCart
 	
-	@RequestMapping(value="/cart/view.do", method=GET)
+	@RequestMapping(value="/cart/view", method=GET)
 	public String viewCart(HttpSession session, Model model) {
 		
 		LoginDomain user_info=(LoginDomain)session.getAttribute("user_info");
@@ -53,7 +52,7 @@ public class CartController {
 		return "cart/view_cart";
 	}//viewCart
 	
-	@RequestMapping(value="/cart/modify_cnt.do", method=POST)
+	@RequestMapping(value="/cart/modify_cnt", method=POST)
 	@ResponseBody
 	public String modifyItemCnt(String cart_num, ItemCntVO icVO) throws NumberFormatException{
 		String json=null;
@@ -64,7 +63,7 @@ public class CartController {
 		return json;
 	}//plusItemCnt
 	
-	@RequestMapping(value="/cart/remove_Item.do", method=POST)
+	@RequestMapping(value="/cart/remove_Item", method=POST)
 	@ResponseBody
 	public String removeSelectedItem(String[] cart_num, HttpSession session) throws NumberFormatException{
 		String json=null;
@@ -78,19 +77,19 @@ public class CartController {
 		return json;
 	}//plusItemCnt
 	
-	@RequestMapping(value="/cart/order_form.do", method=POST)
+	@RequestMapping(value="/cart/order_form", method=POST)
 	public String viewOrderForm(String[] cart_num, Model model) {
 		int[] cartNumArr=new int[cart_num.length];
 		for(int i=0; i<cart_num.length; i++) {
 			cartNumArr[i]=Integer.parseInt(cart_num[i]);
 		}//end for
-		List<CartGoodsDomain> list=new CartService().getOrderGoods(cartNumArr);
-		model.addAttribute("cart_list", list);
+		/*List<CartGoodsDomain> list=new CartService().getOrderGoods(cartNumArr);
+		model.addAttribute("cart_list", list);*/
 		
 		return "cart/order_form";
 	}//viewOrderForm
 	
-	@RequestMapping(value="/cart/order.do", method=POST)
+	@RequestMapping(value="/cart/order", method=POST)
 	public String order(OrderVO oVO, HttpSession session, Model model){
 		String url="cart/order_result";
 		int orderNum=0;

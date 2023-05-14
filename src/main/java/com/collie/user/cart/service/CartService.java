@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.json.simple.JSONObject;
 
-import com.collie.user.cart.dao.CartDAO;
-import com.collie.user.cart.domain.CartGoodsDomain;
 import com.collie.user.cart.vo.CartVO;
 import com.collie.user.cart.vo.ItemCntVO;
 import com.collie.user.cart.vo.OrderVO;
@@ -21,8 +19,8 @@ public class CartService {
 	public boolean addCart(CartVO cVO) {
 		boolean addFlag = false;
 		
-		CartDAO cDAO = CartDAO.getInstance();
-		addFlag = cDAO.insertCart(cVO)==1;
+		/*CartDAO cDAO = CartDAO.getInstance();
+		addFlag = cDAO.insertCart(cVO)==1;*/
 		
 		return addFlag;
 	}//addCart
