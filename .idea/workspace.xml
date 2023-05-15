@@ -4,104 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b037ab90-6769-46a0-b4ac-c7f59459638f" name="Changes" comment="서버 분리 진행 20230515">
-      <change beforePath="$PROJECT_DIR$/back/WebContent/META-INF/MANIFEST.MF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/META-INF/maven/kr.co/collie/pom.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/META-INF/maven/kr.co/collie/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/spring/appServlet/servlet-context.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/spring/root-context.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/cart/order_form.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/cart/order_result.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/cart/view_cart.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/common/footer.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/common/header.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/common/mypage_menu.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/err/order_err.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/find/id.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/find/idForm.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/find/modify_pass_form.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/find/modify_result.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/find/passForm.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/item/item_detail.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/item/item_qna.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/item/item_qna_form.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/item/review_form.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/item/review_list.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/item/review_list_json.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/item/search_item_json.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/item/search_item_result.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/main.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/member/join.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/member/join_clause.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/member/join_frm.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/member/login_form.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/mypage/.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/mypage/check_member_form.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/mypage/check_pass_form.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/mypage/modify_member_form.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/mypage/modify_member_result.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/mypage/modify_pass_form.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/mypage/modify_pass_result.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/mypage/order_detail.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/mypage/order_list.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/mypage/order_list_json.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/mypage/qna_list.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/mypage/remove_member_form.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/mypage/remove_member_result.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/mypage/tracking_info.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/qna/qna.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/views/qna/qna_form.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/WEB-INF/web.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/cart/cart_x.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/cart/ico_minus.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/cart/ico_plus.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/css/common.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/cart.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/footer.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item/bareun_yo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item/bareun_yo1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item/beet.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item/bread.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item/bread_1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item/bread_2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item/brocoli.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item/cheese_baguette.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item/cheese_baguette1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item/chicken.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item/duck.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item/duck_meat.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item/makchang.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item/makchang1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item/makchang2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item/meat.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item/pork.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item/pork_cutlet.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item/scone.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item/scone_1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item/shine_muscat.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item/tab_baeun_yo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item/tab_bread.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item/tab_bread_2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item/tab_cheese_baguette.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item/tab_makchang.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item/tab_makchang2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item/tomato.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item/yogurt.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item_img1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item_img2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item_img3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/item_img4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/logo_green.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/main.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/main_img1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/main_img2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/main_img3.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/main_img4.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/search.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/common/images/vegitable.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/WebContent/test.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/src/main/java/com/collie/user/cart/controller/CartController.java" beforeDir="false" afterPath="$PROJECT_DIR$/back/src/main/java/com/collie/user/cart/controller/CartController.java" afterDir="false" />
+    <list default="true" id="b037ab90-6769-46a0-b4ac-c7f59459638f" name="Changes" comment="서버 분리 진행 20230515v2">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,7 +18,7 @@
     </projectState>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/back" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -130,6 +34,10 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/USER/Desktop/기타/bootPrj/back/build.gradle",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
     "settings.editor.selected.configurable": "File.Encoding"
   }
 }]]></component>
@@ -156,7 +64,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684106935806</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="서버 분리 진행 20230515v2">
+      <created>1684110697175</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1684110697175</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -172,6 +87,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="서버 분리 진행 20230515" />
-    <option name="LAST_COMMIT_MESSAGE" value="서버 분리 진행 20230515" />
+    <MESSAGE value="서버 분리 진행 20230515v2" />
+    <option name="LAST_COMMIT_MESSAGE" value="서버 분리 진행 20230515v2" />
   </component>
 </project>
