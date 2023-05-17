@@ -27,4 +27,4 @@ spring:
       com.tutorial: debug
 
 jwt:
-  secret: aG91Mjctc2ltcGxlLXNwcmluZy1ib290LWFwaS1qd3QK
+  secret: aG91Mjctc2ltcGxlLXNwcmluZy1ib290LWFwaS1qd3QKaG91Mjctc2ltcGxlLXNwcmluZy1ib290LWFwaS1qd3QK

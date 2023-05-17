@@ -39,6 +39,15 @@ public class WebSecurityConfig {
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
 
+                .and()
+                .authorizeHttpRequests()
+                .requestMatchers("/auth/**").permitAll()
+                .anyRequest().authenticated()
+
+                .and()
+                .apply(new JwtSecurityConfig(tokenProvider));
+
+        return http.build();
     }
 
 }
