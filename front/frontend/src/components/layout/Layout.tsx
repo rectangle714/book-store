@@ -16,3 +16,5 @@ const Layout: React.FC<Props> = (props) => {
         </Fragment>
     )
 }
+
+export default Layout;

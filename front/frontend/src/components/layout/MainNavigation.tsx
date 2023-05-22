@@ -1,7 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
-
-import classes from './MainNavigation.module.css';
 import AuthContext from "../../store/auth-context";
 
 const MainNavigation = () => {
@@ -33,8 +31,16 @@ const MainNavigation = () => {
     }
 
     return(
-        <header className={classes.header}>
-            <Link to='/'><div className={classes.logo}></div></Link>
+        <header>
+            <Link to='/'><div></div></Link>
+            <nav>
+                <ul>
+                    <li>{!isLogin && <Link to='/login'>Login</Link>}</li>
+                    <li>{!isLogin && <Link to='signup'>Sign-Up</Link>}</li>
+                    <li>{!isLogin && <Link to='/profile'>{nickname}</Link>}</li>
+                    <li>{!isLogin && <button onClick={toggleLogoutHandler}>Logout</button>}</li>
+                </ul>
+            </nav>
         </header>
     )
 }
