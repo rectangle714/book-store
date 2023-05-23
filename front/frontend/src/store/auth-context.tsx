@@ -17,7 +17,7 @@ const AuthContext = React.createContext({
     isLoggedIn: false,
     isSuccess: false,
     isGetSuccess: false,
-    signup: (email: string, password: string, nickname: string)=> {},
+    signup: (email: string, password: string, nickname: string) => {},
     login: (email:string, password: string) => {},
     logout: () => {},
     getUser: () => {},

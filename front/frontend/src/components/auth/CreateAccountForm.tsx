@@ -1,6 +1,9 @@
-import { useState, useRef, useContext } from "react";
+import { useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
+import Button from '@mui/material/Button';
+import Classes from '../../styles/CreateAccountForm.module.css';
+import TextField from '@mui/material/TextField';
 
 const CreateAccountForm = () => {
     let navigate = useNavigate();
@@ -24,23 +27,22 @@ const CreateAccountForm = () => {
     }
 
     return (
-        <section>
-            <h1>create Account</h1>
+        <section className={Classes.AccountSection}>
+            <h1>회원가입</h1>
             <form onSubmit={submitHandler}>
                 <div>
-                    <label htmlFor='email'>이메일</label>
-                    <input type='email' id='email' required ref={emailInputRef}/>
+                   <TextField label="이메일" variant="standard" id='email' helperText="이메일을 입력해주세요" required inputRef={emailInputRef} />
                 </div>
                 <div>
-                    <label htmlFor='password'>패스워드</label>
-                    <input type='password' id='password' required ref={passwordInputRef}/>
+                    <TextField label="패스워드" type="password" variant="standard" helperText="패스워드를 입력해주세요" required inputRef={passwordInputRef} />
                 </div>
                 <div>
-                    <label htmlFor='nickname'>닉네임</label>
-                    <input type='nickname' id='nickname' required ref={nicknameInputRef}/>
+                    <TextField label="닉네임" variant="standard" id='nickname' helperText="닉네임을 입력해주세요" required inputRef={nicknameInputRef} />
                 </div>
-                <div>
-                    <button type='submit'>Submit</button>
+                <div style={{
+                    paddingTop: 30
+                }}>
+                    <Button variant="contained" type='submit'>등록</Button>
                 </div>
             </form>
         </section>

@@ -6,7 +6,7 @@ import CreateAccountForm from "./components/auth/CreateAccountForm";
 import AuthContext from "./store/auth-context";
 import HomePage from "./pages/HomePage";
 import CreateAccountPage from "./pages/CreateAccountPage";
-import AuthPage from "./pages/AuthPage";
+import AuthPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
 
 
@@ -18,10 +18,9 @@ function App() {
     <Layout>
       <Routes>
         <Route path="/" element={<HomePage/>}></Route>
-        <Route path="/signup/" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <CreateAccountPage />}></Route>
-        <Route path="/login/*" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <AuthPage/>}>
+        <Route path="/signup" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <CreateAccountPage />}></Route>
+        <Route path="/login/*" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <AuthPage/>}></Route>
         <Route path="/profile/" element={!authCtx.isLoggedIn ? <Navigate to='/' /> : <ProfilePage />}></Route>
-        </Route>
       </Routes>
     </Layout>
   );
