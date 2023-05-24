@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import Avatar from '@mui/joy/Avatar';
 
 const MainNavigation = () => {
     const authCtx = useContext(AuthContext);
@@ -59,6 +60,7 @@ const MainNavigation = () => {
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                     <Button onClick={mainNavFunction} size="large" color="inherit">메인</Button>
                 </Typography>
+                {isLogin ? <Avatar /> : ''}
                 {!isLogin ? <Button onClick={loginNavFunction} color="inherit">LOGIN</Button> : <Button color="inherit" onClick={toggleLogoutHandler}>Logout</Button>}
                 {!isLogin ? <Button onClick={signUpNavFunction} color="inherit">SIGN UP</Button> : ''}
                 </Toolbar>

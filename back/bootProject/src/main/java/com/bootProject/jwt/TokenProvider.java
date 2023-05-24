@@ -66,6 +66,7 @@ public class TokenProvider {
                 .build();
     }
 
+    /* 토큰 정보 확인 */
     public Authentication getAuthentication(String accessToken) {
         Claims claims = parseClaims(accessToken);
         if(claims.get(AUTHORITIES_KEY) == null) {
@@ -80,6 +81,7 @@ public class TokenProvider {
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 
+    /* 토큰 validation */
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);

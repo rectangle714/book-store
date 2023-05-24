@@ -4,6 +4,10 @@ import AuthContext from "../../store/auth-context";
 import Button from '@mui/material/Button';
 import Classes from '../../styles/CreateAccountForm.module.css';
 import TextField from '@mui/material/TextField';
+import EmailIcon from '@mui/icons-material/Email';
+import KeyIcon from '@mui/icons-material/Key';
+import InputAdornment from '@mui/material/InputAdornment';
+import Face5Icon from '@mui/icons-material/Face5';
 
 const CreateAccountForm = () => {
     let navigate = useNavigate();
@@ -31,18 +35,55 @@ const CreateAccountForm = () => {
             <h1>회원가입</h1>
             <form onSubmit={submitHandler}>
                 <div>
-                   <TextField label="이메일" variant="standard" id='email' helperText="이메일을 입력해주세요" required inputRef={emailInputRef} />
+                   <TextField 
+                        label="이메일"
+                        variant="standard"
+                        id='email'
+                        autoComplete='true'
+                        required inputRef={emailInputRef}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                <EmailIcon />
+                                </InputAdornment>
+                            ),
+                        }}/>
                 </div>
                 <div>
-                    <TextField label="패스워드" type="password" variant="standard" helperText="패스워드를 입력해주세요" required inputRef={passwordInputRef} />
+                    <TextField 
+                        label="패스워드" 
+                        type="password" 
+                        variant="standard" 
+                        required inputRef={passwordInputRef} 
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                <KeyIcon />
+                                </InputAdornment>
+                            ),
+                        }}/>
                 </div>
                 <div>
-                    <TextField label="닉네임" variant="standard" id='nickname' helperText="닉네임을 입력해주세요" required inputRef={nicknameInputRef} />
+                    <TextField 
+                        label="닉네임"
+                        variant="standard"
+                        id='nickname'
+                        required inputRef={nicknameInputRef}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                <Face5Icon />
+                                </InputAdornment>
+                            ),
+                        }}/>
                 </div>
                 <div style={{
-                    paddingTop: 30
+                    paddingTop: 30,
+                    paddingLeft: 40
                 }}>
-                    <Button variant="contained" type='submit'>등록</Button>
+                    <Button style={{
+                    width: 120
+                }} variant="contained" type='submit'>등록</Button>
                 </div>
             </form>
         </section>

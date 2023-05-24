@@ -18,10 +18,10 @@ const fetchAuth = async (fetchData : FetchData) => {
 
     try{
         const response:AxiosResponse<any, any> | false = 
-        (method == 'get' && (await axios.get(url, header))) ||
-        (method == 'post' && (await axios.post(url, data, header))) ||
-        (method == 'put' && (await axios.put(url, data, header))) ||
-        (method == 'delte' && (await axios.delete(url, header)))
+        (method === 'get' && (await axios.get(url, header))) ||
+        (method === 'post' && (await axios.post(url, data, header))) ||
+        (method === 'put' && (await axios.put(url, data, header))) ||
+        (method === 'delte' && (await axios.delete(url, header)))
 
         if(response && response.data.error) {
             console.log((response.data as LoginFailType).error);

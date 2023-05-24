@@ -19,7 +19,6 @@ public class MemberController {
     @GetMapping("/me")
     public ResponseEntity<MemberResponseDto> getMyMemberInfo() {
         MemberResponseDto myInfoBySecurity = memberService.getMyInfoBySecurity();
-        log.info(myInfoBySecurity.getNickname());
         return ResponseEntity.ok(myInfoBySecurity);
     }
 
