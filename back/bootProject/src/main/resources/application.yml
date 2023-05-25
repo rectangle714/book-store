@@ -1,7 +1,7 @@
 server:
   port: 30001
-spring:
 
+spring:
   datasource:
     driverClassName: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://3.112.49.158:3306/collie?useUnicode=true&characterEncoding=utf-8
@@ -25,5 +25,15 @@ spring:
     level:
       com.tutorial: debug
 
+  redis:
+    host: localhost
+    port: 6379
+
+
+
 jwt:
-  secret: aG91Mjctc2ltcGxlLXNwcmluZy1ib290LWFwaS1qd3QKaG91Mjctc2ltcGxlLXNwcmluZy1ib290LWFwaS1qd3QK
+  token:
+    accessTokenSecretKey: aG91Mjctc2ltcGxlLXNwcmluZy1ib290LWFwaS1qd3QK
+    accessTokenExpireTime: 300000
+    refreshTokenSecretKey: cmVmcmVzaHRva2Vuc2VjcmV0a2V5Cg==
+    refreshTokenExpireTime: 6000000

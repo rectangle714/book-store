@@ -25,18 +25,28 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 public class TokenProvider {
-
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "bearer";
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30;
+
+    @Value(value = "${accessTokenSecretKey}")
+    private String accessTokenSecretKey;
+
+    @Value(value = "${accessTokenExpireTime}")
+    private long accessTokenExpireTime;
+
+    @Value(value = "${refreshTokenSecretKey}")
+    private String refreshTokenSecretKey;
+
+    @Value(value = "${refreshTokenExpireTime}")
+    private long refreshTokenExpireTime;
+
     private final Key key;
 
-    public TokenProvider(@Value("${jwt.secret}") String secretKey) {
-        byte[] keyBytes = Base64.getDecoder().decode(secretKey);
-        this.key = Keys.hmacShaKeyFor(keyBytes);
+    public TokenProvider(Key key) {
+        this.key = key;
     }
 
-    /*
+    /**
     *   토큰 생성
     */
     public TokenDto generateTokenDto(Authentication authentication) {
@@ -46,7 +56,7 @@ public class TokenProvider {
 
         long now = (new Date()).getTime();
 
-        Date tokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
+        Date tokenExpiresIn = new Date(now + accessTokenExpireTime);
 
         log.info("tokenExpiresIn = {}", tokenExpiresIn);
 
@@ -54,7 +64,7 @@ public class TokenProvider {
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities)
                 .setExpiration(tokenExpiresIn)
-                .signWith(key, SignatureAlgorithm.HS512)
+                .signWith(key,SignatureAlgorithm.HS512)
                 .compact();
 
         log.info("accessToken = {}", accessToken);
@@ -66,7 +76,9 @@ public class TokenProvider {
                 .build();
     }
 
-    /* 토큰 정보 확인 */
+    /**
+     * 토큰 정보 확인
+     */
     public Authentication getAuthentication(String accessToken) {
         Claims claims = parseClaims(accessToken);
         if(claims.get(AUTHORITIES_KEY) == null) {
