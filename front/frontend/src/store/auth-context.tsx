@@ -8,7 +8,9 @@ type UserInfo = { email: string, nickname: string };
 type LoginToken = {
     grantType: string,
     accessToken: string,
-    tokenExpiresIn: number
+    refreshToken: string,
+    accessTokenExpiresIn: number,
+    refreshTokenExpiresIn: number
 }
 
 const AuthContext = React.createContext({
@@ -45,11 +47,14 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
     const userIsLoggedIn = !!token;
 
     const signuphandler = (email: string, password: string, nickname: string) => {
-        setIsSuccess(false);
+        setIsSuccess((success: boolean) => success = false);
         const response = authAction.signupActionHandler(email, password, nickname);
         response.then((result) => {
-            if(result !== null) {
-                setIsSuccess(true);
+            console.log('result ', result);
+            if(result != null) {
+                console.log('ddd ',isSuccess);
+                setIsSuccess((success: boolean) => !success);
+                console.log('들어옴 ', isSuccess);
             }
         });
     }
@@ -62,9 +67,10 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
             if(result !== null) {
                 const loginData:LoginToken = result.data;
                 setToken(loginData.accessToken);
+                // const expirationTime = new Date(new Date().getTime() + +data.expir)
                 logoutTimer = setTimeout(
                     logoutHandler,
-                    authAction.loginTokenHandler(loginData.accessToken, loginData.tokenExpiresIn)
+                    authAction.loginTokenHandler(loginData.accessToken, loginData.accessTokenExpiresIn)
                 );
                 setIsSuccess(true);
             }
@@ -81,7 +87,6 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
 
     const getUserHandler = () => {
         setIsGetSuccess(false);
-        console.log('asdasd');
 
         const data = authAction.getUserActionHandler(token);
         data.then((result) => {

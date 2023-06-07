@@ -19,7 +19,8 @@ const calculateRemainingTime = (expirationTime:number) => {
 
 /* 토큰값, 만료시간을 저장 */
 export const loginTokenHandler = (token:string, expirationTime:number) => {
-    localStorage.setItem('token', token);
+    // localStorage.setItem('token', token);
+    localStorage.setItem('accessToken', token);
     localStorage.setItem('expirationTime', String(expirationTime));
 
     const remainingTime = calculateRemainingTime(expirationTime);
@@ -28,13 +29,13 @@ export const loginTokenHandler = (token:string, expirationTime:number) => {
 
 /* 토큰 만료시간 확인 */
 export const retrieveStoredToken = () => {
-    const storedToken = localStorage.getItem('token');
+    const storedToken = localStorage.getItem('accessToken');
     const storedExpirationDate = localStorage.getItem('expirationTime') || '0';
 
     const remaingTime = calculateRemainingTime(+ storedExpirationDate);
 
     if(remaingTime <= 1000) {
-        localStorage.removeItem('token');
+        localStorage.removeItem('accessToken');
         localStorage.removeItem('expirationTime');
         return null;
     }
@@ -66,7 +67,7 @@ export const loginActionHandler = (email: string, password: string) => {
 /* 로그아웃 */
 export const logoutActionHandler = () => {
     localStorage.removeItem('token');
-    localStorage.removeItem('expirationTime');
+    localStorage.removeItem('tokenExpireTime');
 }
 
 /* 사용자 정보 확인 */

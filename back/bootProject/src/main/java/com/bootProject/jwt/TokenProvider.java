@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collection;
@@ -56,19 +57,20 @@ public class TokenProvider {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining());
 
-        final Date now = new Date();
+        long now = (new Date()).getTime();
+
+        Date accessTokenExpiresIn = new Date(now + accessTokenExpireTime);
+        Date refreshTokenExpiresIn = new Date(now + refreshTokenExpireTime);
 
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities)
-                .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + accessTokenExpireTime))
+                .setExpiration(accessTokenExpiresIn)
                 .signWith(accessKey, SignatureAlgorithm.HS256)
                 .compact();
 
         String refreshToken = Jwts.builder()
-                .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + refreshTokenExpireTime))
+                .setExpiration(refreshTokenExpiresIn)
                 .signWith(refreshKey, SignatureAlgorithm.HS256)
                 .compact();
 
@@ -79,8 +81,8 @@ public class TokenProvider {
                 .grantType(BEARER_TYPE)
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
-                .accessTokenExpiresIn(accessTokenExpireTime)
-                .refreshTokenExpiresIn(refreshTokenExpireTime)
+                .accessTokenExpiresIn(accessTokenExpiresIn.getTime())
+                .refreshTokenExpiresIn(refreshTokenExpiresIn.getTime())
                 .build();
     }
     /**
