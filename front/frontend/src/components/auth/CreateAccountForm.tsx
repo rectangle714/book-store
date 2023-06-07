@@ -25,9 +25,12 @@ const CreateAccountForm = () => {
 
         authCtx.signup(enteredEmail, enteredPassword, enteredNickname);
 
+        console.log('isSuccess : ',authCtx.isSuccess);
         if(authCtx.isSuccess) {
             return navigate("/", { replace:true });
         }
+
+
     }
 
     return (
