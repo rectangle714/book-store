@@ -31,6 +31,8 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
     const tokenData = authAction.retrieveStoredToken();
 
     let initialToken:any;
+
+    
     if(tokenData) {
         initialToken = tokenData.token;
     }
@@ -47,14 +49,11 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
     const userIsLoggedIn = !!token;
 
     const signuphandler = (email: string, password: string, nickname: string) => {
-        setIsSuccess((success: boolean) => success = false);
+        setIsSuccess(false);
         const response = authAction.signupActionHandler(email, password, nickname);
         response.then((result) => {
-            console.log('result ', result);
             if(result != null) {
-                console.log('ddd ',isSuccess);
-                setIsSuccess((success: boolean) => !success);
-                console.log('들어옴 ', isSuccess);
+                setIsSuccess(true);
             }
         });
     }
@@ -67,7 +66,6 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
             if(result !== null) {
                 const loginData:LoginToken = result.data;
                 setToken(loginData.accessToken);
-                // const expirationTime = new Date(new Date().getTime() + +data.expir)
                 logoutTimer = setTimeout(
                     logoutHandler,
                     authAction.loginTokenHandler(loginData.accessToken, loginData.accessTokenExpiresIn)

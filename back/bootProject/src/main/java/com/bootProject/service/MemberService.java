@@ -37,6 +37,7 @@ public class MemberService {
             throw new RuntimeException("비밀번호가 맞지 않습니다.");
         }
         member.setPassword(passwordEncoder.encode(newPassword));
+        
         return MemberResponseDto.of(memberRepository.save(member));
     }
 

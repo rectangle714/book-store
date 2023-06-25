@@ -10,6 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Avatar from '@mui/joy/Avatar';
 
+// 메인 네이게이션
 const MainNavigation = () => {
     const authCtx = useContext(AuthContext);
     const [nickname, setNickname] = useState('');    
@@ -20,6 +21,10 @@ const MainNavigation = () => {
     const mainNavFunction = () => navigate('/');
     const loginNavFunction = () => navigate('/login');
     const signUpNavFunction = () => navigate('/signup');
+
+    const myPageNavFunction = () => {
+        alert('마이페이지');
+    }
 
     const callback = (str:string) => {
         setNickname(str);
@@ -55,26 +60,19 @@ const MainNavigation = () => {
                     aria-label="menu"
                     sx={{ mr: 2 }}
                 >
-                    <MenuIcon />
+                <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                     <Button onClick={mainNavFunction} size="large" color="inherit">메인</Button>
                 </Typography>
-                {isLogin ? <Avatar /> : ''}
+                {isLogin ? <Avatar onClick={myPageNavFunction} style={{
+                    cursor: "pointer"
+                }}/> : ''}
                 {!isLogin ? <Button onClick={loginNavFunction} color="inherit">LOGIN</Button> : <Button color="inherit" onClick={toggleLogoutHandler}>Logout</Button>}
                 {!isLogin ? <Button onClick={signUpNavFunction} color="inherit">SIGN UP</Button> : ''}
                 </Toolbar>
             </AppBar>
             </Box>
-            {/* <Link to='/'><div></div></Link>
-            <nav>
-                <ul>
-                    <li>{isLogin && <Link to='/login'>Login</Link>}</li>
-                    <li>{isLogin && <Link to='/signup'>Sign-Up</Link>}</li>
-                    <li>{isLogin && <Link to='/profile'>{nickname}</Link>}</li>
-                    <li>{!isLogin && <button onClick={toggleLogoutHandler}>Logout</button>}</li>
-                </ul>
-            </nav> */}
         </header>
     )
 }

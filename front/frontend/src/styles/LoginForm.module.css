@@ -6,3 +6,11 @@
     justify-content: center;
     font-size: calc(10px + 2vmin);
 }
+
+.login-alert {
+    visibility: hidden;
+}
+
+.log-alert-view {
+    display: flex;
+}
