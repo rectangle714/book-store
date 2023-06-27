@@ -1,12 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
+import { IconButton, Button, AppBar, Box, Toolbar, Typography} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Avatar from '@mui/joy/Avatar';
 
@@ -21,7 +16,6 @@ const MainNavigation = () => {
     const mainNavFunction = () => navigate('/');
     const loginNavFunction = () => navigate('/login');
     const signUpNavFunction = () => navigate('/signup');
-
     const myPageNavFunction = () => {
         alert('마이페이지');
     }

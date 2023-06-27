@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Builder
 @NoArgsConstructor
-public class Member {
+public class Member extends Base{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,14 +26,6 @@ public class Member {
 
     @Enumerated(EnumType.STRING)
     private Authority authority;
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     @Builder
     public Member(Long id, String email, String password, String nickname, Authority authority) {
