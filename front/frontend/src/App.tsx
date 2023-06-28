@@ -20,7 +20,7 @@ function App() {
         <Route path="/" element={<HomePage/>}></Route>
         <Route path="/signup" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <CreateAccountPage />}></Route>
         <Route path="/login/*" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <AuthPage/>}></Route>
-        <Route path="/profile/" element={!authCtx.isLoggedIn ? <Navigate to='/' /> : <ProfilePage />}></Route>
+        <Route path="/profile/*" element={<ProfilePage/>}></Route>
       </Routes>
     </Layout>
   );
