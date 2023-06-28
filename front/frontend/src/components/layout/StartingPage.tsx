@@ -56,8 +56,7 @@ const StartingPage = () => {
           description: 'This column has a value getter and is not sortable.',
           sortable: false,
           width: 160,
-          valueGetter: (params: GridValueGetterParams) =>
-            `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+          valueGetter: ({value}) => value=='ROLE_USER'? '사용자':'관리자',
         },
       ];
 

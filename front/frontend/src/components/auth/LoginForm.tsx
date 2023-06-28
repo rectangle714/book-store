@@ -1,13 +1,10 @@
 import { useState, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { Button, TextField, ButtonGroup, InputAdornment, Alert } from '@mui/material';
 import AuthContext from "../../store/auth-context";
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import ButtonGroup from '@mui/material/ButtonGroup';
 import Classes from '../../styles/LoginForm.module.css';
 import EmailIcon from '@mui/icons-material/Email';
 import KeyIcon from '@mui/icons-material/Key';
-import InputAdornment from '@mui/material/InputAdornment';
 
 const LoginForm = () => {
     const emailInputRef = useRef<HTMLInputElement>(null);
@@ -18,7 +15,6 @@ const LoginForm = () => {
     const authCtx = useContext(AuthContext);
 
     const submitHandler = async(evnet: React.FormEvent) => {
-
         const enteredEmail = emailInputRef.current!.value;
         const enteredPasswod = passwordInputRef.current!.value;
 
@@ -29,11 +25,15 @@ const LoginForm = () => {
         if(authCtx.isSuccess) {
             navigate("/", {replace: true});
         }
+    }
 
+    const findPasswordHandler = () => {
+        navigate("/profile");
     }
 
     return (
         <section className={Classes.loginSection}>
+            <Alert onClose={() => {}}>로그인 성공!</Alert>
             <h1>로그인</h1>
             <form onSubmit={submitHandler}>
                 <div>
@@ -76,7 +76,7 @@ const LoginForm = () => {
                 <ButtonGroup variant="outlined" aria-label="outlined button group">
                     <Button type='submit'>로그인</Button>
                     {isLoading && <p>Loading</p>}
-                    <Button>패스워드 찾기</Button>
+                    <Button onClick={findPasswordHandler}>패스워드 찾기</Button>
                 </ButtonGroup>
                 </div>
             </form>

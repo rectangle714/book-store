@@ -1,6 +1,9 @@
 import { useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
+import Grid from '@mui/material/Unstable_Grid2';
+import Paper from '@mui/material/Paper';
+import { styled } from '@mui/material/styles';
 
 const ChangePassword = () => {
     let navigate = useNavigate();
@@ -29,13 +32,25 @@ const ChangePassword = () => {
         }
     }
 
+    const Item = styled(Paper)(({ theme }) => ({
+        backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+        ...theme.typography.body2,
+        padding: theme.spacing(1),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+      }));
+
     return (
         <form onSubmit={submitHandler}>
             <div>
                 <label htmlFor='ex-password'>이전 패스워드</label>
                 <input type='password' id='ex-password' minLength={8} ref={exPasswordInputRef}></input>
+            </div>
+            <div>
                 <label htmlFor='new-password'>새로운 패스워드</label>
                 <input type='password' id='new-password' minLength={8} ref={newPasswordInputRef}></input>
+            </div>
+            <div>
                 <label htmlFor='new-password'>새로운 패스워드 재입력</label>
                 <input type='password' id='new-password' minLength={8} ref={newPasswordAgainInputRef}></input>
             </div>
