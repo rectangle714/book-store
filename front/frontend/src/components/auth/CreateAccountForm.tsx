@@ -2,7 +2,7 @@ import { useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
 import Button from '@mui/material/Button';
-import Classes from '../../styles/CreateAccountForm.module.css';
+import Styles from './CreateAccountForm.module.css';
 import TextField from '@mui/material/TextField';
 import EmailIcon from '@mui/icons-material/Email';
 import KeyIcon from '@mui/icons-material/Key';
@@ -31,7 +31,7 @@ const CreateAccountForm = () => {
     }
 
     return (
-        <section className={Classes.AccountSection}>
+        <section className={Styles.AccountSection}>
             <h1>회원가입</h1>
             <form onSubmit={submitHandler}>
                 <div>

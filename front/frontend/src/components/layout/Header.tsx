@@ -5,8 +5,7 @@ import { IconButton, Button, AppBar, Box, Toolbar, Typography} from '@mui/materi
 import MenuIcon from '@mui/icons-material/Menu';
 import Avatar from '@mui/joy/Avatar';
 
-// 메인 네이게이션
-const MainNavigation = () => {
+const Header = () => {
     const authCtx = useContext(AuthContext);
     const [nickname, setNickname] = useState('');    
     let isLogin = authCtx.isLoggedIn;
@@ -45,7 +44,7 @@ const MainNavigation = () => {
     return(
         <header>
             <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
+            <AppBar position="static" sx={{bgcolor: 'green'}}>
                 <Toolbar>
                 <IconButton
                     size="large"
@@ -56,19 +55,24 @@ const MainNavigation = () => {
                 >
                 <MenuIcon />
                 </IconButton>
-                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    <Button onClick={mainNavFunction} size="large" color="inherit">메인</Button>
+                <Typography align="center" variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                    <img 
+                        src="/image/puppy.png" 
+                        alt='logo image' 
+                        style={{ width:50, height:50, marginTop:15, marginBottom:10, cursor:"pointer" }} 
+                        onClick={mainNavFunction}>
+                    </img>
                 </Typography>
-                {isLogin ? <Avatar onClick={myPageNavFunction} style={{
-                    cursor: "pointer"
-                }}/> : ''}
-                {!isLogin ? <Button onClick={loginNavFunction} color="inherit">LOGIN</Button> : <Button color="inherit" onClick={toggleLogoutHandler}>Logout</Button>}
-                {!isLogin ? <Button onClick={signUpNavFunction} color="inherit">SIGN UP</Button> : ''}
+                <Avatar onClick={myPageNavFunction} style={{ cursor: "pointer" }}/>
+                {/* {isLogin ? <Avatar onClick={myPageNavFunction} style={{ cursor: "pointer" }}/> : ''}
+                {!isLogin ? <Button onClick={loginNavFunction} color="inherit">로그인</Button> : <Button color="inherit" onClick={toggleLogoutHandler}>로그아웃</Button>}
+                {!isLogin ? <Button onClick={signUpNavFunction} color="inherit">회원가입</Button> : ''} */}
                 </Toolbar>
+
             </AppBar>
             </Box>
         </header>
     )
 }
 
-export default MainNavigation;
+export default Header;

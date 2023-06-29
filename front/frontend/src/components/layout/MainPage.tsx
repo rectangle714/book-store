@@ -3,6 +3,7 @@ import Container from '@mui/material/Container';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import { Tabs, Tab, Box, Typography } from '@mui/material';
 import { GET } from "../../store/fetch-auth-action";
+import Styls from'./MainPage.module.css'
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -37,7 +38,7 @@ function TabPanel(props: TabPanelProps) {
     );
   }
 
-const StartingPage = () => {
+const MainPage = () => {
 
     const [value, setValue] = React.useState(0);
     let [rows, setRows] = React.useState([]);
@@ -76,9 +77,9 @@ const StartingPage = () => {
     }
 
     return (
-        <Container maxWidth="md" fixed>
+        <Container maxWidth="md" fixed className={Styls.container}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                <Tabs centered={true} value={value} onChange={handleChange} aria-label="basic tabs example">
                     <Tab label="회원정보" {...a11yProps(0)} />
                     <Tab label="두번째탭" {...a11yProps(1)} />
                     <Tab label="세번째탭" {...a11yProps(2)} />
@@ -110,4 +111,4 @@ const StartingPage = () => {
     )
 }
 
-export default StartingPage;
+export default MainPage;
