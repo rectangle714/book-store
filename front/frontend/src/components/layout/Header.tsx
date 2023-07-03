@@ -4,13 +4,38 @@ import AuthContext from "../../store/auth-context";
 import { IconButton, Button, AppBar, Box, Toolbar, Typography} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Avatar from '@mui/joy/Avatar';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
 const Header = () => {
     const authCtx = useContext(AuthContext);
-    const [nickname, setNickname] = useState('');    
+    const [nickname, setNickname] = useState('');
     let isLogin = authCtx.isLoggedIn;
     let isGet = authCtx.isGetSuccess;
     let navigate = useNavigate();
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+
+    const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const navFunction = (path:any) => {
+        
+        if(path == 'main') {
+            navigate('/');
+        } else if(path == 'login') {
+            navigate('/login');
+        } else if(path == 'signup') {
+            navigate('/signup');
+        } else if(path == 'mypage') {
+            navigate('/mypage');
+        }
+    }
 
     const mainNavFunction = () => navigate('/');
     const loginNavFunction = () => navigate('/login');
@@ -39,6 +64,7 @@ const Header = () => {
 
     const toggleLogoutHandler = () => {
         authCtx.logout();
+        setAnchorEl(null);
     }
 
     return(
@@ -52,9 +78,28 @@ const Header = () => {
                     color="inherit"
                     aria-label="menu"
                     sx={{ mr: 2 }}
+                    onClick={handleMenu}
                 >
                 <MenuIcon />
                 </IconButton>
+                <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+                >
+                {isLogin ? <MenuItem onClick={myPageNavFunction}>마이페이지</MenuItem> : <Button onClick={signUpNavFunction} color="inherit">회원가입</Button>}
+                {isLogin ? <MenuItem onClick={toggleLogoutHandler}>로그아웃</MenuItem> : <MenuItem onClick={loginNavFunction}>로그인</MenuItem>}
+                </Menu>
                 <Typography align="center" variant="h6" component="div" sx={{ flexGrow: 1 }}>
                     <img 
                         src="/image/puppy.png" 
@@ -63,10 +108,7 @@ const Header = () => {
                         onClick={mainNavFunction}>
                     </img>
                 </Typography>
-                <Avatar onClick={myPageNavFunction} style={{ cursor: "pointer" }}/>
-                {/* {isLogin ? <Avatar onClick={myPageNavFunction} style={{ cursor: "pointer" }}/> : ''}
-                {!isLogin ? <Button onClick={loginNavFunction} color="inherit">로그인</Button> : <Button color="inherit" onClick={toggleLogoutHandler}>로그아웃</Button>}
-                {!isLogin ? <Button onClick={signUpNavFunction} color="inherit">회원가입</Button> : ''} */}
+                <Avatar onClick={handleMenu} style={{ cursor: "pointer" }}/>
                 </Toolbar>
 
             </AppBar>
