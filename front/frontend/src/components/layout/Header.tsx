@@ -24,8 +24,7 @@ const Header = () => {
         setAnchorEl(null);
     };
 
-    const navFunction = (path:any) => {
-        
+    const navFunction = (e:any, path:string) => {
         if(path == 'main') {
             navigate('/');
         } else if(path == 'login') {
@@ -33,15 +32,8 @@ const Header = () => {
         } else if(path == 'signup') {
             navigate('/signup');
         } else if(path == 'mypage') {
-            navigate('/mypage');
+            navigate('/');
         }
-    }
-
-    const mainNavFunction = () => navigate('/');
-    const loginNavFunction = () => navigate('/login');
-    const signUpNavFunction = () => navigate('/signup');
-    const myPageNavFunction = () => {
-        alert('마이페이지');
     }
 
     const callback = (str:string) => {
@@ -64,7 +56,6 @@ const Header = () => {
 
     const toggleLogoutHandler = () => {
         authCtx.logout();
-        setAnchorEl(null);
     }
 
     return(
@@ -97,15 +88,15 @@ const Header = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
                 >
-                {isLogin ? <MenuItem onClick={myPageNavFunction}>마이페이지</MenuItem> : <Button onClick={signUpNavFunction} color="inherit">회원가입</Button>}
-                {isLogin ? <MenuItem onClick={toggleLogoutHandler}>로그아웃</MenuItem> : <MenuItem onClick={loginNavFunction}>로그인</MenuItem>}
+                {isLogin ? <MenuItem onClick={(e)=>navFunction(e,'mypage')}>마이페이지</MenuItem> : <Button onClick={(e)=>navFunction(e,'signup')} color="inherit">회원가입</Button>}
+                {isLogin ? <MenuItem onClick={toggleLogoutHandler}>로그아웃</MenuItem> : <MenuItem onClick={(e)=>navFunction(e,'login')}>로그인</MenuItem>}
                 </Menu>
                 <Typography align="center" variant="h6" component="div" sx={{ flexGrow: 1 }}>
                     <img 
                         src="/image/puppy.png" 
                         alt='logo image' 
                         style={{ width:50, height:50, marginTop:15, marginBottom:10, cursor:"pointer" }} 
-                        onClick={mainNavFunction}>
+                        onClick={(e)=>navFunction(e,'main')}>
                     </img>
                 </Typography>
                 <Avatar onClick={handleMenu} style={{ cursor: "pointer" }}/>

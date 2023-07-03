@@ -65,6 +65,7 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
         data.then((result) => {
             if(result !== null) {
                 const loginData:LoginToken = result.data;
+                console.log('loginData : ',loginData);
                 setToken(loginData.accessToken);
                 logoutTimer = setTimeout(
                     logoutHandler,
