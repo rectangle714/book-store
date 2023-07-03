@@ -60,14 +60,15 @@ export const loginActionHandler = (email: string, password: string) => {
     const URL = '/auth/login';
     const loginObject = {email, password};
     const response = POST(URL, loginObject, {});
+    console.log('response : ',response);
 
     return response;
 }
 
 /* 로그아웃 */
 export const logoutActionHandler = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('tokenExpireTime');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('expirationTime');
 }
 
 /* 사용자 정보 확인 */
