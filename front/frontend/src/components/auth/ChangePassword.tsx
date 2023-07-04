@@ -22,9 +22,9 @@ const ChangePassword = () => {
             alert('패스워드를 잘못 입력했습니다.');
             return;
         }
+        
         console.log('패스워드 변경 시작');
         authCtx.changePassword(enteredExPassword, enteredNewPassword);
-        console.log(authCtx.isSuccess);
         if(authCtx.isSuccess) {
             alert('다시 로그인 하세요.');
             authCtx.logout();

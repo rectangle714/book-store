@@ -4,7 +4,7 @@ import * as authAction from './auth-action';
 let logoutTimer : NodeJS.Timeout;
 
 type Props = { children?: React.ReactNode };
-type UserInfo = { email: string, nickname: string };
+type UserInfo = { email: string, nickname: string, authority: string };
 type LoginToken = {
     grantType: string,
     accessToken: string,
@@ -15,7 +15,7 @@ type LoginToken = {
 
 const AuthContext = React.createContext({
     token: '',
-    userObj: { email: '', nickname: ''},
+    userObj: { email: '', nickname: '', authority: ''},
     isLoggedIn: false,
     isSuccess: false,
     isGetSuccess: false,
@@ -40,7 +40,8 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
     const [token, setToken] = useState(initialToken);
     const [userObj, setUserObj] = useState({
         email: '',
-        nickname: ''
+        nickname: '',
+        authority: '',
     })
 
     const [isSuccess, setIsSuccess] = useState<boolean>(false);
@@ -65,7 +66,6 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
         data.then((result) => {
             if(result !== null) {
                 const loginData:LoginToken = result.data;
-                console.log('loginData : ',loginData);
                 setToken(loginData.accessToken);
                 logoutTimer = setTimeout(
                     logoutHandler,
@@ -90,7 +90,6 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
         const data = authAction.getUserActionHandler(token);
         data.then((result) => {
             if(result !== null) {
-                console.log('get user start!');
                 const userData:UserInfo = result.data;
                 setUserObj(userData);
                 setIsGetSuccess(true);

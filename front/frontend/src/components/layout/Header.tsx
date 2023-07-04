@@ -33,6 +33,8 @@ const Header = () => {
             navigate('/signup');
         } else if(path == 'mypage') {
             navigate('/');
+        } else if(path == 'admin') {
+            navigate('/admin')
         }
     }
 
@@ -47,15 +49,9 @@ const Header = () => {
         }
     }, [isLogin]);
 
-    useEffect(() => {
-        if(isGet) {
-            console.log('get start');
-            callback(authCtx.userObj.nickname);
-        }
-    }, [isGet]);
-
     const toggleLogoutHandler = () => {
         authCtx.logout();
+        alert('로그아웃 완료');
     }
 
     return(
@@ -90,6 +86,7 @@ const Header = () => {
                 >
                 {isLogin ? <MenuItem onClick={(e)=>navFunction(e,'mypage')}>마이페이지</MenuItem> : <Button onClick={(e)=>navFunction(e,'signup')} color="inherit">회원가입</Button>}
                 {isLogin ? <MenuItem onClick={toggleLogoutHandler}>로그아웃</MenuItem> : <MenuItem onClick={(e)=>navFunction(e,'login')}>로그인</MenuItem>}
+                {(isLogin && authCtx.userObj.authority == 'ROLE_ADMIN')  ? <MenuItem onClick={(e) => navFunction(e,'admin')}>관리자</MenuItem> : ''}
                 </Menu>
                 <Typography align="center" variant="h6" component="div" sx={{ flexGrow: 1 }}>
                     <img 

@@ -3,7 +3,7 @@ import Container from '@mui/material/Container';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import { Tabs, Tab, Box, Typography } from '@mui/material';
 import { GET } from "../../store/fetch-auth-action";
-import Styls from'./MainPage.module.css'
+import Styls from'./Admin.module.css';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -38,7 +38,7 @@ function TabPanel(props: TabPanelProps) {
     );
   }
 
-const MainPage = () => {
+const Admin = () => {
 
     const [value, setValue] = useState(0);
     let [rows, setRows] = useState([]);
@@ -111,4 +111,4 @@ const MainPage = () => {
     )
 }
 
-export default MainPage;
+export default Admin;

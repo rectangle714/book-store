@@ -24,7 +24,7 @@ const LoginForm = () => {
         setIsLoading(false);
 
         if(authCtx.isSuccess) {
-            navigate("/", {replace: true});
+            navigate("/");
         }
     }
 

@@ -10,7 +10,6 @@ const ChangeUsername = () => {
     const submitHandler = (event: React.FormEvent) => {
         event.preventDefault();
         const enteredNickname = nicknameInputRef.current!.value;
-        console.log('change nickname');
         authCtx.changeNickname(enteredNickname);
         if(authCtx.isSuccess) {
             alert('변경 되었습니다');

@@ -78,35 +78,7 @@ const MainPage = () => {
 
     return (
         <Container maxWidth="md" fixed className={Styls.container}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <Tabs centered={true} value={value} onChange={handleChange} aria-label="basic tabs example">
-                    <Tab label="회원정보" {...a11yProps(0)} />
-                    <Tab label="두번째탭" {...a11yProps(1)} />
-                    <Tab label="세번째탭" {...a11yProps(2)} />
-                </Tabs>
-            </Box>
-            <TabPanel value={value} index={0}>
-                <div style={{ height: 400, width: '100%' }}>
-                    <DataGrid
-                        getRowId={(row) => row.id}
-                        rows={rows}
-                        columns={columns}
-                        initialState={{
-                        pagination: {
-                            paginationModel: { page: 0, pageSize: 5 },
-                        },
-                        }}
-                        pageSizeOptions={[5, 10]}
-                        checkboxSelection
-                    />
-                </div>
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-                Item Two
-            </TabPanel>
-            <TabPanel value={value} index={2}>
-                Item Three
-            </TabPanel>
+            슬라이더 자리
         </Container>
     )
 }
