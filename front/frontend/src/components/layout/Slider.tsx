@@ -21,7 +21,7 @@ const Slider = () => {
     return (
         <div style={{paddingTop:'20px'}}>
             <Carousel
-            showArrows={false}
+            showArrows={true}
             autoPlay={true}
             infiniteLoop={true}
             showThumbs={false}
