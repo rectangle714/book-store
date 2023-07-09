@@ -81,8 +81,8 @@ const Admin = () => {
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs centered={true} value={value} onChange={handleChange} aria-label="basic tabs example">
                     <Tab label="회원정보" {...a11yProps(0)} />
-                    <Tab label="두번째탭" {...a11yProps(1)} />
-                    <Tab label="세번째탭" {...a11yProps(2)} />
+                    <Tab label="제품등록" {...a11yProps(1)} />
+                    <Tab label="제품조회" {...a11yProps(2)} />
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
@@ -102,10 +102,10 @@ const Admin = () => {
                 </div>
             </TabPanel>
             <TabPanel value={value} index={1}>
-                Item Two
+                제품등록 내용
             </TabPanel>
             <TabPanel value={value} index={2}>
-                Item Three
+                제품조회 내용
             </TabPanel>
         </Container>
     )

@@ -10,6 +10,7 @@ const MainPage = () => {
         <Container maxWidth="md" fixed className={Styls.container}>
           <Slider/>
           <ItemGrid/>
+          <ItemGrid/>
         </Container>
     )
 }

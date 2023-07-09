@@ -20,11 +20,14 @@ const ItemGrid = () => {
           {[0, 1, 2, 3].map((value) => (
             <Grid key={value} item>
               <Paper
+                elevation={3}
                 sx={{
                   height: 140,
-                  width: 200,
+                  width: 150,
                   backgroundColor: (theme) =>
-                    theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+                    theme.palette.mode === 'dark' ? '#1A2027' : 'green',
+                  border: '5px solid black',
+                  borderRadius: '15px'
                 }}
               />
             </Grid>
