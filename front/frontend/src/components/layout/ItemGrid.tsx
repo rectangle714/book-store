@@ -5,31 +5,24 @@ import Paper from '@mui/material/Paper';
 const ItemGrid = () => {
   const [spacing, setSpacing] = React.useState(2);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSpacing(Number((event.target as HTMLInputElement).value));
-  };
-
-  const jsx = `
-<Grid container spacing={${spacing}}>
-`;
-
   return (
     <Grid sx={{ flexGrow: 2 }} container spacing={1} style={{paddingTop:'50px'}}>
       <Grid item xs={12}>
         <Grid container justifyContent="center" spacing={spacing}>
-          {[0, 1, 2, 3].map((value) => (
+          {[0, 1, 2, 3, 4].map((value) => (
             <Grid key={value} item>
               <Paper
-                elevation={3}
+                elevation={1}
                 sx={{
                   height: 140,
                   width: 150,
                   backgroundColor: (theme) =>
-                    theme.palette.mode === 'dark' ? '#1A2027' : 'green',
-                  border: '5px solid black',
+                    theme.palette.mode === 'dark' ? '#1A2027' : 'white',
+                  border: '2px solid black',
                   borderRadius: '15px'
                 }}
               />
+              제품명
             </Grid>
           ))}
         </Grid>

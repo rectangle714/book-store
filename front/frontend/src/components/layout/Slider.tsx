@@ -19,8 +19,9 @@ const Slider = () => {
     }
 
     return (
-        <div style={{paddingTop:'20px'}}>
+        <div style={{paddingTop:'20px', marginBottom:'50px', border: '2px solid black', borderRadius: '15px'}}>
             <Carousel
+            swipeable={true}
             showArrows={true}
             autoPlay={true}
             infiniteLoop={true}

@@ -79,11 +79,11 @@ const CreateAccountForm = () => {
                 </div>
                 <div style={{
                     paddingTop: 30,
-                    paddingLeft: 40
+                    paddingLeft: 60
                 }}>
                     <Button style={{
                     width: 120
-                }} variant="contained" type='submit'>등록</Button>
+                }} variant="outlined" color="success" type='submit'>등록</Button>
                 </div>
             </form>
         </section>

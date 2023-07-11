@@ -55,7 +55,7 @@ const Header = () => {
     }
 
     return(
-        <header>
+        <header style={{marginBottom:'50px'}}>
             <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" sx={{bgcolor: 'green'}}>
                 <Toolbar>
@@ -96,6 +96,7 @@ const Header = () => {
                         onClick={(e)=>navFunction(e,'main')}>
                     </img>
                 </Typography>
+                {isLogin ? <div style={{marginRight:'10px'}}>{authCtx.userObj.nickname}</div> : ''}
                 <Avatar onClick={handleMenu} style={{ cursor: "pointer" }}/>
                 </Toolbar>
 

@@ -78,7 +78,7 @@ const Admin = () => {
 
     return (
         <Container maxWidth="md" fixed className={Styls.container}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider'}}>
                 <Tabs centered={true} value={value} onChange={handleChange} aria-label="basic tabs example">
                     <Tab label="회원정보" {...a11yProps(0)} />
                     <Tab label="제품등록" {...a11yProps(1)} />

@@ -74,8 +74,8 @@ const LoginForm = () => {
                             paddingLeft : 20
 
                         }}>
-                        <ButtonGroup variant="outlined" aria-label="outlined button group">
-                            <Button type='submit'>로그인</Button>
+                        <ButtonGroup variant="outlined" color="success" aria-label="outlined button group">
+                            <Button color="success" type='submit'>로그인</Button>
                             {isLoading && <p>Loading</p>}
                             <Button onClick={findPasswordHandler}>패스워드 찾기</Button>
                         </ButtonGroup>
