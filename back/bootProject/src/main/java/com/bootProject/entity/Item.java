@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 @Table(name = "item")
 public class Item extends Base{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "item_id")
     private Long id;
 
     private String title;

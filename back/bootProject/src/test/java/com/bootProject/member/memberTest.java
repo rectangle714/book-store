@@ -21,12 +21,12 @@ public class memberTest {
     @Test
     @DisplayName("계정생성 테스트")
     void createMemberTest() {
-        String password = passwordEncoder.encode("test123");
+        String password = passwordEncoder.encode("1234");
 
         Member member = Member.builder()
-                .authority(Authority.ROLE_USER)
-                .email("test123@naver.com")
-                .nickname("testnick")
+                .authority(Authority.ROLE_ADMIN)
+                .email("testAdmin@naver.com")
+                .nickname("testAdmin")
                 .password(password)
                 .build();
 

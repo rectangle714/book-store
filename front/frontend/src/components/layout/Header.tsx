@@ -65,7 +65,6 @@ const Header = () => {
                     color="inherit"
                     aria-label="menu"
                     sx={{ mr: 2 }}
-                    onClick={handleMenu}
                 >
                 <MenuIcon />
                 </IconButton>
