@@ -15,7 +15,9 @@ const LoginForm = () => {
     const [isLoading, setIsLoading] = useState(false);
     const authCtx = useContext(AuthContext);
 
-    const submitHandler = async(evnet: React.FormEvent) => {
+    const submitHandler = async(event: React.FormEvent) => {
+        event.preventDefault();
+
         const enteredEmail = emailInputRef.current!.value;
         const enteredPasswod = passwordInputRef.current!.value;
 

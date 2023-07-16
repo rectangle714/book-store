@@ -51,7 +51,7 @@ const Header = () => {
 
     const toggleLogoutHandler = () => {
         authCtx.logout();
-        alert('로그아웃 완료');
+        navigate('/');
     }
 
     return(
