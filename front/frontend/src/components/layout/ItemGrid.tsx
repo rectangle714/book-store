@@ -19,10 +19,11 @@ const ItemGrid = () => {
                   backgroundColor: (theme) =>
                     theme.palette.mode === 'dark' ? '#1A2027' : 'white',
                   border: '2px solid black',
-                  borderRadius: '15px'
+                  borderRadius: '15px',
+                  textAlign: 'center'
                 }}
-              />
-              제품명
+              ><img src={"image/puppy.png"} style={{width:'120px', height:'100px', marginTop:'12px'}} /></Paper>
+              <div style={{textAlign:'center'}}>제품명</div>
             </Grid>
           ))}
         </Grid>
