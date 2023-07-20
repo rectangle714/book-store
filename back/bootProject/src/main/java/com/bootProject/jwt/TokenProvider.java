@@ -1,6 +1,10 @@
 package com.bootProject.jwt;
 
 import com.bootProject.dto.TokenDto;
+import com.bootProject.entity.Member;
+import com.bootProject.entity.RefreshToken;
+import com.bootProject.repository.MemberRepository;
+import com.bootProject.repository.RefreshTokenRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
@@ -38,6 +42,9 @@ public class TokenProvider {
     private final SecretKey accessKey;
     private final SecretKey refreshKey;
 
+    private RefreshTokenRepository refreshTokenRepository;
+    private MemberRepository memberRepository;
+
     public TokenProvider(
             @Value(value = "${jwt.token.accessTokenSecretKey}") final String accessTokenSecretKey,
             @Value(value = "${jwt.token.accessTokenExpireTime}") final long accessTokenExpireTime,
@@ -50,29 +57,15 @@ public class TokenProvider {
     }
 
     /**
-    *   access 토큰 생성
+    *   access 토큰 생성, refresh 토큰 생성
     */
     public TokenDto generateTokenDto(Authentication authentication) {
-        String authorities = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining());
-
         long now = (new Date()).getTime();
-
         Date accessTokenExpiresIn = new Date(now + accessTokenExpireTime);
         Date refreshTokenExpiresIn = new Date(now + refreshTokenExpireTime);
 
-        String accessToken = Jwts.builder()
-                .setSubject(authentication.getName())
-                .claim(AUTHORITIES_KEY, authorities)
-                .setExpiration(accessTokenExpiresIn)
-                .signWith(accessKey, SignatureAlgorithm.HS256)
-                .compact();
-
-        String refreshToken = Jwts.builder()
-                .setExpiration(refreshTokenExpiresIn)
-                .signWith(refreshKey, SignatureAlgorithm.HS256)
-                .compact();
+        String accessToken = generateAccessToken(authentication);
+        String refreshToken = generateRefreshToken(authentication);
 
         log.info("accessToken = {}", accessToken);
         log.info("refreshToken = {}", refreshToken);
@@ -85,6 +78,23 @@ public class TokenProvider {
                 .refreshTokenExpiresIn(refreshTokenExpiresIn.getTime())
                 .build();
     }
+
+    private String generateAccessToken(Authentication authentication) {
+        long now = (new Date()).getTime();
+        Date accessTokenExpiresIn = new Date(now + accessTokenExpireTime);
+        String authorities = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining());
+
+        String accessToken = Jwts.builder()
+                .setSubject(authentication.getName())
+                .claim(AUTHORITIES_KEY, authorities)
+                .setExpiration(accessTokenExpiresIn)
+                .signWith(accessKey, SignatureAlgorithm.HS256)
+                .compact();
+        return accessToken;
+    }
+
     /**
      *  refresh 토큰 생성
      *  access 토큰 만료 시 재발급의 용도이기 때문에 setClaim 없이 생성
@@ -96,7 +106,7 @@ public class TokenProvider {
         return Jwts.builder()
                 .setIssuedAt(now)
                 .setExpiration(expiresIn)
-                .signWith(refreshKey)
+                .signWith(refreshKey, SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -122,7 +132,7 @@ public class TokenProvider {
         try {
             Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(accessKey).build().parseClaimsJws(token);
             Date tokenExpirationDate = claims.getBody().getExpiration();
-            validationTokenExpiration(tokenExpirationDate);
+            validationTokenExpiration(tokenExpirationDate, token);
 
             return true;
         } catch (SecurityException | MalformedJwtException e) {
@@ -135,9 +145,21 @@ public class TokenProvider {
         return false;
     }
 
-    public void validationTokenExpiration(Date tokenExpirationDate) {
+    /* access토큰 만료시간 확인 */
+    public void validationTokenExpiration(Date tokenExpirationDate, String accessToken) {
         if(tokenExpirationDate.before(new Date())) {
-            throw new RuntimeException("refresh 토큰 시간이 만료되었습니다.");
+            log.error("Access Token이 만료되었습니다.");
+            Authentication authentication = getAuthentication(accessToken);
+            RefreshToken foundTokenInfo = refreshTokenRepository.findByAccessToken(accessToken)
+                    .orElseThrow(() -> new RuntimeException("토큰을 찾을 수 없습니다."));
+            String refreshToken = foundTokenInfo.getRefreshToken();
+
+            Long memberId = foundTokenInfo.getId();
+            Member member = memberRepository.findById(memberId)
+                    .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+
+            String newAccessToken = generateAccessToken(authentication);
+            refreshTokenRepository.save(new RefreshToken(memberId, refreshToken, newAccessToken));
         }
     }
 

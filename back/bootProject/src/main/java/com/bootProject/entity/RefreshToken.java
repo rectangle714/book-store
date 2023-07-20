@@ -1,20 +1,20 @@
 package com.bootProject.entity;
 
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
 
-@RedisHash(value = "refreshToken", timeToLive = 3600)
 @Getter
+@AllArgsConstructor
+@RedisHash(value = "refreshToken", timeToLive = 3600)
 public class RefreshToken {
 
     @Id
-    private String refreshToken;
     private Long id;
-
-    public RefreshToken(String refreshToken, Long id) {
-        this.refreshToken = refreshToken;
-        this.id = id;
-    }
+    private String refreshToken;
+    @Indexed
+    private String accessToken;
 
 }

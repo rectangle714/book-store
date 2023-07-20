@@ -31,12 +31,17 @@ export const loginTokenHandler = (token:string, expirationTime:number) => {
 export const retrieveStoredToken = () => {
     const storedToken = localStorage.getItem('accessToken');
     const storedExpirationDate = localStorage.getItem('expirationTime') || '0';
-
     const remaingTime = calculateRemainingTime(+ storedExpirationDate);
+    let strToken = '';
+    if(null != storedToken){
+        strToken = storedToken.toString();
+    }
 
     if(remaingTime <= 1000) {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('expirationTime');
+        const URL = '/auth/reissue';
+        const response = POST(URL, {}, createTokenHeader(strToken));
+        // localStorage.removeItem('accessToken');
+        // localStorage.removeItem('expirationTime');
         return null;
     }
 
@@ -48,7 +53,7 @@ export const retrieveStoredToken = () => {
 
 /* 회원가입 */
 export const signupActionHandler = (email: string, password: string, nickname: string) => {
-    const URL = '/auth/signup'
+    const URL = '/auth/signup';
     const signupObject = {email, password, nickname};
 
     const response = POST(URL, signupObject, {});

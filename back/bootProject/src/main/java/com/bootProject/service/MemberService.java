@@ -22,6 +22,7 @@ public class MemberService {
     /*
     *   로그인한 사용자 정보 조회
     */
+    @Transactional(readOnly = true)
     public MemberResponseDto getMyInfoBySecurity() {
         return memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .map(MemberResponseDto::of)
@@ -68,6 +69,7 @@ public class MemberService {
     /*
     *   전체 사용자 조회
     */
+    @Transactional(readOnly = true)
     public List<Member> findAllMember() {
         return memberRepository.findAll();
     }
