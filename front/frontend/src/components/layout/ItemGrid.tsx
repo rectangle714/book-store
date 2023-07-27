@@ -22,7 +22,7 @@ const ItemGrid = () => {
                   borderRadius: '15px',
                   textAlign: 'center'
                 }}
-              ><img src={"image/puppy.png"} style={{width:'120px', height:'100px', marginTop:'12px'}} /></Paper>
+              ></Paper>
               <div style={{textAlign:'center'}}>제품명</div>
             </Grid>
           ))}

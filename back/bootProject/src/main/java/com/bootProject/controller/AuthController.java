@@ -33,9 +33,4 @@ public class AuthController {
         return ResponseEntity.ok(authService.login(requestDto));
     }
 
-/*    @PostMapping("/reissue")
-    public ResponseEntity<TokenDto> reissue() {
-        return ResponseEntity.ok();
-    }*/
-
 }

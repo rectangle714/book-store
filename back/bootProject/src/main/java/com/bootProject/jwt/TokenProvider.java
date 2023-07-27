@@ -19,6 +19,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
@@ -130,27 +131,14 @@ public class TokenProvider {
     /* 토큰 validation */
     public boolean validateToken(String token) {
         try {
-            Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(accessKey).build().parseClaimsJws(token);
-            Date tokenExpirationDate = claims.getBody().getExpiration();
-            validationTokenExpiration(tokenExpirationDate, token);
-
             return true;
         } catch (SecurityException | MalformedJwtException e) {
             log.info("잘못된 JWT 서명입니다.");
         } catch (ExpiredJwtException e) {
-            log.info("만료된 JWT 토큰입니다.");
-        } catch (JwtException | IllegalArgumentException e) {
-            log.info("JWT 토큰이 잘못되었습니다.");
-        }
-        return false;
-    }
-
-    /* access토큰 만료시간 확인 */
-    public void validationTokenExpiration(Date tokenExpirationDate, String accessToken) {
-        if(tokenExpirationDate.before(new Date())) {
             log.error("Access Token이 만료되었습니다.");
-            Authentication authentication = getAuthentication(accessToken);
-            RefreshToken foundTokenInfo = refreshTokenRepository.findByAccessToken(accessToken)
+
+            Authentication authentication = getAuthentication(token);
+            RefreshToken foundTokenInfo = refreshTokenRepository.findByAccessToken(token)
                     .orElseThrow(() -> new RuntimeException("토큰을 찾을 수 없습니다."));
             String refreshToken = foundTokenInfo.getRefreshToken();
 
@@ -159,8 +147,14 @@ public class TokenProvider {
                     .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
             String newAccessToken = generateAccessToken(authentication);
-            refreshTokenRepository.save(new RefreshToken(memberId, refreshToken, newAccessToken));
+            RefreshToken newToken = refreshTokenRepository.save(new RefreshToken(memberId, refreshToken, newAccessToken));
+            if(null != newToken) {
+                return true;
+            }
+        } catch (JwtException | IllegalArgumentException e) {
+            log.info("JWT 토큰이 잘못되었습니다.");
         }
+        return false;
     }
 
     public Claims parseClaims(String accessToken) {

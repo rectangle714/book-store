@@ -19,7 +19,6 @@ const calculateRemainingTime = (expirationTime:number) => {
 
 /* 토큰값, 만료시간을 저장 */
 export const loginTokenHandler = (token:string, expirationTime:number) => {
-    // localStorage.setItem('token', token);
     localStorage.setItem('accessToken', token);
     localStorage.setItem('expirationTime', String(expirationTime));
 
@@ -32,18 +31,6 @@ export const retrieveStoredToken = () => {
     const storedToken = localStorage.getItem('accessToken');
     const storedExpirationDate = localStorage.getItem('expirationTime') || '0';
     const remaingTime = calculateRemainingTime(+ storedExpirationDate);
-    let strToken = '';
-    if(null != storedToken){
-        strToken = storedToken.toString();
-    }
-
-    if(remaingTime <= 1000) {
-        const URL = '/auth/reissue';
-        const response = POST(URL, {}, createTokenHeader(strToken));
-        // localStorage.removeItem('accessToken');
-        // localStorage.removeItem('expirationTime');
-        return null;
-    }
 
     return {
         token : storedToken,
