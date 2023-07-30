@@ -43,9 +43,6 @@ public class TokenProvider {
     private final SecretKey accessKey;
     private final SecretKey refreshKey;
 
-    private RefreshTokenRepository refreshTokenRepository;
-    private MemberRepository memberRepository;
-
     public TokenProvider(
             @Value(value = "${jwt.token.accessTokenSecretKey}") final String accessTokenSecretKey,
             @Value(value = "${jwt.token.accessTokenExpireTime}") final long accessTokenExpireTime,
@@ -136,21 +133,6 @@ public class TokenProvider {
             log.info("잘못된 JWT 서명입니다.");
         } catch (ExpiredJwtException e) {
             log.error("Access Token이 만료되었습니다.");
-
-            Authentication authentication = getAuthentication(token);
-            RefreshToken foundTokenInfo = refreshTokenRepository.findByAccessToken(token)
-                    .orElseThrow(() -> new RuntimeException("토큰을 찾을 수 없습니다."));
-            String refreshToken = foundTokenInfo.getRefreshToken();
-
-            Long memberId = foundTokenInfo.getId();
-            Member member = memberRepository.findById(memberId)
-                    .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
-
-            String newAccessToken = generateAccessToken(authentication);
-            RefreshToken newToken = refreshTokenRepository.save(new RefreshToken(memberId, refreshToken, newAccessToken));
-            if(null != newToken) {
-                return true;
-            }
         } catch (JwtException | IllegalArgumentException e) {
             log.info("JWT 토큰이 잘못되었습니다.");
         }
@@ -163,6 +145,16 @@ public class TokenProvider {
         } catch (ExpiredJwtException e) {
             return e.getClaims();
         }
+    }
+
+    /**
+     * Refresh토큰으로부터 클레임을 만들고 sub(memberId)를 반환
+     * @param token
+     * @return
+     */
+    public String getSubjectFromRefreshToken(String token) {
+        Jws<Claims> claims = Jwts.parser().setSigningKey(refreshKey).parseClaimsJws(token);
+        return claims.getBody().getSubject();
     }
 
 
