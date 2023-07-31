@@ -21,7 +21,6 @@ const calculateRemainingTime = (expirationTime:number) => {
 export const loginTokenHandler = (token:string, expirationTime:number) => {
     localStorage.setItem('accessToken', token);
     localStorage.setItem('expirationTime', String(expirationTime));
-
     const remainingTime = calculateRemainingTime(expirationTime);
     return remainingTime;
 }
@@ -58,8 +57,15 @@ export const loginActionHandler = (email: string, password: string) => {
 
 /* 로그아웃 */
 export const logoutActionHandler = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('expirationTime');
+    const URL = '/auth/logout';
+    const response = POST(URL, {}, {});
+
+    response.then((result) => {
+        console.log('result:',result);
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('expirationTime');
+    });
+
 }
 
 /* 사용자 정보 확인 */

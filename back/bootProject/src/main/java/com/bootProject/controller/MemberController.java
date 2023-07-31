@@ -1,8 +1,7 @@
 package com.bootProject.controller;
 
 import com.bootProject.dto.ChangePasswordRequestDto;
-import com.bootProject.dto.MemberRequestDto;
-import com.bootProject.dto.MemberResponseDto;
+import com.bootProject.dto.MemberDTO;
 import com.bootProject.entity.Member;
 import com.bootProject.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +22,8 @@ public class MemberController {
     *   마이페이지
     */
     @GetMapping("/me")
-    public ResponseEntity<MemberResponseDto> getMyMemberInfo() {
-        MemberResponseDto myInfoBySecurity = memberService.getMyInfoBySecurity();
+    public ResponseEntity<MemberDTO> getMyMemberInfo() {
+        MemberDTO myInfoBySecurity = memberService.getMyInfoBySecurity();
         return ResponseEntity.ok(myInfoBySecurity);
     }
 
@@ -32,12 +31,12 @@ public class MemberController {
     *   닉네임 변경
     */
     @PostMapping("/nickname")
-    public ResponseEntity<MemberResponseDto> setMemberNickname(@RequestBody MemberRequestDto request) {
+    public ResponseEntity<MemberDTO> setMemberNickname(@RequestBody MemberDTO request) {
         return ResponseEntity.ok(memberService.changeMemberNickname(request.getEmail(),request.getNickname()));
     }
 
     @PostMapping("/password")
-    public ResponseEntity<MemberResponseDto> setMemberPassword(@RequestBody ChangePasswordRequestDto request) {
+    public ResponseEntity<MemberDTO> setMemberPassword(@RequestBody ChangePasswordRequestDto request) {
         return ResponseEntity.ok(memberService.changeMemberPassword(request.getExPassword(), request.getNewPassword()));
     }
 

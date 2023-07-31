@@ -1,11 +1,13 @@
 package com.bootProject.controller;
 
-import com.bootProject.dto.MemberRequestDto;
-import com.bootProject.dto.MemberResponseDto;
+import com.bootProject.config.SecurityUtil;
+import com.bootProject.dto.MemberDTO;
 import com.bootProject.dto.TokenDto;
+import com.bootProject.entity.Member;
 import com.bootProject.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,16 +23,21 @@ public class AuthController {
     *   회원가입
     */
     @PostMapping("/signup")
-    public ResponseEntity<MemberResponseDto> signup(@RequestBody MemberRequestDto requestDto) {
-        return ResponseEntity.ok(authService.signup(requestDto));
+    public ResponseEntity<MemberDTO> signup(@RequestBody MemberDTO memberDto) {
+        return ResponseEntity.ok(authService.signup(memberDto));
     }
 
     /*
     *   로그인
     */
     @PostMapping("/login")
-    public ResponseEntity<TokenDto> login(@RequestBody MemberRequestDto requestDto) {
-        return ResponseEntity.ok(authService.login(requestDto));
+    public ResponseEntity<TokenDto> login(@RequestBody MemberDTO memberDto) {
+        return ResponseEntity.ok(authService.login(memberDto));
     }
 
+    @PostMapping("/logout")
+    public void logOut() {
+        Long currentMemberId = SecurityUtil.getCurrentMemberId();
+        authService.logOut(currentMemberId+"");
+    }
 }

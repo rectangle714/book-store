@@ -157,6 +157,4 @@ public class TokenProvider {
         return claims.getBody().getSubject();
     }
 
-
-
 }
