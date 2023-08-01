@@ -56,9 +56,9 @@ export const loginActionHandler = (email: string, password: string) => {
 }
 
 /* 로그아웃 */
-export const logoutActionHandler = () => {
+export const logoutActionHandler = (token:string) => {
     const URL = '/auth/logout';
-    const response = POST(URL, {}, {});
+    const response = POST(URL, {}, createTokenHeader(token));
 
     response.then((result) => {
         console.log('result:',result);

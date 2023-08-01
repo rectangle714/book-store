@@ -79,7 +79,7 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
 
     const logoutHandler = useCallback(() => {
         setToken('');
-        authAction.logoutActionHandler();
+        authAction.logoutActionHandler(token);
         localStorage.setItem('expirationTime', String(new Date().getTime()));
         if(logoutTimer) {
             clearTimeout(logoutTimer);

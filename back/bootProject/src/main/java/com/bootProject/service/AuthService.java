@@ -2,7 +2,7 @@ package com.bootProject.service;
 
 import com.bootProject.common.RedisUtil;
 import com.bootProject.dto.MemberDTO;
-import com.bootProject.dto.TokenDto;
+import com.bootProject.dto.TokenDTO;
 import com.bootProject.entity.Member;
 import com.bootProject.jwt.TokenProvider;
 import com.bootProject.repository.MemberRepository;
@@ -38,11 +38,11 @@ public class AuthService {
     }
 
     @Transactional
-    public TokenDto login(MemberDTO requestDto) {
+    public TokenDTO login(MemberDTO requestDto) {
         UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
         Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
 
-        TokenDto token = new TokenDto();
+        TokenDTO token = new TokenDTO();
         token = tokenProvider.generateTokenDto(authentication);
         redisUtil.setData(authentication.getName(), token.getRefreshToken(), token.getRefreshTokenExpiresIn());
 

@@ -1,15 +1,9 @@
 package com.bootProject.jwt;
 
-import com.bootProject.dto.TokenDto;
-import com.bootProject.entity.Member;
-import com.bootProject.entity.RefreshToken;
-import com.bootProject.repository.MemberRepository;
-import com.bootProject.repository.RefreshTokenRepository;
+import com.bootProject.dto.TokenDTO;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,14 +13,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
-import java.security.Key;
-import java.time.Duration;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
@@ -57,7 +47,7 @@ public class TokenProvider {
     /**
     *   access 토큰 생성, refresh 토큰 생성
     */
-    public TokenDto generateTokenDto(Authentication authentication) {
+    public TokenDTO generateTokenDto(Authentication authentication) {
         long now = (new Date()).getTime();
         Date accessTokenExpiresIn = new Date(now + accessTokenExpireTime);
         Date refreshTokenExpiresIn = new Date(now + refreshTokenExpireTime);
@@ -68,7 +58,7 @@ public class TokenProvider {
         log.info("accessToken = {}", accessToken);
         log.info("refreshToken = {}", refreshToken);
 
-        return TokenDto.builder()
+        return TokenDTO.builder()
                 .grantType(BEARER_TYPE)
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)

@@ -50,6 +50,7 @@ const Header = () => {
     }, [isLogin]);
 
     const toggleLogoutHandler = () => {
+        //event.preventDefault();
         authCtx.logout();
         navigate('/');
     }
