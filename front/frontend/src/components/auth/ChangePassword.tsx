@@ -27,7 +27,7 @@ const ChangePassword = () => {
         authCtx.changePassword(enteredExPassword, enteredNewPassword);
         if(authCtx.isSuccess) {
             alert('다시 로그인 하세요.');
-            authCtx.logout();
+            //authCtx.logout();
             navigate('/', {replace: true});
         }
     }

@@ -21,7 +21,7 @@ const AuthContext = React.createContext({
     isGetSuccess: false,
     signup: (email: string, password: string, nickname: string) => {},
     login: (email:string, password: string) => {},
-    logout: () => {},
+    logout: (token:string) => {},
     getUser: () => {},
     changeNickname: (nickname:string) => {},
     changePassword: (exPassword: string, newPassword: string) => {}
@@ -67,7 +67,6 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
             if(result !== null) {
                 const loginData:LoginToken = result.data;
                 setToken(loginData.accessToken);
-                console.log('loginData: ',loginData);
                 logoutTimer = setTimeout(
                     logoutHandler,
                     authAction.loginTokenHandler(loginData.accessToken, loginData.accessTokenExpiresIn)
@@ -78,11 +77,13 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
     };
 
     const logoutHandler = useCallback(() => {
-        setToken('');
+        console.log('tokenData: ',token);
         authAction.logoutActionHandler(token);
-        localStorage.setItem('expirationTime', String(new Date().getTime()));
-        if(logoutTimer) {
-            clearTimeout(logoutTimer);
+        if(null != tokenData.token){
+            localStorage.setItem('expirationTime', String(new Date().getTime()));
+            if(logoutTimer){
+                clearTimeout(logoutTimer);
+            }
         }
     }, []);
 

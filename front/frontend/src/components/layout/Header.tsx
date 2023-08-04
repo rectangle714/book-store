@@ -12,6 +12,7 @@ const Header = () => {
     const [nickname, setNickname] = useState('');
     let isLogin = authCtx.isLoggedIn;
     let isGet = authCtx.isGetSuccess;
+    let token = authCtx.token;
     let navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -50,8 +51,8 @@ const Header = () => {
     }, [isLogin]);
 
     const toggleLogoutHandler = () => {
-        //event.preventDefault();
-        authCtx.logout();
+        authCtx.logout(token);
+        authCtx.isLoggedIn = false;
         navigate('/');
     }
 

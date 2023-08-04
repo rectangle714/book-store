@@ -57,15 +57,14 @@ export const loginActionHandler = (email: string, password: string) => {
 
 /* 로그아웃 */
 export const logoutActionHandler = (token:string) => {
-    const URL = '/auth/logout';
-    const response = POST(URL, {}, createTokenHeader(token));
-
-    response.then((result) => {
-        console.log('result:',result);
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('expirationTime');
-    });
-
+    if(null != token && token != ''){
+        const URL = '/auth/logout';
+        const response = POST(URL, {"accessToken":token}, createTokenHeader(token));
+    
+        response.then((result) => {
+            console.log('result:',result);
+        });
+    }
 }
 
 /* 사용자 정보 확인 */

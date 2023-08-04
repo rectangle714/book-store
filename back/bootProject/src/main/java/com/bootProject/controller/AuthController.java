@@ -37,9 +37,11 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public void logOut(@RequestBody TokenDTO tokenDTO) {
-        Authentication authentication = tokenProvider.getAuthentication(tokenDTO.getAccessToken());
-        String currentMemberId = authentication.getName();
-        authService.logOut(currentMemberId);
+    public void logOut(@RequestBody(required = false) TokenDTO tokenDTO) {
+        if(null != tokenDTO.getAccessToken()) {
+            Authentication authentication = tokenProvider.getAuthentication(tokenDTO.getAccessToken());
+            String currentMemberId = authentication.getName();
+            authService.logOut(currentMemberId);
+        }
     }
 }
