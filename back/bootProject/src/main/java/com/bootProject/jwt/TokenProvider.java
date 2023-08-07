@@ -1,5 +1,6 @@
 package com.bootProject.jwt;
 
+import com.bootProject.common.RedisUtil;
 import com.bootProject.dto.TokenDTO;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -33,15 +34,19 @@ public class TokenProvider {
     private final SecretKey accessKey;
     private final SecretKey refreshKey;
 
+    private final RedisUtil redisUtil;
+
     public TokenProvider(
             @Value(value = "${jwt.token.accessTokenSecretKey}") final String accessTokenSecretKey,
             @Value(value = "${jwt.token.accessTokenExpireTime}") final long accessTokenExpireTime,
             @Value(value = "${jwt.token.refreshTokenSecretKey}") final String refreshTokenSecretKey,
-            @Value(value = "${jwt.token.refreshTokenExpireTime}") final long refreshTokenExpireTime) {
+            @Value(value = "${jwt.token.refreshTokenExpireTime}") final long refreshTokenExpireTime,
+            RedisUtil redisUtil) {
         this.accessKey = Keys.hmacShaKeyFor(accessTokenSecretKey.getBytes(StandardCharsets.UTF_8));
         this.refreshKey = Keys.hmacShaKeyFor(refreshTokenSecretKey.getBytes(StandardCharsets.UTF_8));;
         this.accessTokenExpireTime = accessTokenExpireTime;
         this.refreshTokenExpireTime = refreshTokenExpireTime;
+        this.redisUtil = redisUtil;
     }
 
     /**
@@ -115,9 +120,26 @@ public class TokenProvider {
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 
+    public Long getExpiration(String accessToken) {
+        Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(accessKey).build().parseClaimsJws(accessToken);
+        Date tokenExpirationDate = claims.getBody().getExpiration();
+
+        long now = new Date().getTime();
+
+        return (tokenExpirationDate.getTime() - now);
+    }
+
     /* 토큰 validation */
     public boolean validateToken(String token) {
         try {
+            Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(accessKey).build().parseClaimsJws(token);
+            Date tokenExpirationDate = claims.getBody().getExpiration();
+            validationTokenExpiration(tokenExpirationDate);
+
+            if(redisUtil.hasKeyBlackList(token)){
+                return false;
+            }
+
             return true;
         } catch (SecurityException | MalformedJwtException e) {
             log.info("잘못된 JWT 서명입니다.");
@@ -127,6 +149,12 @@ public class TokenProvider {
             log.info("JWT 토큰이 잘못되었습니다.");
         }
         return false;
+    }
+
+    public void validationTokenExpiration(Date tokenExpirationDate) {
+        if(tokenExpirationDate.before(new Date())) {
+            throw new RuntimeException("토큰 시간이 만료되었습니다.");
+        }
     }
 
     public Claims parseClaims(String accessToken) {

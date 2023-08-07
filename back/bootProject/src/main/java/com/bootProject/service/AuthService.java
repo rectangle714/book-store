@@ -50,10 +50,19 @@ public class AuthService {
     }
 
     @Transactional
-    public void logOut(String memberId) {
-        if(null != redisUtil.getData(memberId)) {
-            redisUtil.deleteData(memberId);
-        }
+    public void logOut(String accessToken) {
+        Authentication authentication = tokenProvider.getAuthentication(accessToken);
+        String currentMemberId = authentication.getName();
+
+        // 레디스 refreshtoken 제거
+        redisUtil.deleteData(currentMemberId);
+
+        tokenProvider.validateToken(accessToken);
+
+        Long expiration = tokenProvider.getExpiration(accessToken);
+        redisUtil.setBlackList(accessToken, "access_token", expiration);
+
+        
     }
 
 }
