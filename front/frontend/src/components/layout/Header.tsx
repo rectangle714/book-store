@@ -14,6 +14,7 @@ const Header = () => {
     let isGet = authCtx.isGetSuccess;
     let token = authCtx.token;
     let navigate = useNavigate();
+    console.log('authCtx.userObj',authCtx.userObj);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
 
@@ -45,13 +46,14 @@ const Header = () => {
 
     useEffect(() => {
         if(isLogin) {
-            console.log('사용자 정보 조회 시작');
+            console.log('사용자 정보 조회 시작', isLogin);
             authCtx.getUser();
         }
     }, [isLogin]);
 
     const toggleLogoutHandler = () => {
         authCtx.logout(token);
+        authCtx.isLoggedIn = false;
         navigate('/');
     }
 

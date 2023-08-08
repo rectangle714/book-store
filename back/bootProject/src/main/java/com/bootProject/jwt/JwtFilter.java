@@ -40,25 +40,26 @@ public class JwtFilter extends OncePerRequestFilter {
 
         try {
             // 액세스 토큰 블랙리스트 체크
-            if(!redisUtil.hasKeyBlackList(jwt)) {
-                Authentication auth = null;
+            if(null != jwt){
+                if(!redisUtil.hasKeyBlackList(jwt)) {
+                    Authentication auth = null;
 
-                if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
-                    auth = tokenProvider.getAuthentication(jwt);
-                    SecurityContextHolder.getContext().setAuthentication(auth);
-                } else {
-                    String memberId = tokenProvider.getSubjectFromRefreshToken(jwt);
-                    String redisRefreshToken = redisUtil.getData(memberId);
-
-                    if(null != redisRefreshToken) {
-                        String token = tokenProvider.generateAccessToken(memberId);
-                        auth = tokenProvider.getAuthentication(token);
+                    if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
+                        auth = tokenProvider.getAuthentication(jwt);
                         SecurityContextHolder.getContext().setAuthentication(auth);
+                    } else {
+                        String memberId = tokenProvider.getSubjectFromRefreshToken(jwt);
+                        String redisRefreshToken = redisUtil.getData(memberId);
+
+                        if(null != redisRefreshToken) {
+                            String token = tokenProvider.generateAccessToken(memberId);
+                            auth = tokenProvider.getAuthentication(token);
+                            SecurityContextHolder.getContext().setAuthentication(auth);
+                        }
                     }
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
             SecurityContextHolder.clearContext();
         }
 

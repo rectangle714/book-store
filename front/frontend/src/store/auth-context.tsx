@@ -78,10 +78,9 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
     };
 
     const logoutHandler = useCallback(() => {
+        console.log('token', token);
         if(null != token){
             authAction.logoutActionHandler(token);
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('expirationTime');
             if(logoutTimer){
                 clearTimeout(logoutTimer);
             }
@@ -91,16 +90,21 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
     const getUserHandler = () => {
         setIsGetSuccess(false);
 
-        const data = authAction.getUserActionHandler(token);
-        data.then((result) => {
-            if(result !== null) {
-                const userData:UserInfo = result.data;
-                setUserObj(userData);
-                setIsGetSuccess(true);
-            }
-        }).catch((error) => {
-            console.log(error);
-        })
+        if(null != tokenData.token){
+            const data = authAction.getUserActionHandler(tokenData.token);
+            data.then((result) => {
+                console.log('result',result);
+                if(result !== null) {
+                    console.log('결과 : ',result.data);
+                    const userData:UserInfo = result.data;
+                    setUserObj(userData);
+                    setIsGetSuccess(true);
+                }
+            }).catch((error) => {
+                console.log(error);
+            })
+        }
+
     }
 
     const changeNicknameHandler = (nickname:string) => {

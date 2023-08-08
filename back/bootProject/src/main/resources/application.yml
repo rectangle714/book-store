@@ -11,7 +11,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
-#      hbm2ddl.auto: update
+#      hbm2ddl.auto: create
     properties:
       hibernate:
         show_sql: true
@@ -33,6 +33,6 @@ spring:
 jwt:
   token:
     accessTokenSecretKey: aG91Mjctc2ltcGxlLXNwcmluZy1ib290LWFwaS1qd3QK
-    accessTokenExpireTime: 60000
+    accessTokenExpireTime: 600000
     refreshTokenSecretKey: cmVmcmVzaHRva2Vuc2VjcmV0a2V5Cg==
     refreshTokenExpireTime: 3600000

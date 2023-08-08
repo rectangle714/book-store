@@ -21,11 +21,12 @@ public class MemberService {
     /*
     *   로그인한 사용자 정보 조회
     */
-    @Transactional(readOnly = true)
     public MemberDTO getMyInfoBySecurity() {
-        return memberRepository.findById(SecurityUtil.getCurrentMemberId())
+        String email = SecurityUtil.getCurrentMemberEmail();
+        MemberDTO memberDTO = memberRepository.findByEmail(SecurityUtil.getCurrentMemberEmail())
                 .map(MemberDTO::of)
                 .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
+        return memberDTO;
     }
 
     /*
@@ -50,7 +51,7 @@ public class MemberService {
     */
     @Transactional
     public MemberDTO changeMemberPassword(String exPassword, String newPassword) {
-        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
+        Member member = memberRepository.findByEmail(SecurityUtil.getCurrentMemberEmail()).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
         if(!passwordEncoder.matches(exPassword, member.getPassword())) {
             throw new RuntimeException("비밀번호가 맞지 않습니다.");
         }
@@ -68,7 +69,6 @@ public class MemberService {
     /*
     *   전체 사용자 조회
     */
-    @Transactional(readOnly = true)
     public List<Member> findAllMember() {
         return memberRepository.findAll();
     }

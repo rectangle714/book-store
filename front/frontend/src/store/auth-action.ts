@@ -21,7 +21,7 @@ const calculateRemainingTime = (expirationTime:number) => {
 export const loginTokenHandler = (token:string, expirationTime:number) => {
     localStorage.setItem('accessToken', token);
     localStorage.setItem('expirationTime', String(expirationTime));
-    const remainingTime = calculateRemainingTime(expirationTime);
+    const remainingTime = calculateRemainingTime(expirationTime-6000);
     return remainingTime;
 }
 
@@ -29,7 +29,7 @@ export const loginTokenHandler = (token:string, expirationTime:number) => {
 export const retrieveStoredToken = () => {
     const storedToken = localStorage.getItem('accessToken');
     const storedExpirationDate = localStorage.getItem('expirationTime') || '0';
-    const remaingTime = calculateRemainingTime(+ storedExpirationDate);
+    const remaingTime = calculateRemainingTime(+ storedExpirationDate - 6000);
 
     return {
         token : storedToken,
@@ -70,7 +70,7 @@ export const logoutActionHandler = (token:string) => {
 /* 사용자 정보 확인 */
 export const getUserActionHandler = (token: string) => {
     const URL = '/member/me';
-    const response = GET(URL, createTokenHeader(token));
+    let response = GET(URL, createTokenHeader(token));
     return response;
 }
 

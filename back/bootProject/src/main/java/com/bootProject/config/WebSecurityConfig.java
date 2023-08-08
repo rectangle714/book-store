@@ -44,7 +44,7 @@ public class WebSecurityConfig {
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers("/auth/**").permitAll()
-                .requestMatchers("/member/findAll").permitAll()
+                .requestMatchers("/member/findAll","member/me","/login","/sighup").permitAll()
                 .anyRequest().authenticated()
 
                 .and()
