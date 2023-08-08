@@ -45,14 +45,13 @@ const Header = () => {
 
     useEffect(() => {
         if(isLogin) {
-            console.log('start');
+            console.log('사용자 정보 조회 시작');
             authCtx.getUser();
         }
     }, [isLogin]);
 
     const toggleLogoutHandler = () => {
         authCtx.logout(token);
-        authCtx.isLoggedIn = false;
         navigate('/');
     }
 

@@ -2,6 +2,7 @@ package com.bootProject.jwt;
 
 import com.bootProject.common.RedisUtil;
 import com.bootProject.dto.TokenDTO;
+import com.bootProject.service.CustomUserDetailsService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
@@ -13,6 +14,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -35,18 +37,20 @@ public class TokenProvider {
     private final SecretKey refreshKey;
 
     private final RedisUtil redisUtil;
-
+    private final CustomUserDetailsService userDetailsService;
     public TokenProvider(
             @Value(value = "${jwt.token.accessTokenSecretKey}") final String accessTokenSecretKey,
             @Value(value = "${jwt.token.accessTokenExpireTime}") final long accessTokenExpireTime,
             @Value(value = "${jwt.token.refreshTokenSecretKey}") final String refreshTokenSecretKey,
             @Value(value = "${jwt.token.refreshTokenExpireTime}") final long refreshTokenExpireTime,
-            RedisUtil redisUtil) {
+            RedisUtil redisUtil,
+            CustomUserDetailsService userDetailsService) {
         this.accessKey = Keys.hmacShaKeyFor(accessTokenSecretKey.getBytes(StandardCharsets.UTF_8));
         this.refreshKey = Keys.hmacShaKeyFor(refreshTokenSecretKey.getBytes(StandardCharsets.UTF_8));;
         this.accessTokenExpireTime = accessTokenExpireTime;
         this.refreshTokenExpireTime = refreshTokenExpireTime;
         this.redisUtil = redisUtil;
+        this.userDetailsService = userDetailsService;
     }
 
     /**
@@ -57,8 +61,8 @@ public class TokenProvider {
         Date accessTokenExpiresIn = new Date(now + accessTokenExpireTime);
         Date refreshTokenExpiresIn = new Date(now + refreshTokenExpireTime);
 
-        String accessToken = generateAccessToken(authentication);
-        String refreshToken = generateRefreshToken(authentication);
+        String accessToken = generateAccessToken(authentication.getName());
+        String refreshToken = generateRefreshToken(authentication.getName());
 
         log.info("accessToken = {}", accessToken);
         log.info("refreshToken = {}", refreshToken);
@@ -72,16 +76,14 @@ public class TokenProvider {
                 .build();
     }
 
-    private String generateAccessToken(Authentication authentication) {
-        long now = (new Date()).getTime();
-        Date accessTokenExpiresIn = new Date(now + accessTokenExpireTime);
-        String authorities = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining());
+    public String generateAccessToken(String memberId) {
+        Date now = new Date();
+        Date accessTokenExpiresIn = new Date(now.getTime() + accessTokenExpireTime);
+        Claims claims = Jwts.claims().setSubject(memberId);
 
         String accessToken = Jwts.builder()
-                .setSubject(authentication.getName())
-                .claim(AUTHORITIES_KEY, authorities)
+                .setClaims(claims)
+                .setIssuedAt(now)
                 .setExpiration(accessTokenExpiresIn)
                 .signWith(accessKey, SignatureAlgorithm.HS256)
                 .compact();
@@ -92,7 +94,7 @@ public class TokenProvider {
      *  refresh 토큰 생성
      *  access 토큰 만료 시 재발급의 용도이기 때문에 setClaim 없이 생성
      */
-    public String generateRefreshToken(Authentication authentication) {
+    public String generateRefreshToken(String memberId) {
         Date now = new Date();
         Date expiresIn = new Date(now.getTime() + refreshTokenExpireTime);
 
@@ -103,27 +105,17 @@ public class TokenProvider {
                 .compact();
     }
 
-    /**
-     * 토큰 정보 확인
-     */
+    /* 토큰 정보 확인 */
     public Authentication getAuthentication(String accessToken) {
-        Claims claims = parseClaims(accessToken);
-        if(claims.get(AUTHORITIES_KEY) == null) {
-            throw new RuntimeException("권한 정보가 없는 토큰입니다.");
-        }
-
-        Collection<? extends GrantedAuthority> authorities =
-                Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
-                        .map(SimpleGrantedAuthority::new)
-                        .collect(Collectors.toList());
-        UserDetails principal = new User(claims.getSubject(), "", authorities);
-        return new UsernamePasswordAuthenticationToken(principal, "", authorities);
+        String memberId = getSubjectFromAccessToken(accessToken);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);
+        return new UsernamePasswordAuthenticationToken(userDetails, "");
     }
 
+    /* 토큰 만료시간 조회 */
     public Long getExpiration(String accessToken) {
         Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(accessKey).build().parseClaimsJws(accessToken);
         Date tokenExpirationDate = claims.getBody().getExpiration();
-
         long now = new Date().getTime();
 
         return (tokenExpirationDate.getTime() - now);
@@ -136,10 +128,6 @@ public class TokenProvider {
             Date tokenExpirationDate = claims.getBody().getExpiration();
             validationTokenExpiration(tokenExpirationDate);
 
-            if(redisUtil.hasKeyBlackList(token)){
-                return false;
-            }
-
             return true;
         } catch (SecurityException | MalformedJwtException e) {
             log.info("잘못된 JWT 서명입니다.");
@@ -151,12 +139,14 @@ public class TokenProvider {
         return false;
     }
 
+    /* 토큰 만료시간 validation */
     public void validationTokenExpiration(Date tokenExpirationDate) {
         if(tokenExpirationDate.before(new Date())) {
             throw new RuntimeException("토큰 시간이 만료되었습니다.");
         }
     }
 
+    /* accessToken의 Claims 가져오기 */
     public Claims parseClaims(String accessToken) {
         try {
             return Jwts.parserBuilder().setSigningKey(accessKey).build().parseClaimsJws(accessToken).getBody();
@@ -166,12 +156,22 @@ public class TokenProvider {
     }
 
     /**
-     * Refresh토큰으로부터 클레임을 만들고 sub(memberId)를 반환
-     * @param token
+     * Refresh 토큰으로부터 클레임을 만들고 sub(memberId)를 반환
+     * @param refreshToken
      * @return
      */
-    public String getSubjectFromRefreshToken(String token) {
-        Jws<Claims> claims = Jwts.parser().setSigningKey(refreshKey).parseClaimsJws(token);
+    public String getSubjectFromRefreshToken(String refreshToken) {
+        Jws<Claims> claims = Jwts.parser().setSigningKey(refreshKey).parseClaimsJws(refreshToken);
+        return claims.getBody().getSubject();
+    }
+
+    /**
+     * Access 토큰으로부터 클레임을 만들고 sub(memberId)를 반환
+     * @param accessToken
+     * @return
+     */
+    public String getSubjectFromAccessToken(String accessToken) {
+        Jws<Claims> claims = Jwts.parser().setSigningKey(accessKey).parseClaimsJws(accessToken);
         return claims.getBody().getSubject();
     }
 

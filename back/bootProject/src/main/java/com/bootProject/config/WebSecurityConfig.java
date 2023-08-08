@@ -1,5 +1,6 @@
 package com.bootProject.config;
 
+import com.bootProject.common.RedisUtil;
 import com.bootProject.jwt.JwtAccessDeniedHandler;
 import com.bootProject.jwt.JwtAuthenticationEntryPoint;
 import com.bootProject.jwt.TokenProvider;
@@ -22,6 +23,7 @@ public class WebSecurityConfig {
     private final TokenProvider tokenProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final RedisUtil redisUtil;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -46,7 +48,7 @@ public class WebSecurityConfig {
                 .anyRequest().authenticated()
 
                 .and()
-                .apply(new JwtSecurityConfig(tokenProvider));
+                .apply(new JwtSecurityConfig(tokenProvider,redisUtil));
 
         return http.build();
     }

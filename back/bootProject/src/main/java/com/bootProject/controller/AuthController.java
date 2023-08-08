@@ -5,6 +5,7 @@ import com.bootProject.dto.MemberDTO;
 import com.bootProject.dto.TokenDTO;
 import com.bootProject.jwt.TokenProvider;
 import com.bootProject.service.AuthService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -32,7 +33,7 @@ public class AuthController {
     *   로그인
     */
     @PostMapping("/login")
-    public ResponseEntity<TokenDTO> login(@RequestBody MemberDTO memberDto) {
+    public ResponseEntity<TokenDTO> login(@RequestBody(required = false) MemberDTO memberDto) {
         return ResponseEntity.ok(authService.login(memberDto));
     }
 

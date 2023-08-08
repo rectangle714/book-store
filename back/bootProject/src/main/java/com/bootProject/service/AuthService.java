@@ -7,6 +7,7 @@ import com.bootProject.entity.Member;
 import com.bootProject.jwt.TokenProvider;
 import com.bootProject.repository.MemberRepository;
 import com.bootProject.repository.RefreshTokenRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -57,11 +58,8 @@ public class AuthService {
         // 레디스 refreshtoken 제거
         redisUtil.deleteData(currentMemberId);
 
-        tokenProvider.validateToken(accessToken);
-
         Long expiration = tokenProvider.getExpiration(accessToken);
         redisUtil.setBlackList(accessToken, "access_token", expiration);
-
         
     }
 

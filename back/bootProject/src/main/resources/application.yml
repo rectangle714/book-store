@@ -4,14 +4,14 @@ server:
 spring:
   datasource:
     driverClassName: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://3.112.49.158:3306/collie?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mariadb://3.112.49.158:3306/collie?useUnicode=true&characterEncoding=utf-8&autoReconnect=true
     username: phg
     password: phg
 
   jpa:
     hibernate:
-#      ddl-auto: create-drop
-       ddl-auto: update
+      ddl-auto: create-drop
+#      hbm2ddl.auto: update
     properties:
       hibernate:
         show_sql: true
