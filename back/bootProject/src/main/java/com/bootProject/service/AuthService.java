@@ -1,5 +1,6 @@
 package com.bootProject.service;
 
+import com.bootProject.common.CookieUtil;
 import com.bootProject.common.RedisUtil;
 import com.bootProject.dto.MemberDTO;
 import com.bootProject.dto.TokenDTO;
@@ -7,7 +8,9 @@ import com.bootProject.entity.Member;
 import com.bootProject.jwt.TokenProvider;
 import com.bootProject.repository.MemberRepository;
 import com.bootProject.repository.RefreshTokenRepository;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,6 +18,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
@@ -25,8 +30,10 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
     private final RedisUtil redisUtil;
-
     private final RefreshTokenRepository refreshTokenRepository;
+    private final CookieUtil cookieUtil;
+
+
 
     @Transactional()
     public MemberDTO signup(MemberDTO requestDto) {
@@ -51,15 +58,21 @@ public class AuthService {
     }
 
     @Transactional
-    public void logOut(String accessToken) {
-        Authentication authentication = tokenProvider.getAuthentication(accessToken);
-        String currentMemberId = authentication.getName();
+    public void logOut(HttpServletRequest request, HttpServletResponse response) {
+        Cookie cookie = cookieUtil.getCookie(request, "accessToken");
+        String accessToken = cookie.getValue();
+        String memberId = tokenProvider.parseClaims(accessToken).getSubject();
 
         // 레디스 refreshtoken 제거
-        redisUtil.deleteData(currentMemberId);
+        redisUtil.deleteData(memberId);
 
-        Long expiration = tokenProvider.getExpiration(accessToken);
+        Long expiration = (tokenProvider.parseClaims(accessToken).getExpiration().getTime()- (new Date().getTime()));
+        if(expiration <= 0){
+            expiration = 1L;
+        }
         redisUtil.setBlackList(accessToken, "access_token", expiration);
+
+        cookieUtil.expiringCookie(request, response, "accessToken");
         
     }
 

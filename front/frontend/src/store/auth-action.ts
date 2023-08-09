@@ -1,10 +1,12 @@
+import { getCookie, setCookie } from "./cookie";
 import { GET, POST } from "./fetch-auth-action";
 
 /* 토큰 생성 */
-const createTokenHeader = (token:string) => {
+const createTokenHeader = (accessToken:string, refreshToken:string) => {
     return {
         headers: {
-            'Authorization' : 'Bearer ' + token 
+            'Authorization' : 'Bearer ' + accessToken,
+            'RefreshToken' : 'Bearer ' + refreshToken
         }
     }
 }
@@ -18,21 +20,25 @@ const calculateRemainingTime = (expirationTime:number) => {
 }
 
 /* 토큰값, 만료시간을 저장 */
-export const loginTokenHandler = (token:string, expirationTime:number) => {
-    localStorage.setItem('accessToken', token);
-    localStorage.setItem('expirationTime', String(expirationTime));
-    const remainingTime = calculateRemainingTime(expirationTime-6000);
+export const loginTokenHandler = (accessToken:string, refreshtoken:string, expirationTime:number) => {
+    setCookie('accessToken', accessToken);
+    setCookie('refreshToken', refreshtoken);
+    setCookie('expirationTime', String(expirationTime));
+    const remainingTime = calculateRemainingTime(expirationTime);
     return remainingTime;
 }
 
 /* 토큰 만료시간 확인 */
 export const retrieveStoredToken = () => {
-    const storedToken = localStorage.getItem('accessToken');
-    const storedExpirationDate = localStorage.getItem('expirationTime') || '0';
-    const remaingTime = calculateRemainingTime(+ storedExpirationDate - 6000);
+    getCookie('accessToken');
+    const storedAccessToken = getCookie('accessToken');
+    const storedRefreshToken = getCookie('refreshToken');
+    const storedExpirationDate = getCookie('expirationTime') || '0';
+    const remaingTime = calculateRemainingTime(+ storedExpirationDate);
 
     return {
-        token : storedToken,
+        token : storedAccessToken,
+        refreshToken : storedRefreshToken,
         duration : remaingTime
     }
 }
@@ -56,29 +62,28 @@ export const loginActionHandler = (email: string, password: string) => {
 }
 
 /* 로그아웃 */
-export const logoutActionHandler = (token:string) => {
-    if(null != token && token != ''){
-        const URL = '/auth/logout';
-        const response = POST(URL, {"accessToken":token}, createTokenHeader(token));
+export const logoutActionHandler = (accessToken:string, refreshToken:string) => {
+    const URL = '/auth/logout';
+    const logOutObject = {accessToken, refreshToken};
+    const response = POST(URL, logOutObject, createTokenHeader(accessToken, refreshToken));
     
-        response.then((result) => {
-            console.log('result:',result);
-        });
-    }
+    response.then((result) => {
+        console.log('result:',result);
+    });
 }
 
 /* 사용자 정보 확인 */
-export const getUserActionHandler = (token: string) => {
+export const getUserActionHandler = (accessToken:string, refreshToken:string) => {
     const URL = '/member/me';
-    let response = GET(URL, createTokenHeader(token));
+    let response = GET(URL, createTokenHeader(accessToken, refreshToken));
     return response;
 }
 
 /* 닉네임 변경 */
-export const changeNicknameActionHandler = (nickname: string, token: string) => {
+export const changeNicknameActionHandler = (nickname: string, accessToken:string, refreshToken:string) => {
     const URL = '/member/nickname';
     const changeNicknameObj = {nickname};
-    const response = POST(URL, changeNicknameObj, createTokenHeader(token));
+    const response = POST(URL, changeNicknameObj, createTokenHeader(accessToken, refreshToken));
 
     return response;
 }
@@ -87,11 +92,12 @@ export const changeNicknameActionHandler = (nickname: string, token: string) => 
 export const changePasswordActionHandler = (
     exPassword: string, 
     newPassword: string,
-    token: string
+    accessToken:string,
+    refreshToken:string
 ) => {
     const URL = '/member/password';
     const changePasswordObj = {exPassword, newPassword};
-    const response = POST(URL, changePasswordObj, createTokenHeader(token));
+    const response = POST(URL, changePasswordObj, createTokenHeader(accessToken, refreshToken));
 
     return response;
 }

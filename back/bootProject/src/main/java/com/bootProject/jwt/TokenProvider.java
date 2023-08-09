@@ -6,6 +6,8 @@ import com.bootProject.service.CustomUserDetailsService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,20 +35,17 @@ public class TokenProvider {
     private final long accessTokenExpireTime;
     private final long refreshTokenExpireTime;
 
-    private final SecretKey accessKey;
-    private final SecretKey refreshKey;
+    private final SecretKey tokenKey;
 
     private final RedisUtil redisUtil;
     private final CustomUserDetailsService userDetailsService;
     public TokenProvider(
-            @Value(value = "${jwt.token.accessTokenSecretKey}") final String accessTokenSecretKey,
+            @Value(value = "${jwt.token.tokenKey}") final String     tokenKey,
             @Value(value = "${jwt.token.accessTokenExpireTime}") final long accessTokenExpireTime,
-            @Value(value = "${jwt.token.refreshTokenSecretKey}") final String refreshTokenSecretKey,
             @Value(value = "${jwt.token.refreshTokenExpireTime}") final long refreshTokenExpireTime,
             RedisUtil redisUtil,
             CustomUserDetailsService userDetailsService) {
-        this.accessKey = Keys.hmacShaKeyFor(accessTokenSecretKey.getBytes(StandardCharsets.UTF_8));
-        this.refreshKey = Keys.hmacShaKeyFor(refreshTokenSecretKey.getBytes(StandardCharsets.UTF_8));;
+        this.tokenKey = Keys.hmacShaKeyFor(tokenKey.getBytes(StandardCharsets.UTF_8));
         this.accessTokenExpireTime = accessTokenExpireTime;
         this.refreshTokenExpireTime = refreshTokenExpireTime;
         this.redisUtil = redisUtil;
@@ -85,7 +84,7 @@ public class TokenProvider {
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(accessTokenExpiresIn)
-                .signWith(accessKey, SignatureAlgorithm.HS256)
+                .signWith(tokenKey, SignatureAlgorithm.HS256)
                 .compact();
         return accessToken;
     }
@@ -97,24 +96,26 @@ public class TokenProvider {
     public String generateRefreshToken(String memberId) {
         Date now = new Date();
         Date expiresIn = new Date(now.getTime() + refreshTokenExpireTime);
+        Claims claims = Jwts.claims().setSubject(memberId);
 
         return Jwts.builder()
+                .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(expiresIn)
-                .signWith(refreshKey, SignatureAlgorithm.HS256)
+                .signWith(tokenKey, SignatureAlgorithm.HS256)
                 .compact();
     }
 
     /* 토큰 정보 확인 */
     public Authentication getAuthentication(String accessToken) {
-        String memberId = getSubjectFromAccessToken(accessToken);
+        String memberId = getSubjectFromToken(accessToken);
         UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);
         return new UsernamePasswordAuthenticationToken(userDetails, "");
     }
 
     /* 토큰 만료시간 조회 */
     public Long getExpiration(String accessToken) {
-        Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(accessKey).build().parseClaimsJws(accessToken);
+        Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(tokenKey).build().parseClaimsJws(accessToken);
         Date tokenExpirationDate = claims.getBody().getExpiration();
         long now = new Date().getTime();
 
@@ -124,7 +125,7 @@ public class TokenProvider {
     /* 토큰 validation */
     public boolean validateToken(String token) {
         try {
-            Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(accessKey).build().parseClaimsJws(token);
+            Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(tokenKey).build().parseClaimsJws(token);
             Date tokenExpirationDate = claims.getBody().getExpiration();
             validationTokenExpiration(tokenExpirationDate);
 
@@ -149,30 +150,28 @@ public class TokenProvider {
     /* accessToken의 Claims 가져오기 */
     public Claims parseClaims(String accessToken) {
         try {
-            return Jwts.parserBuilder().setSigningKey(accessKey).build().parseClaimsJws(accessToken).getBody();
+            return Jwts.parserBuilder().setSigningKey(tokenKey).build().parseClaimsJws(accessToken).getBody();
         } catch (ExpiredJwtException e) {
             return e.getClaims();
         }
     }
 
     /**
-     * Refresh 토큰으로부터 클레임을 만들고 sub(memberId)를 반환
-     * @param refreshToken
+     * Access 토큰으로부터 클레임을 만들고 sub(memberId)를 반환
+     * @param token
      * @return
      */
-    public String getSubjectFromRefreshToken(String refreshToken) {
-        Jws<Claims> claims = Jwts.parser().setSigningKey(refreshKey).parseClaimsJws(refreshToken);
+    public String getSubjectFromToken(String token) {
+        Jws<Claims> claims = Jwts.parser().setSigningKey(tokenKey).parseClaimsJws(token);
         return claims.getBody().getSubject();
     }
 
-    /**
-     * Access 토큰으로부터 클레임을 만들고 sub(memberId)를 반환
-     * @param accessToken
-     * @return
-     */
-    public String getSubjectFromAccessToken(String accessToken) {
-        Jws<Claims> claims = Jwts.parser().setSigningKey(accessKey).parseClaimsJws(accessToken);
-        return claims.getBody().getSubject();
+    public void setHeaderAccessToken(HttpServletResponse response, String accessToken) {
+        response.setHeader("Authorization", "bearer "+ accessToken);
+    }
+
+    public void setHeaderRefreshToken(HttpServletResponse response, String refreshToken) {
+        response.setHeader("RefreshToken", "bearer "+ refreshToken);
     }
 
 }

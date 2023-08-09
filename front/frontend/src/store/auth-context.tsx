@@ -14,7 +14,8 @@ type LoginToken = {
 }
 
 const AuthContext = React.createContext({
-    token: '',
+    accessToken: '',
+    refreshToken: '',
     userObj: { email: '', nickname: '', authority: ''},
     isLoggedIn: false,
     isSuccess: false,
@@ -30,14 +31,17 @@ const AuthContext = React.createContext({
 export const AuthContextProvider:React.FC<Props> = (props) => {
     const tokenData = authAction.retrieveStoredToken();
 
-    let initialToken:any;
+    let initialAccessToken:any;
+    let initialRefreshToken:any;
 
     
     if(tokenData) {
-        initialToken = tokenData.token;
+        initialAccessToken = tokenData.token;
+        initialRefreshToken = tokenData.refreshToken;
     }
 
-    const [token, setToken] = useState(initialToken);
+    const [accessToken, setToken] = useState(initialAccessToken);
+    const [refreshToken, setRefreshToken] = useState(initialRefreshToken);
     const [userObj, setUserObj] = useState({
         email: '',
         nickname: '',
@@ -47,7 +51,7 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
     const [isSuccess, setIsSuccess] = useState<boolean>(false);
     const [isGetSuccess, setIsGetSuccess] = useState<boolean>(false);
 
-    const userIsLoggedIn = !!token;
+    const userIsLoggedIn = !!accessToken;
 
     const signuphandler = (email: string, password: string, nickname: string) => {
         setIsSuccess(false);
@@ -67,31 +71,23 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
             if(result !== null) {
                 const loginData:LoginToken = result.data;
                 setToken(loginData.accessToken);
+                setRefreshToken(loginData.refreshToken);
                 console.log('loginData: ',loginData);
-                logoutTimer = setTimeout(
-                    logoutHandler,
-                    authAction.loginTokenHandler(loginData.accessToken, loginData.accessTokenExpiresIn)
-                );
+                authAction.loginTokenHandler(loginData.accessToken, loginData.refreshToken, loginData.accessTokenExpiresIn)
                 setIsSuccess(true);
             }
         })
     };
 
-    const logoutHandler = useCallback(() => {
-        console.log('token', token);
-        if(null != token){
-            authAction.logoutActionHandler(token);
-            if(logoutTimer){
-                clearTimeout(logoutTimer);
-            }
-        }
-    }, []);
+    const logoutHandler = () => {
+        authAction.logoutActionHandler(accessToken, refreshToken);
+    };
 
     const getUserHandler = () => {
         setIsGetSuccess(false);
 
         if(null != tokenData.token){
-            const data = authAction.getUserActionHandler(tokenData.token);
+            const data = authAction.getUserActionHandler(accessToken, refreshToken);
             data.then((result) => {
                 console.log('result',result);
                 if(result !== null) {
@@ -110,7 +106,7 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
     const changeNicknameHandler = (nickname:string) => {
         setIsSuccess(false);
 
-        const data = authAction.changeNicknameActionHandler(nickname, token);
+        const data = authAction.changeNicknameActionHandler(nickname, accessToken, refreshToken);
         data.then((result) => {
             if(result !== null) {
                 const userData:UserInfo = result.data;
@@ -123,7 +119,7 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
     const changePasswordHandler = (exPassword: string, newPassword: string) => {
         setIsSuccess(false);
 
-        const data = authAction.changePasswordActionHandler(exPassword, newPassword, token);
+        const data = authAction.changePasswordActionHandler(exPassword, newPassword, accessToken, refreshToken);
         data.then((result) => {
             if(result !== null) {
                 const userData:UserInfo = result.data;
@@ -141,7 +137,8 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
     }, [tokenData, logoutHandler])
 
     const contextValue = {
-        token,
+        accessToken,
+        refreshToken,
         userObj,
         isLoggedIn: userIsLoggedIn,
         isSuccess,

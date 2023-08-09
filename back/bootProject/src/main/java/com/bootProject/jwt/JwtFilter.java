@@ -21,40 +21,55 @@ import java.io.IOException;
 public class JwtFilter extends OncePerRequestFilter {
 
     public static final String AUTHORIZATION_HEADER = "Authorization";
+    public static final String REFRESHTOKEN_HEADER = "RefreshToken";
     public static final String BEARER_PREFIX = "Bearer ";
     private final TokenProvider tokenProvider;
     private final RedisUtil redisUtil;
 
-    private String resolveToken(HttpServletRequest request) {
+    private String resolveAccessToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
         if(StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
             return bearerToken.substring(7);
         }
+        return null;
+    }
 
+    private String resolveRefreshToken(HttpServletRequest request) {
+        String bearerToken = request.getHeader(REFRESHTOKEN_HEADER);
+        if(StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
+            return bearerToken.substring(7);
+        }
         return null;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String jwt = resolveToken(request);
+        String accessToken = resolveAccessToken(request);
+        String refreshToken = resolveRefreshToken(request);
 
         try {
             // 액세스 토큰 블랙리스트 체크
-            if(null != jwt){
-                if(!redisUtil.hasKeyBlackList(jwt)) {
+            if(null != accessToken){
+                if(!redisUtil.hasKeyBlackList(accessToken)) {
                     Authentication auth = null;
 
-                    if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
-                        auth = tokenProvider.getAuthentication(jwt);
+                    if (StringUtils.hasText(accessToken) && tokenProvider.validateToken(accessToken)) {
+                        auth = tokenProvider.getAuthentication(accessToken);
                         SecurityContextHolder.getContext().setAuthentication(auth);
                     } else {
-                        String memberId = tokenProvider.getSubjectFromRefreshToken(jwt);
-                        String redisRefreshToken = redisUtil.getData(memberId);
+                        boolean validationRefreshToken = tokenProvider.validateToken(refreshToken);
 
-                        if(null != redisRefreshToken) {
-                            String token = tokenProvider.generateAccessToken(memberId);
-                            auth = tokenProvider.getAuthentication(token);
-                            SecurityContextHolder.getContext().setAuthentication(auth);
+                        if(validationRefreshToken) {
+                            String memberEmail = tokenProvider.getSubjectFromToken(refreshToken);
+                            String redisRefreshToken = redisUtil.getData(memberEmail);
+                            if(redisRefreshToken != null){
+                                String token = tokenProvider.generateAccessToken(memberEmail);
+                                auth = tokenProvider.getAuthentication(token);
+                                tokenProvider.setHeaderAccessToken(response, token);
+                                SecurityContextHolder.getContext().setAuthentication(auth);
+                            } else {
+                                new RuntimeException("Redis에 존재하지 않는 refreshToken");
+                            }
                         }
                     }
                 }

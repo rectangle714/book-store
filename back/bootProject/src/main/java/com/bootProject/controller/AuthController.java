@@ -6,6 +6,7 @@ import com.bootProject.dto.TokenDTO;
 import com.bootProject.jwt.TokenProvider;
 import com.bootProject.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -38,9 +39,7 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public void logOut(@RequestBody(required = false) TokenDTO tokenDTO) {
-        if(null != tokenDTO.getAccessToken()) {
-            authService.logOut(tokenDTO.getAccessToken());
-        }
+    public void logOut(HttpServletRequest request, HttpServletResponse response) {
+        authService.logOut(request, response);
     }
 }

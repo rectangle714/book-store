@@ -11,8 +11,7 @@ const Header = () => {
     const authCtx = useContext(AuthContext);
     const [nickname, setNickname] = useState('');
     let isLogin = authCtx.isLoggedIn;
-    let isGet = authCtx.isGetSuccess;
-    let token = authCtx.token;
+    let token = authCtx.accessToken;
     let navigate = useNavigate();
     console.log('authCtx.userObj',authCtx.userObj);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -54,7 +53,6 @@ const Header = () => {
     const toggleLogoutHandler = () => {
         authCtx.logout(token);
         authCtx.isLoggedIn = false;
-        navigate('/');
     }
 
     return(
