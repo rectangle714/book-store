@@ -6,6 +6,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Avatar from '@mui/joy/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import { Cookies } from "react-cookie";
 
 const Header = () => {
     const authCtx = useContext(AuthContext);
@@ -13,9 +14,7 @@ const Header = () => {
     let isLogin = authCtx.isLoggedIn;
     let token = authCtx.accessToken;
     let navigate = useNavigate();
-    console.log('authCtx.userObj',authCtx.userObj);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
 
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -52,7 +51,7 @@ const Header = () => {
 
     const toggleLogoutHandler = () => {
         authCtx.logout(token);
-        authCtx.isLoggedIn = false;
+        navigate('/');
     }
 
     return(

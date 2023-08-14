@@ -66,7 +66,7 @@ public class AuthService {
         // 레디스 refreshtoken 제거
         redisUtil.deleteData(memberId);
 
-        Long expiration = (tokenProvider.parseClaims(accessToken).getExpiration().getTime()- (new Date().getTime()));
+        Long expiration = (tokenProvider.parseClaims(accessToken).getExpiration().getTime() - (new Date().getTime()));
         if(expiration <= 0){
             expiration = 1L;
         }

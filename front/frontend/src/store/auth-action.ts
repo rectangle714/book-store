@@ -1,4 +1,4 @@
-import { getCookie, setCookie } from "./cookie";
+import { getCookie, setCookie, removeCookie } from "./cookie";
 import { GET, POST } from "./fetch-auth-action";
 
 /* 토큰 생성 */
@@ -30,7 +30,6 @@ export const loginTokenHandler = (accessToken:string, refreshtoken:string, expir
 
 /* 토큰 만료시간 확인 */
 export const retrieveStoredToken = () => {
-    getCookie('accessToken');
     const storedAccessToken = getCookie('accessToken');
     const storedRefreshToken = getCookie('refreshToken');
     const storedExpirationDate = getCookie('expirationTime') || '0';
@@ -69,6 +68,9 @@ export const logoutActionHandler = (accessToken:string, refreshToken:string) => 
     
     response.then((result) => {
         console.log('result:',result);
+        removeCookie('accessToken');
+        removeCookie('refreshToken');
+        removeCookie('expirationTime');
     });
 }
 

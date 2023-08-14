@@ -51,7 +51,7 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
     const [isSuccess, setIsSuccess] = useState<boolean>(false);
     const [isGetSuccess, setIsGetSuccess] = useState<boolean>(false);
 
-    const userIsLoggedIn = !!accessToken;
+    let userIsLoggedIn = !!accessToken;
 
     const signuphandler = (email: string, password: string, nickname: string) => {
         setIsSuccess(false);
@@ -72,7 +72,6 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
                 const loginData:LoginToken = result.data;
                 setToken(loginData.accessToken);
                 setRefreshToken(loginData.refreshToken);
-                console.log('loginData: ',loginData);
                 authAction.loginTokenHandler(loginData.accessToken, loginData.refreshToken, loginData.accessTokenExpiresIn)
                 setIsSuccess(true);
             }
@@ -81,6 +80,7 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
 
     const logoutHandler = () => {
         authAction.logoutActionHandler(accessToken, refreshToken);
+        setToken('');
     };
 
     const getUserHandler = () => {
