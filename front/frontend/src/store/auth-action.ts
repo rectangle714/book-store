@@ -67,7 +67,7 @@ export const logoutActionHandler = (accessToken:string, refreshToken:string) => 
     const response = POST(URL, logOutObject, createTokenHeader(accessToken, refreshToken));
     
     response.then((result) => {
-        console.log('result:',result);
+        console.log('[로그아웃 성공]');
         removeCookie('accessToken');
         removeCookie('refreshToken');
         removeCookie('expirationTime');

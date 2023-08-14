@@ -13,23 +13,41 @@ const LoginForm = () => {
 
     let navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
+    const [loginText, setLoginText] = useState('');
     const authCtx = useContext(AuthContext);
 
     const submitHandler = async(event: React.FormEvent) => {
+        event.stopPropagation();
         event.preventDefault();
 
         const enteredEmail = emailInputRef.current!.value;
         const enteredPasswod = passwordInputRef.current!.value;
 
+        if(enteredEmail == '') {
+            setLoginText('이메일을 입력해주세요.');
+            return false;
+        }
+
+        if(enteredPasswod == '') {
+            setLoginText('패스워드를 입력해주세요.');
+            return false;
+        }
+
         setIsLoading(true);
         authCtx.login(enteredEmail, enteredPasswod);
         setIsLoading(false);
 
-        console.log(authCtx.isSuccess);
 
-        if(authCtx.isSuccess) {
-            navigate("/");
-        }
+        console.log('1 :',authCtx.isLoggedIn);
+        setTimeout(() => {
+            console.log('2 :',authCtx.isLoggedIn);
+            if(authCtx.isLoggedIn) {
+                setLoginText('');
+                navigate("/");
+            } else {
+                setLoginText('아이디(로그인 전용 아이디) 또는 비밀번호를 잘못 입력했습니다.');
+            }
+        }, 1000);
     }
 
     const findPasswordHandler = () => {
@@ -47,7 +65,7 @@ const LoginForm = () => {
                                 variant="standard" 
                                 autoComplete='true'
                                 id='email' 
-                                required inputRef={emailInputRef}
+                                inputRef={emailInputRef}
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
@@ -63,7 +81,7 @@ const LoginForm = () => {
                                 type="password" 
                                 variant="standard" 
                                 id='password' 
-                                required inputRef={passwordInputRef} 
+                                inputRef={passwordInputRef} 
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
@@ -74,9 +92,8 @@ const LoginForm = () => {
                                 />
                         </div>
                         <div style={{
-                            paddingTop: 30,
+                            paddingTop: 10,
                             paddingLeft : 20
-
                         }}>
                         <ButtonGroup variant="outlined" color="success" aria-label="outlined button group">
                             <Button color="success" type='submit'>로그인</Button>
@@ -85,6 +102,14 @@ const LoginForm = () => {
                         </ButtonGroup>
                         </div>
                     </form>
+                    <div style={{
+                            paddingTop: 10,
+                            fontSize: 12, 
+                            color: 'red',
+                            textAlign: "center"
+                        }}>
+                        {loginText}
+                    </div>
             </section>
         </Container>
     )

@@ -23,7 +23,6 @@ import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class AuthService {
     private final AuthenticationManagerBuilder managerBuilder;
     private final MemberRepository memberRepository;

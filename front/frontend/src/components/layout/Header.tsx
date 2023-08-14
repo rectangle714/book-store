@@ -6,7 +6,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Avatar from '@mui/joy/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { Cookies } from "react-cookie";
 
 const Header = () => {
     const authCtx = useContext(AuthContext);
@@ -36,6 +35,7 @@ const Header = () => {
         } else if(path == 'admin') {
             navigate('/admin')
         }
+        setAnchorEl(null);
     }
 
     const callback = (str:string) => {
@@ -52,10 +52,11 @@ const Header = () => {
     const toggleLogoutHandler = () => {
         authCtx.logout(token);
         navigate('/');
+        setAnchorEl(null);
     }
 
     return(
-        <header style={{marginBottom:'50px'}}>
+        <header >
             <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" sx={{bgcolor: 'green'}}>
                 <Toolbar>

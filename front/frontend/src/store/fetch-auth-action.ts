@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
+import { setCookie } from './cookie';
 
 type ServerError = { errorMessage: string };
 type LoginFailType = { status: number, error: string };
@@ -55,11 +56,27 @@ const fetchAuth = async (fetchData : FetchData) => {
 
 const GET = (url:string, header:{}) => {
     const response = fetchAuth({method: 'get', url, header});
+    response.then((result) => {
+        if(result !== null && result.status == 200) {
+            if(result.headers.authorization != null && result.headers.authorization != '') {
+                const newToken = result.headers.authorization.substring(7);
+                setCookie('accessToken', newToken);
+            }
+        }
+    });
     return response;
 }
 
 const POST = (url:string, data: {}, header:{}) => {
     const response = fetchAuth({ method: 'post', url, data, header });
+    response.then((result) => {
+        if(result !== null && result.status == 200) {
+            if(result.headers.authorization != null && result.headers.authorization != '') {
+                const newToken = result.headers.authorization.substring(7);
+                setCookie('accessToken', newToken);
+            }
+        }
+    });
     return response;
 }
 
