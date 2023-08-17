@@ -38,16 +38,16 @@ const LoginForm = () => {
         setIsLoading(false);
 
 
-        console.log('1 :',authCtx.isLoggedIn);
         setTimeout(() => {
-            console.log('2 :',authCtx.isLoggedIn);
-            if(authCtx.isLoggedIn) {
-                setLoginText('');
-                navigate("/");
-            } else {
+            if(!authCtx.isSuccess && !authCtx.isLoggedIn) {
                 setLoginText('아이디(로그인 전용 아이디) 또는 비밀번호를 잘못 입력했습니다.');
+                return false;
             }
+            console.log('accessToken : ',authCtx.accessToken);
         }, 1000);
+
+        return false;
+
     }
 
     const findPasswordHandler = () => {
@@ -97,7 +97,6 @@ const LoginForm = () => {
                         }}>
                         <ButtonGroup variant="outlined" color="success" aria-label="outlined button group">
                             <Button color="success" type='submit'>로그인</Button>
-                            {isLoading && <p>Loading</p>}
                             <Button onClick={findPasswordHandler}>패스워드 찾기</Button>
                         </ButtonGroup>
                         </div>

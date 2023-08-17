@@ -10,6 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
@@ -17,6 +18,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+@Slf4j
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
@@ -26,6 +28,9 @@ public class JwtFilter extends OncePerRequestFilter {
     private final TokenProvider tokenProvider;
     private final RedisUtil redisUtil;
 
+    /*
+     * 요청 헤더에서 RequestToken 값 조회
+     */
     private String resolveAccessToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
         if(StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
@@ -34,6 +39,9 @@ public class JwtFilter extends OncePerRequestFilter {
         return null;
     }
 
+    /*
+    * 요청 헤더에서 RequestToken 값 조회
+    */
     private String resolveRefreshToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(REFRESHTOKEN_HEADER);
         if(StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
@@ -62,13 +70,14 @@ public class JwtFilter extends OncePerRequestFilter {
                         if(validationRefreshToken) {
                             String memberEmail = tokenProvider.getSubjectFromToken(refreshToken);
                             String redisRefreshToken = redisUtil.getData(memberEmail);
+                            //토큰 재발급
                             if(redisRefreshToken != null){
                                 String token = tokenProvider.generateAccessToken(memberEmail);
                                 auth = tokenProvider.getAuthentication(token);
                                 tokenProvider.setHeaderAccessToken(response, token);
                                 SecurityContextHolder.getContext().setAuthentication(auth);
                             } else {
-                                new RuntimeException("Redis에 존재하지 않는 refreshToken");
+                                logger.debug("Redis에 존재하지 않는 refreshToken");
                             }
                         }
                     }

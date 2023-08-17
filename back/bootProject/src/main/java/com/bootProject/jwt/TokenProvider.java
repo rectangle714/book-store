@@ -53,7 +53,7 @@ public class TokenProvider {
     }
 
     /**
-    *   access 토큰 생성, refresh 토큰 생성
+    *   TokenDTO에 access, refresh 토큰 값을 담아준다.
     */
     public TokenDTO generateTokenDto(Authentication authentication) {
         long now = (new Date()).getTime();
@@ -75,6 +75,9 @@ public class TokenProvider {
                 .build();
     }
 
+    /*
+    * 생성할 Access토큰 정보 입력
+    */
     public String generateAccessToken(String memberId) {
         Date now = new Date();
         Date accessTokenExpiresIn = new Date(now.getTime() + accessTokenExpireTime);
@@ -90,8 +93,7 @@ public class TokenProvider {
     }
 
     /**
-     *  refresh 토큰 생성
-     *  access 토큰 만료 시 재발급의 용도이기 때문에 setClaim 없이 생성
+     *  생성할 refresh토큰 정보 입력
      */
     public String generateRefreshToken(String memberId) {
         Date now = new Date();
@@ -106,14 +108,18 @@ public class TokenProvider {
                 .compact();
     }
 
-    /* 토큰 정보 확인 */
+    /*
+    * 토큰 정보 확인
+    */
     public Authentication getAuthentication(String accessToken) {
         String memberId = getSubjectFromToken(accessToken);
         UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);
         return new UsernamePasswordAuthenticationToken(userDetails, "");
     }
 
-    /* 토큰 만료시간 조회 */
+    /*
+    * 토큰 만료시간 조회
+    */
     public Long getExpiration(String accessToken) {
         Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(tokenKey).build().parseClaimsJws(accessToken);
         Date tokenExpirationDate = claims.getBody().getExpiration();
@@ -122,7 +128,9 @@ public class TokenProvider {
         return (tokenExpirationDate.getTime() - now);
     }
 
-    /* 토큰 validation */
+    /*
+    * 토큰 validation
+    */
     public boolean validateToken(String token) {
         try {
             Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(tokenKey).build().parseClaimsJws(token);
@@ -140,14 +148,18 @@ public class TokenProvider {
         return false;
     }
 
-    /* 토큰 만료시간 validation */
+    /*
+    * 토큰 만료시간 validation
+    */
     public void validationTokenExpiration(Date tokenExpirationDate) {
         if(tokenExpirationDate.before(new Date())) {
             throw new RuntimeException("토큰 시간이 만료되었습니다.");
         }
     }
 
-    /* accessToken의 Claims 가져오기 */
+    /*
+    * accessToken의 Claims 가져오기
+    */
     public Claims parseClaims(String accessToken) {
         try {
             return Jwts.parserBuilder().setSigningKey(tokenKey).build().parseClaimsJws(accessToken).getBody();
@@ -166,10 +178,16 @@ public class TokenProvider {
         return claims.getBody().getSubject();
     }
 
+    /*
+    * 헤더에 access토큰 값 입력
+    */
     public void setHeaderAccessToken(HttpServletResponse response, String accessToken) {
         response.setHeader("Authorization", "bearer "+ accessToken);
     }
 
+    /*
+     * 헤더에 refresh토큰 값 입력
+     */
     public void setHeaderRefreshToken(HttpServletResponse response, String refreshToken) {
         response.setHeader("RefreshToken", "bearer "+ refreshToken);
     }

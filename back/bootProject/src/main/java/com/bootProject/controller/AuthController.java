@@ -23,7 +23,7 @@ public class AuthController {
     private final TokenProvider tokenProvider;
 
     /*
-    *   회원가입
+    * 회원가입
     */
     @PostMapping("/signup")
     public ResponseEntity<MemberDTO> signup(@RequestBody MemberDTO memberDto) {
@@ -31,14 +31,16 @@ public class AuthController {
     }
 
     /*
-    *   로그인
+    * 로그인
     */
     @PostMapping("/login")
     public ResponseEntity<TokenDTO> login(@RequestBody(required = false) MemberDTO memberDto) {
-        TokenDTO login = authService.login(memberDto);
         return ResponseEntity.ok(authService.login(memberDto));
     }
 
+    /*
+    * 로그아웃
+    */
     @PostMapping("/logout")
     public void logOut(HttpServletRequest request, HttpServletResponse response) {
         authService.logOut(request, response);

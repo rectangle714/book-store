@@ -12,6 +12,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -34,7 +36,7 @@ public class AuthService {
 
 
 
-    @Transactional()
+    @Transactional
     public MemberDTO signup(MemberDTO requestDto) {
         if(memberRepository.existsByEmail(requestDto.getEmail())) {
             throw new RuntimeException("이미 가입되어 있는 유저입니다.");
@@ -58,21 +60,24 @@ public class AuthService {
 
     @Transactional
     public void logOut(HttpServletRequest request, HttpServletResponse response) {
-        Cookie cookie = cookieUtil.getCookie(request, "accessToken");
-        String accessToken = cookie.getValue();
-        String memberId = tokenProvider.parseClaims(accessToken).getSubject();
+        try {
+            Cookie cookie = cookieUtil.getCookie(request, "accessToken");
+            String accessToken = cookie.getValue();
+            String memberId = tokenProvider.parseClaims(accessToken).getSubject();
 
-        // 레디스 refreshtoken 제거
-        redisUtil.deleteData(memberId);
+            // 레디스 refreshtoken 제거
+            redisUtil.deleteData(memberId);
 
-        Long expiration = (tokenProvider.parseClaims(accessToken).getExpiration().getTime() - (new Date().getTime()));
-        if(expiration <= 0){
-            expiration = 1L;
+            Long expiration = (tokenProvider.parseClaims(accessToken).getExpiration().getTime() - (new Date().getTime()));
+            if(expiration <= 0){
+                expiration = 1L;
+            }
+            redisUtil.setBlackList(accessToken, "access_token", expiration);
+
+            cookieUtil.expiringCookie(request, response, "accessToken");
+        } catch (NullPointerException e) {
+            log.debug("[로그아웃] 쿠키가 비어있습니다.");
         }
-        redisUtil.setBlackList(accessToken, "access_token", expiration);
-
-        cookieUtil.expiringCookie(request, response, "accessToken");
-        
     }
 
 }
