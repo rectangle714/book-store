@@ -1,4 +1,4 @@
-import { useRef, useContext } from "react";
+import { useRef, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
 import Button from '@mui/material/Button';
@@ -15,6 +15,7 @@ const CreateAccountForm = () => {
     const emailInputRef = useRef<HTMLInputElement>(null);
     const passwordInputRef = useRef<HTMLInputElement>(null);
     const nicknameInputRef = useRef<HTMLInputElement>(null);
+    const [signupResultText, setSignupResultText] = useState('');
 
     const submitHandler = (event: React.FormEvent) => {
         event.preventDefault();
@@ -23,11 +24,31 @@ const CreateAccountForm = () => {
         const enteredPassword = passwordInputRef.current!.value;
         const enteredNickname = nicknameInputRef.current!.value;
 
+        if(!!!enteredEmail) {
+            setSignupResultText('이메일을 입력해주세요.');
+            return;
+        }
+
+        if(!!!enteredPassword) {
+            setSignupResultText('패스워드를 입력해주세요.');
+            return;
+        }
+
+        if(!!!enteredNickname) {
+            setSignupResultText('닉네임을 입력해주세요.');
+            return;
+        }
+
         authCtx.signup(enteredEmail, enteredPassword, enteredNickname);
 
-        alert('회원가입 완료');
+        console.log('authCtx.isSuccess ', authCtx.isSuccess);
 
-        return navigate("/", { replace:true });
+        if(authCtx.isSuccess) {
+            setSignupResultText('');
+            navigate("/", { replace:true });
+        } else {
+            setSignupResultText('이미 존재하는 이메일 입니다.');
+        }
     }
 
     return (
@@ -40,7 +61,7 @@ const CreateAccountForm = () => {
                         variant="standard"
                         id='email'
                         autoComplete='true'
-                        required inputRef={emailInputRef}
+                        inputRef={emailInputRef}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -54,7 +75,7 @@ const CreateAccountForm = () => {
                         label="패스워드" 
                         type="password" 
                         variant="standard" 
-                        required inputRef={passwordInputRef} 
+                        inputRef={passwordInputRef} 
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -68,7 +89,7 @@ const CreateAccountForm = () => {
                         label="닉네임"
                         variant="standard"
                         id='nickname'
-                        required inputRef={nicknameInputRef}
+                        inputRef={nicknameInputRef}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -78,12 +99,13 @@ const CreateAccountForm = () => {
                         }}/>
                 </div>
                 <div style={{
-                    paddingTop: 30,
-                    paddingLeft: 60
-                }}>
-                    <Button style={{
-                    width: 120
-                }} variant="outlined" color="success" type='submit'>등록</Button>
+                    paddingTop: 10,
+                    fontSize: 12, 
+                    color: 'red',
+                    textAlign: "center"
+                }}>{signupResultText}</div>
+                <div style={{ paddingTop: 30, paddingLeft: 60 }}>
+                <Button style={{ width: 120 }} variant="outlined" color="success" type='submit'>등록</Button>
                 </div>
             </form>
         </section>

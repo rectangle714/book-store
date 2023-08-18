@@ -34,12 +34,10 @@ public class AuthService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final CookieUtil cookieUtil;
 
-
-
     @Transactional
     public MemberDTO signup(MemberDTO requestDto) {
         if(memberRepository.existsByEmail(requestDto.getEmail())) {
-            throw new RuntimeException("이미 가입되어 있는 유저입니다.");
+            log.debug("이미 가입되어 있는 유저입니다.");
         }
 
         Member member = requestDto.toMember(passwordEncoder);

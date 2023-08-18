@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import * as authAction from './auth-action';
-import { Cookies } from 'react-cookie';
-import { setCookie } from './cookie';
+import { getCookie } from './cookie';
 
 let logoutTimer : NodeJS.Timeout;
-
 type Props = { children?: React.ReactNode };
 type UserInfo = { email: string, nickname: string, authority: string };
 type LoginToken = {
@@ -57,6 +55,8 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
         response.then((result) => {
             if(result != null) {
                 setIsSuccess(true);
+            } else {
+                setIsSuccess(false);
             }
         });
     }
@@ -135,7 +135,7 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
     }
 
     useEffect(() => {
-        if(tokenData) {
+        if(tokenData.token != undefined) {
             logoutTimer = setTimeout(logoutHandler, tokenData.duration);
         }
     }, [tokenData])
