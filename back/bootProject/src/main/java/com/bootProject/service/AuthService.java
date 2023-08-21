@@ -5,6 +5,8 @@ import com.bootProject.common.RedisUtil;
 import com.bootProject.dto.MemberDTO;
 import com.bootProject.dto.TokenDTO;
 import com.bootProject.entity.Member;
+import com.bootProject.common.exception.BusinessException;
+import com.bootProject.common.code.ErrorCode;
 import com.bootProject.jwt.TokenProvider;
 import com.bootProject.repository.MemberRepository;
 import com.bootProject.repository.RefreshTokenRepository;
@@ -35,13 +37,15 @@ public class AuthService {
     private final CookieUtil cookieUtil;
 
     @Transactional
-    public MemberDTO signup(MemberDTO requestDto) {
-        if(memberRepository.existsByEmail(requestDto.getEmail())) {
+    public MemberDTO signup(MemberDTO requestDto) throws BusinessException {
+        MemberDTO memberDTO = new MemberDTO();
+        if(!memberRepository.existsByEmail(requestDto.getEmail())) {
+            Member member = requestDto.toMember(passwordEncoder);
+            return memberDTO= MemberDTO.of(memberRepository.save(member));
+        }else {
             log.debug("이미 가입되어 있는 유저입니다.");
+            throw new BusinessException(ErrorCode.DUPLICATE_LOGIN_ID, ErrorCode.DUPLICATE_LOGIN_ID.getDescription());
         }
-
-        Member member = requestDto.toMember(passwordEncoder);
-        return MemberDTO.of(memberRepository.save(member));
     }
 
     @Transactional

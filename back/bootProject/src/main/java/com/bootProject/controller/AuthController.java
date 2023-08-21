@@ -1,5 +1,6 @@
 package com.bootProject.controller;
 
+import com.bootProject.common.exception.BusinessException;
 import com.bootProject.config.SecurityUtil;
 import com.bootProject.dto.MemberDTO;
 import com.bootProject.dto.TokenDTO;
@@ -8,6 +9,8 @@ import com.bootProject.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -26,7 +30,7 @@ public class AuthController {
     * 회원가입
     */
     @PostMapping("/signup")
-    public ResponseEntity<MemberDTO> signup(@RequestBody MemberDTO memberDto) {
+    public ResponseEntity<MemberDTO> signup(@RequestBody MemberDTO memberDto)  throws BusinessException {
         return ResponseEntity.ok(authService.signup(memberDto));
     }
 
