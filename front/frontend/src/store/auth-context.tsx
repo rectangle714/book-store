@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as authAction from './auth-action';
-import { getCookie } from './cookie';
 
 let logoutTimer : NodeJS.Timeout;
 type Props = { children?: React.ReactNode };
@@ -54,11 +53,9 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
         const response = authAction.signupActionHandler(email, password, nickname);
         response.then((result) => {
             if(result != null) {
-                setIsSuccess(true);
-            } else {
-                setIsSuccess(false);
             }
         });
+        setIsSuccess(true);
     }
 
     let userIsLoggedIn = !!accessToken;
@@ -70,11 +67,11 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
         data.then((result) => {
             if(result !== null) {
                 if(result.status == 200) {
+                    setIsSuccess(true);
                     const loginData:LoginToken = result.data;
                     setToken(loginData.accessToken);
                     setRefreshToken(loginData.refreshToken);
                     authAction.loginTokenHandler(loginData.accessToken, loginData.refreshToken, loginData.refreshTokenExpiresIn)
-                    setIsSuccess(true);
                 }
             }
         })

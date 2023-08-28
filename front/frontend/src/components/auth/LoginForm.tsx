@@ -6,18 +6,19 @@ import Styles from './LoginForm.module.css';
 import EmailIcon from '@mui/icons-material/Email';
 import KeyIcon from '@mui/icons-material/Key';
 import { Container } from "@mui/joy";
+import store from "../../store/configureStore";
+import { loginAsync, User } from "../../store/modules/user";
 
 const LoginForm = () => {
     const emailInputRef = useRef<HTMLInputElement>(null);
     const passwordInputRef = useRef<HTMLInputElement>(null);
+    const user = useRef<User>({ email: "", password: "", nickname: ""});
 
     let navigate = useNavigate();
-    const [isLoading, setIsLoading] = useState(false);
     const [loginText, setLoginText] = useState('');
     const authCtx = useContext(AuthContext);
 
-    const submitHandler = async(event: React.FormEvent) => {
-        event.stopPropagation();
+    const submitHandler = async (event: React.FormEvent) => {
         event.preventDefault();
 
         const enteredEmail = emailInputRef.current!.value;
@@ -33,20 +34,14 @@ const LoginForm = () => {
             return false;
         }
 
-        setIsLoading(true);
-        authCtx.login(enteredEmail, enteredPasswod);
-        setIsLoading(false);
+        const result = await store.dispatch(loginAsync(user.current));
+        console.log('accessToken : ',authCtx.accessToken);
+        console.log('!authCtx.isSuccess : ', authCtx.isSuccess);
 
-
-        setTimeout(() => {
-            if(!authCtx.isSuccess && !authCtx.isLoggedIn) {
-                setLoginText('아이디(로그인 전용 아이디) 또는 비밀번호를 잘못 입력했습니다.');
-                return false;
-            }
-            console.log('accessToken : ',authCtx.accessToken);
-        }, 1000);
-
-        return false;
+        if(authCtx.isSuccess === false) {
+            setLoginText('아이디(로그인 전용 아이디) 또는 비밀번호를 잘못 입력했습니다.');
+            return false;
+        }
 
     }
 

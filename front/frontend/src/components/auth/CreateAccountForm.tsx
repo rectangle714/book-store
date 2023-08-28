@@ -1,4 +1,4 @@
-import { useRef, useContext, useState } from "react";
+import { useRef, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
 import Button from '@mui/material/Button';
@@ -8,16 +8,18 @@ import EmailIcon from '@mui/icons-material/Email';
 import KeyIcon from '@mui/icons-material/Key';
 import InputAdornment from '@mui/material/InputAdornment';
 import Face5Icon from '@mui/icons-material/Face5';
+import { addUserAsync, User } from "../../store/modules/user";
+import store from "../../store/configureStore";
 
 const CreateAccountForm = () => {
-    let navigate = useNavigate();
-    const authCtx = useContext(AuthContext);
+    
     const emailInputRef = useRef<HTMLInputElement>(null);
     const passwordInputRef = useRef<HTMLInputElement>(null);
     const nicknameInputRef = useRef<HTMLInputElement>(null);
     const [signupResultText, setSignupResultText] = useState('');
+    const user = useRef<User>({ email: "", password: "", nickname: ""});
 
-    const submitHandler = (event: React.FormEvent) => {
+    const submitHandler = async (event: React.FormEvent) => {
         event.preventDefault();
 
         const enteredEmail = emailInputRef.current!.value;
@@ -39,16 +41,10 @@ const CreateAccountForm = () => {
             return;
         }
 
-        authCtx.signup(enteredEmail, enteredPassword, enteredNickname);
-
-        console.log('authCtx.isSuccess ', authCtx.isSuccess);
-
-        if(authCtx.isSuccess) {
-            setSignupResultText('');
-            navigate("/", { replace:true });
-        } else {
-            setSignupResultText('이미 존재하는 이메일 입니다.');
-        }
+        user.current = {email: enteredEmail, password: enteredPassword, nickname: enteredNickname};
+        const result = await store.dispatch(addUserAsync(user.current));
+        console.log('result: ',result);
+    
     }
 
     return (
