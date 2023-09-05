@@ -4,8 +4,6 @@ import './index.css';
 import App from './App';
 
 import { Provider } from "react-redux";
-import { applyMiddleware, legacy_createStore as createStore } from "redux";
-import { composeWithDevTools } from "@redux-devtools/extension";
 import { configureStore } from '@reduxjs/toolkit';
 import promiseMiddleware from "redux-promise";
 import rootReducer from './store/index';

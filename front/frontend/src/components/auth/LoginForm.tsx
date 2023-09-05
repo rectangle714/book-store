@@ -7,12 +7,12 @@ import EmailIcon from '@mui/icons-material/Email';
 import KeyIcon from '@mui/icons-material/Key';
 import { Container } from "@mui/joy";
 import store from "../../store/configureStore";
-import { loginAsync, User } from "../../store/modules/user";
+import { login, User } from "../../store/modules/user";
 
 const LoginForm = () => {
     const emailInputRef = useRef<HTMLInputElement>(null);
     const passwordInputRef = useRef<HTMLInputElement>(null);
-    const user = useRef<User>({ email: "", password: "", nickname: ""});
+    const user = useRef<User>({ email: "", password: "", nickname: "", isLogin: false});
 
     let navigate = useNavigate();
     const [loginText, setLoginText] = useState('');
@@ -22,23 +22,25 @@ const LoginForm = () => {
         event.preventDefault();
 
         const enteredEmail = emailInputRef.current!.value;
-        const enteredPasswod = passwordInputRef.current!.value;
+        const enteredPassword = passwordInputRef.current!.value;
 
         if(enteredEmail == '') {
             setLoginText('이메일을 입력해주세요.');
             return false;
         }
 
-        if(enteredPasswod == '') {
+        if(enteredPassword == '') {
             setLoginText('패스워드를 입력해주세요.');
             return false;
         }
 
-        const result = await store.dispatch(loginAsync(user.current));
-        console.log('accessToken : ',authCtx.accessToken);
-        console.log('!authCtx.isSuccess : ', authCtx.isSuccess);
+        user.current = { email:enteredEmail, password:enteredPassword, nickname:'', isLogin: false  };
 
-        if(authCtx.isSuccess === false) {
+        const result = await store.dispatch(login(user.current));
+        if(result.payload != undefined) {
+            navigate('/');
+            console.log('User');
+        } else {
             setLoginText('아이디(로그인 전용 아이디) 또는 비밀번호를 잘못 입력했습니다.');
             return false;
         }

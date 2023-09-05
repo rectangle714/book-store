@@ -6,10 +6,14 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Avatar from '@mui/joy/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import { Token } from '../../store/modules/user';
 
 const Header = () => {
     const authCtx = useContext(AuthContext);
     const [nickname, setNickname] = useState('');
+    // const dd:Token = Token;
+    // console.log('[사용자 정보] ',dd);
+
     let isLogin = authCtx.isLoggedIn;
     let token = authCtx.accessToken;
     let navigate = useNavigate();

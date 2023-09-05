@@ -8,16 +8,17 @@ import EmailIcon from '@mui/icons-material/Email';
 import KeyIcon from '@mui/icons-material/Key';
 import InputAdornment from '@mui/material/InputAdornment';
 import Face5Icon from '@mui/icons-material/Face5';
-import { addUserAsync, User } from "../../store/modules/user";
+import { signup, User } from "../../store/modules/user";
 import store from "../../store/configureStore";
 
 const CreateAccountForm = () => {
-    
+
     const emailInputRef = useRef<HTMLInputElement>(null);
     const passwordInputRef = useRef<HTMLInputElement>(null);
     const nicknameInputRef = useRef<HTMLInputElement>(null);
     const [signupResultText, setSignupResultText] = useState('');
-    const user = useRef<User>({ email: "", password: "", nickname: ""});
+    const user = useRef<User>({ email: "", password: "", nickname: "", isLogin: false});
+    let navigate = useNavigate();
 
     const submitHandler = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -41,9 +42,15 @@ const CreateAccountForm = () => {
             return;
         }
 
-        user.current = {email: enteredEmail, password: enteredPassword, nickname: enteredNickname};
-        const result = await store.dispatch(addUserAsync(user.current));
-        console.log('result: ',result);
+        user.current = { email: enteredEmail, password: enteredPassword, nickname: enteredNickname, isLogin: false };
+        const result = await store.dispatch(signup(user.current));
+        if(result.payload == '200') {
+            alert('회원가입에 성공했습니다.');
+            navigate('/');
+        } else {
+            setSignupResultText('이미 등록되어있는 이메일 입니다.');
+            return;
+        }
     
     }
 
