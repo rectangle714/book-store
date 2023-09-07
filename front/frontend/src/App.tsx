@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-
+import { useSelector } from "react-redux";
+import { RootState } from "./store/configureStore";
 import Layout from "./components/layout/Layout";
 import AuthContext from "./store/auth-context";
 import HomePage from "./pages/HomePage";

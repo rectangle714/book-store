@@ -2,17 +2,19 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { setCookie } from '../cookie';
 import axios from 'axios';
 
-const initialState: User = {
-    email: "",
-    password: "",
-    nickname: "",
+const initialState = {
+    email: '',
+    password: '',
+    nickname: '',
+    loading: '',
     isLogin: false
-}
+};
 
 export interface User {
     email: string,
     password: string,
     nickname: string,
+    loading: string,
     isLogin: boolean,
 }
 
@@ -25,24 +27,22 @@ export interface Token {
 }
 
 const userSlice = createSlice({
-    name: "user",
+    name: 'user',
     initialState,
-    reducers: {
-        login(state, action) {
-            // state = ;
+    reducers: {},
+    extraReducers: (builder) => {
+        builder.addCase(login.fulfilled, (state, action) => {
+            state.isLogin = true;
+            state.loading = 'clear';
             return state;
-        },
-        signup(state, action) {
-            state = action.payload;
-        }
-    },
-    extraReducers: (builder) => {}
+        });
+      },
 })
 
 
 
 /* 회원가입 */
-export const signup = createAsyncThunk("ADD_USER", async (user:User) => {
+export const signup = createAsyncThunk('SIGNUP', async (user:User) => {
     try{
         console.log('[회원가입 시작] : ',user);
         const URL = "/auth/signup";
@@ -57,7 +57,7 @@ export const signup = createAsyncThunk("ADD_USER", async (user:User) => {
 }); 
 
 /* 로그인 */
-export const login = createAsyncThunk("LOGIN_USER", async (user:User) => {
+export const login = createAsyncThunk('LOGIN', async (user:User) => {
     try {
         console.log('[로그인 시작] : ',user);
         const URL = "/auth/login";
@@ -69,6 +69,22 @@ export const login = createAsyncThunk("LOGIN_USER", async (user:User) => {
             loginTokenHandler(token.accessToken, token.refreshToken, token.refreshTokenExpiresIn);
         }
     
+        return response.data;
+    } catch(error) {
+        console.log('에러발생 : '+ error);
+        return undefined;
+    }
+});
+
+export const userInfo = createAsyncThunk('USER_INFO', async (token:Token) => {
+    try {
+        console.log('[사용자 정보 조회 시작]')
+        const URL = '/member/me';
+
+        const response = await axios.get(URL, createTokenHeader(token.accessToken, token.refreshToken));
+        if(response.status == 200) {
+            console.log('사용자 정보 : ', response.data);
+        }
         return response.data;
     } catch(error) {
         console.log('에러발생 : '+ error);
@@ -91,6 +107,16 @@ const loginTokenHandler = (accessToken:string, refreshtoken:string, expirationTi
     setCookie('expirationTime', String(expirationTime));
     const remainingTime = calculateRemainingTime(expirationTime);
     return remainingTime;
+}
+
+/* 토큰 생성 */
+const createTokenHeader = (accessToken:string, refreshToken:string) => {
+    return {
+        headers: {
+            'Authorization' : 'Bearer ' + accessToken,
+            'RefreshToken' : 'Bearer ' + refreshToken
+        }
+    }
 }
 
 export default userSlice.reducer;

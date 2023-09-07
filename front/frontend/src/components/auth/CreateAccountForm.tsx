@@ -17,7 +17,7 @@ const CreateAccountForm = () => {
     const passwordInputRef = useRef<HTMLInputElement>(null);
     const nicknameInputRef = useRef<HTMLInputElement>(null);
     const [signupResultText, setSignupResultText] = useState('');
-    const user = useRef<User>({ email: "", password: "", nickname: "", isLogin: false});
+    const user = useRef<User>({ email: '', password: '', nickname: '', loading:'', isLogin: false});
     let navigate = useNavigate();
 
     const submitHandler = async (event: React.FormEvent) => {
@@ -42,7 +42,7 @@ const CreateAccountForm = () => {
             return;
         }
 
-        user.current = { email: enteredEmail, password: enteredPassword, nickname: enteredNickname, isLogin: false };
+        user.current = { email: enteredEmail, password: enteredPassword, nickname: enteredNickname, isLogin: false, loading:'' };
         const result = await store.dispatch(signup(user.current));
         if(result.payload == '200') {
             alert('회원가입에 성공했습니다.');

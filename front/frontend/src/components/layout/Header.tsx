@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
 import { IconButton, Button, AppBar, Box, Toolbar, Typography} from '@mui/material';
@@ -6,13 +7,11 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Avatar from '@mui/joy/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { Token } from '../../store/modules/user';
+import { useAppSelect, useAppDispatch } from "../../store/configureStore";
 
 const Header = () => {
+    const user = useAppSelect((state) => state);
     const authCtx = useContext(AuthContext);
-    const [nickname, setNickname] = useState('');
-    // const dd:Token = Token;
-    // console.log('[사용자 정보] ',dd);
 
     let isLogin = authCtx.isLoggedIn;
     let token = authCtx.accessToken;
@@ -42,22 +41,13 @@ const Header = () => {
         setAnchorEl(null);
     }
 
-    const callback = (str:string) => {
-        setNickname(str);
-    }
-
-    useEffect(() => {
-        if(isLogin) {
-            console.log('사용자 정보 조회 시작', isLogin);
-            authCtx.getUser();
-        }
-    }, [isLogin]);
-
     const toggleLogoutHandler = () => {
         authCtx.logout(token);
         navigate('/');
         setAnchorEl(null);
     }
+
+    console.log('test ',user);
 
     return(
         <header >
