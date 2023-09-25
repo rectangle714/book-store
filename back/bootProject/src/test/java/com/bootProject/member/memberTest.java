@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @SpringBootTest
 public class memberTest {
 
@@ -21,17 +24,31 @@ public class memberTest {
     @Test
     @DisplayName("계정생성 테스트")
     void createMemberTest() {
-        String password = passwordEncoder.encode("1234");
+        String password = passwordEncoder.encode("123");
 
-        Member member = Member.builder()
-                .authority(Authority.ROLE_ADMIN)
-                .email("testAdmin@naver.com")
-                .nickname("testAdmin")
+        List<Member> memberList = new ArrayList<Member>();
+
+        Member user = Member.builder()
+//                .authority(Authority.ROLE_ADMIN)
+                .authority(Authority.ROLE_USER)
+                .email("test")
+                .nickname("사용자")
                 .password(password)
                 .build();
 
-        memberRepository.save(member);
+        memberList.add(user);
 
+        Member admin = Member.builder()
+                .authority(Authority.ROLE_ADMIN)
+//                .authority(Authority.ROLE_USER)
+                .email("admin")
+                .nickname("관리자")
+                .password(password)
+                .build();
+
+        memberList.add(admin);
+
+        memberRepository.saveAll(memberList);
     }
 
 }

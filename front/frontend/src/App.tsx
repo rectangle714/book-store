@@ -1,9 +1,7 @@
-import { useContext } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "./store/configureStore";
 import Layout from "./components/layout/Layout";
-import AuthContext from "./store/auth-context";
+// import AuthContext from "./store/auth-context";
+import { useAppSelect } from "./store/configureStore";
 import HomePage from "./pages/HomePage";
 import CreateAccountPage from "./pages/CreateAccountPage";
 import AuthPage from "./pages/LoginPage";
@@ -13,15 +11,17 @@ import AdminPage from "./pages/AdminPage";
 
 function App() {
 
-  const authCtx = useContext(AuthContext);
+  // const authCtx = useContext(AuthContext);
+  const isLogin = useAppSelect((state) => state.userReducer.isLogin);
+  const authority = useAppSelect((state) => state.userReducer.authority);
 
   return (
     <Layout>
       <Routes>
         <Route path="/" element={<HomePage/>}></Route>
-        <Route path="/signup" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <CreateAccountPage />}></Route>
-        <Route path="/login/*" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <AuthPage/>}></Route>
-        <Route path="/admin/*" element={(authCtx.isLoggedIn && authCtx.userObj.authority != 'ROLE_ADMIN') ? <Navigate to='/' /> : <AdminPage/>}></Route>
+        <Route path="/signup" element={isLogin ? <Navigate to='/' /> : <CreateAccountPage />}></Route>
+        <Route path="/login/*" element={isLogin ? <Navigate to='/' /> : <AuthPage/>}></Route>
+        <Route path="/admin/*" element={(isLogin && authority != 'ROLE_ADMIN') ? <Navigate to='/' /> : <AdminPage/>}></Route>
         <Route path="/profile/*" element={<ProfilePage/>}></Route>
       </Routes>
     </Layout>

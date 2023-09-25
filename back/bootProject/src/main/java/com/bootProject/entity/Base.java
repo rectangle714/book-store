@@ -21,10 +21,10 @@ public class Base {
     @CreatedDate
     @Column(updatable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime regDate;
+    private LocalDateTime registerDate;
 
     @LastModifiedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime updDate;
+    private LocalDateTime updateDate;
 
 }

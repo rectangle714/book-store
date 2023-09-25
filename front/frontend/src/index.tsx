@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import { configureStore } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
 import { combineReducers } from "redux";
-import userReducer from "./store/modules/user";
+import user from "./store/modules/user";
 import { persistReducer } from 'redux-persist';
 import { persistStore } from "redux-persist";
 import { PersistGate } from 'redux-persist/integration/react';
@@ -16,11 +16,11 @@ import storage from 'redux-persist/es/storage/session';
 const persistConfig = {
   key: "root", // sessionStorage key 
   storage, // sessionStorage
-  whitelist: ["user"], // target (reducer name)
+  whitelist: ["userReducer"], // target (reducer name)
 }
 
 const rootReducer = combineReducers({
-    user: userReducer
+  userReducer: user
 });
 
 const store = configureStore({

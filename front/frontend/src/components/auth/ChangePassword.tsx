@@ -1,13 +1,12 @@
 import { useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../../store/auth-context";
 import Grid from '@mui/material/Unstable_Grid2';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
 const ChangePassword = () => {
     let navigate = useNavigate();
-    const authCtx = useContext(AuthContext);
+    // const authCtx = useContext(AuthContext);
     const exPasswordInputRef = useRef<HTMLInputElement>(null);
     const newPasswordInputRef = useRef<HTMLInputElement>(null);
     const newPasswordAgainInputRef = useRef<HTMLInputElement>(null);
@@ -23,13 +22,13 @@ const ChangePassword = () => {
             return;
         }
         
-        console.log('패스워드 변경 시작');
-        authCtx.changePassword(enteredExPassword, enteredNewPassword);
-        if(authCtx.isSuccess) {
-            alert('다시 로그인 하세요.');
-            //authCtx.logout();
-            navigate('/', {replace: true});
-        }
+        // console.log('패스워드 변경 시작');
+        // authCtx.changePassword(enteredExPassword, enteredNewPassword);
+        // if(authCtx.isSuccess) {
+        //     alert('다시 로그인 하세요.');
+        //     //authCtx.logout();
+        //     navigate('/', {replace: true});
+        // }
     }
 
     const Item = styled(Paper)(({ theme }) => ({

@@ -14,19 +14,15 @@ public class Item extends Base{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id")
     private Long id;
-
     private String title;
-
     private String contents;
 
-    private String image;
 
     @Builder
-    public Item(Long id, String title, String contents, String image) {
+    public Item(Long id, String title, String contents) {
         this.id = id;
         this.title = title;
         this.contents = contents;
-        this.image = image;
     }
 
 }

@@ -24,14 +24,12 @@ public class itemTest {
         Item item1 = Item.builder()
                 .title("아이템1")
                 .contents("아이템1 내용")
-                .image("아이템 이미지")
                 .build();
         itemList.add(item1);
 
         Item item2 = Item.builder()
                 .title("아이템2")
                 .contents("아이템2 내용")
-                .image("아이템2 이미지")
                 .build();
         itemList.add(item2);
 

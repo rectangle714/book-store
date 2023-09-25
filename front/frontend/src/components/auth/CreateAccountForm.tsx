@@ -1,6 +1,6 @@
 import { useRef, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../../store/auth-context";
+// import AuthContext from "../../store/auth-context";
 import Button from '@mui/material/Button';
 import Styles from './CreateAccountForm.module.css';
 import TextField from '@mui/material/TextField';
@@ -17,7 +17,7 @@ const CreateAccountForm = () => {
     const passwordInputRef = useRef<HTMLInputElement>(null);
     const nicknameInputRef = useRef<HTMLInputElement>(null);
     const [signupResultText, setSignupResultText] = useState('');
-    const user = useRef<User>({ email: '', password: '', nickname: '', loading:'', isLogin: false});
+    const user = useRef<User>({ email: '', password: '', nickname: '', loading:'', isLogin: false, authority: ''});
     let navigate = useNavigate();
 
     const submitHandler = async (event: React.FormEvent) => {
@@ -42,11 +42,11 @@ const CreateAccountForm = () => {
             return;
         }
 
-        user.current = { email: enteredEmail, password: enteredPassword, nickname: enteredNickname, isLogin: false, loading:'' };
+        user.current = { email: enteredEmail, password: enteredPassword, nickname: enteredNickname, isLogin: false, loading:'', authority:''};
         const result = await store.dispatch(signup(user.current));
         if(result.payload == '200') {
             alert('회원가입에 성공했습니다.');
-            navigate('/');
+            navigate('/', {replace:true});
         } else {
             setSignupResultText('이미 등록되어있는 이메일 입니다.');
             return;

@@ -10,7 +10,8 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
+#      ddl-auto: create-drop
 #      hbm2ddl.auto: create
     properties:
       hibernate:

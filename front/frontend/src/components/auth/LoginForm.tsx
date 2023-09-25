@@ -5,18 +5,18 @@ import Styles from './LoginForm.module.css';
 import EmailIcon from '@mui/icons-material/Email';
 import KeyIcon from '@mui/icons-material/Key';
 import { Container } from "@mui/joy";
-import store from "../../store/configureStore";
-import { useAppSelect, useAppDispatch } from "../../store/configureStore";
-import { login, User  } from "../../store/modules/user";
+import { useAppDispatch } from "../../store/configureStore";
+import { login, logout, User } from "../../store/modules/user";
+
+let logoutTimer:NodeJS.Timeout;
 
 const LoginForm = () => {
     const emailInputRef = useRef<HTMLInputElement>(null);
     const passwordInputRef = useRef<HTMLInputElement>(null);
-    const user = useRef<User>({ email: '', password: '', nickname: '', loading: '', isLogin: false});
+    const user = useRef<User>({ email: '', password: '', nickname: '', loading: '', isLogin: false, authority: '' });
     const dispatch = useAppDispatch();
-
-    let navigate = useNavigate();
     const [loginText, setLoginText] = useState('');
+    let navigate = useNavigate();
 
     const submitHandler = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -34,12 +34,21 @@ const LoginForm = () => {
             return false;
         }
 
-        user.current = { email:enteredEmail, password:enteredPassword, nickname:'', loading:'', isLogin: false  };
+        user.current = { email:enteredEmail, password:enteredPassword, nickname:'', loading:'', isLogin: false, authority:'' };
 
         const result = await dispatch(login(user.current));
         if(result.payload != undefined) {
-            navigate('/');
-            console.log('이거 확인 - ',store.getState());
+            setLoginText('');
+            const expirationTime:number = result.payload.refreshTokenExpiresIn;
+            const currentTime = new Date().getTime();
+            const adjExpirationTime = new Date(expirationTime).getTime();
+            const remainingDuration = adjExpirationTime - currentTime;
+            logoutTimer = setTimeout(() =>{
+                dispatch(logout());
+                navigate('/');
+            }, remainingDuration);
+
+            navigate('/', {replace:true, state:logoutTimer});
         } else {
             setLoginText('아이디(로그인 전용 아이디) 또는 비밀번호를 잘못 입력했습니다.');
             return false;
@@ -54,8 +63,7 @@ const LoginForm = () => {
     return (
         <Container maxWidth="lg" fixed>
             <section className={Styles.loginSection}>
-                <h1>로그인</h1>
-                    <form onSubmit={submitHandler}>
+                    <form style={{border:2}} onSubmit={submitHandler}>
                         <div>
                             <TextField 
                                 label='이메일'
@@ -90,12 +98,9 @@ const LoginForm = () => {
                         </div>
                         <div style={{
                             paddingTop: 10,
-                            paddingLeft : 20
+                            paddingLeft : 80
                         }}>
-                        <ButtonGroup variant='outlined' color='success' aria-label='outlined button group'>
-                            <Button color='success' type='submit'>로그인</Button>
-                            <Button onClick={findPasswordHandler}>패스워드 찾기</Button>
-                        </ButtonGroup>
+                        <Button color='success' variant='contained' size="large" type='submit'>로그인</Button>
                         </div>
                     </form>
                     <div style={{

@@ -1,21 +1,21 @@
 import { useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../../store/auth-context";
+// import AuthContext from "../../store/auth-context";
 
 const ChangeUsername = () => {
     let navigate = useNavigate();
-    const authCtx = useContext(AuthContext);
+    // const authCtx = useContext(AuthContext);
     const nicknameInputRef = useRef<HTMLInputElement>(null);
 
     const submitHandler = (event: React.FormEvent) => {
         event.preventDefault();
         const enteredNickname = nicknameInputRef.current!.value;
-        authCtx.changeNickname(enteredNickname);
-        if(authCtx.isSuccess) {
-            alert('변경 되었습니다');
-            authCtx.getUser();
-            navigate('/', {replace:true});
-        }
+        // authCtx.changeNickname(enteredNickname);
+        // if(authCtx.isSuccess) {
+        //     alert('변경 되었습니다');
+        //     authCtx.getUser();
+        //     navigate('/', {replace:true});
+        // }
     }
 
     return (

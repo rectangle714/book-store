@@ -1,27 +1,26 @@
 import { useContext, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import AuthContext from "../../store/auth-context";
+import { useNavigate, useLocation } from "react-router-dom";
 import { IconButton, Button, AppBar, Box, Toolbar, Typography} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Avatar from '@mui/joy/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useAppSelect, useAppDispatch } from "../../store/configureStore";
+import { logout, userInfo } from "../../store/modules/user";
 
 const Header = () => {
-    const user = useAppSelect((state) => state);
-    const authCtx = useContext(AuthContext);
+    const dispatch = useAppDispatch();
+    const isLogin = useAppSelect((state) => state.userReducer.isLogin);
+    const nickname = useAppSelect((state) => state.userReducer.nickname);
+    const authority = useAppSelect((state) => state.userReducer.authority);
+    const { state } = useLocation();
 
-    let isLogin = authCtx.isLoggedIn;
-    let token = authCtx.accessToken;
     let navigate = useNavigate();
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
-
     const handleClose = () => {
         setAnchorEl(null);
     };
@@ -36,18 +35,31 @@ const Header = () => {
         } else if(path == 'mypage') {
             navigate('/');
         } else if(path == 'admin') {
-            navigate('/admin')
+            navigate('/admin/info')
         }
         setAnchorEl(null);
     }
+    
 
-    const toggleLogoutHandler = () => {
-        authCtx.logout(token);
-        navigate('/');
+    const toggleLogoutHandler = async () => {
+        const result = await dispatch(logout());
         setAnchorEl(null);
+        if( result.payload != undefined ) {
+            alert('로그아웃');
+            clearTimeout(state);
+        }
+        navigate('/');
     }
 
-    console.log('test ',user);
+    useEffect(() => {
+        if(isLogin) {
+            async function getUserInfo() {
+                const response = await dispatch(userInfo());
+                console.log('response : ',response);
+            }
+            getUserInfo();
+        }
+    }, [isLogin]);
 
     return(
         <header >
@@ -79,8 +91,8 @@ const Header = () => {
                 onClose={handleClose}
                 >
                 {isLogin ? <MenuItem onClick={(e)=>navFunction(e,'mypage')}>마이페이지</MenuItem> : <Button onClick={(e)=>navFunction(e,'signup')} color="inherit">회원가입</Button>}
+                {(isLogin && authority == 'ROLE_ADMIN')  ? <MenuItem onClick={(e) => navFunction(e,'admin')}>관리자</MenuItem> : ''}
                 {isLogin ? <MenuItem onClick={toggleLogoutHandler}>로그아웃</MenuItem> : <MenuItem onClick={(e)=>navFunction(e,'login')}>로그인</MenuItem>}
-                {(isLogin && authCtx.userObj.authority == 'ROLE_ADMIN')  ? <MenuItem onClick={(e) => navFunction(e,'admin')}>관리자</MenuItem> : ''}
                 </Menu>
                 <Typography align="center" variant="h6" component="div" sx={{ flexGrow: 1 }}>
                     <img 
@@ -90,7 +102,7 @@ const Header = () => {
                         onClick={(e)=>navFunction(e,'main')}>
                     </img>
                 </Typography>
-                {isLogin ? <div style={{marginRight:'10px'}}>{authCtx.userObj.nickname}</div> : ''}
+                <div style={{marginRight:'10px', width: '50px'}}>{isLogin ? nickname : ''}</div>
                 <Avatar onClick={handleMenu} style={{ cursor: "pointer" }}/>
                 </Toolbar>
 
