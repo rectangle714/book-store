@@ -55,6 +55,8 @@ public class JwtFilter extends OncePerRequestFilter {
         String accessToken = resolveAccessToken(request);
         String refreshToken = resolveRefreshToken(request);
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         try {
             // 액세스 토큰 블랙리스트 체크
             if(null != accessToken){

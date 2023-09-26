@@ -40,7 +40,7 @@ public class MemberService {
                 .email(member.getEmail())
                 .password(member.getPassword())
                 .nickname(nickname)
-                .authority(member.getAuthority())
+                .role(member.getRole())
                 .build();
 
         return MemberDTO.of(memberRepository.save(member));
@@ -60,7 +60,7 @@ public class MemberService {
                 .email(member.getEmail())
                 .password(passwordEncoder.encode(newPassword))
                 .nickname(member.getNickname())
-                .authority(member.getAuthority())
+                .role(member.getRole())
                 .build();
 
         return MemberDTO.of(memberRepository.save(member));

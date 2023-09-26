@@ -114,7 +114,7 @@ public class TokenProvider {
     public Authentication getAuthentication(String accessToken) {
         String memberId = getSubjectFromToken(accessToken);
         UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);
-        return new UsernamePasswordAuthenticationToken(userDetails, "");
+        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
     /*

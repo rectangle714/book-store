@@ -1,6 +1,6 @@
 package com.bootProject.member;
 
-import com.bootProject.entity.Authority;
+import com.bootProject.entity.Role;
 import com.bootProject.entity.Member;
 import com.bootProject.repository.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -29,8 +29,7 @@ public class memberTest {
         List<Member> memberList = new ArrayList<Member>();
 
         Member user = Member.builder()
-//                .authority(Authority.ROLE_ADMIN)
-                .authority(Authority.ROLE_USER)
+                .role(Role.ROLE_USER)
                 .email("test")
                 .nickname("사용자")
                 .password(password)
@@ -39,8 +38,7 @@ public class memberTest {
         memberList.add(user);
 
         Member admin = Member.builder()
-                .authority(Authority.ROLE_ADMIN)
-//                .authority(Authority.ROLE_USER)
+                .role(Role.ROLE_ADMIN)
                 .email("admin")
                 .nickname("관리자")
                 .password(password)

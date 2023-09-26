@@ -1,16 +1,17 @@
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { useState, useEffect } from 'react';
 import { useAppDispatch } from "../../store/configureStore";
-import { allUserInfo } from "../../store/modules/user"
+import { useState, useEffect } from 'react';
+import { allItemInfo } from '../../store/modules/item';
 
-const AdminMemberInfo = () => {
+const AdminItemList = () => {
 
     let [rows, setRows] = useState([]);
     const dispatch = useAppDispatch();
 
     const rowData = async () => {
 
-        const result = await dispatch(allUserInfo());
+        const result = await dispatch(allItemInfo());
+        console.log('아이템 조회 완료 ',result);
         if(result.payload != undefined) {
             setRows(result.payload);
         }
@@ -18,16 +19,8 @@ const AdminMemberInfo = () => {
 
     const columns: GridColDef[] = [
         { field: 'id', headerName: 'ID', width: 70 },
-        { field: 'email', headerName: '이메일', width: 130 },
-        { field: 'nickname', headerName: '닉네임', width: 130 },
-        {
-          field: 'role',
-          headerName: '권한',
-          description: 'This column has a value getter and is not sortable.',
-          sortable: false,
-          width: 160,
-          valueGetter: ({value}) => value=='USER'? '사용자':'관리자',
-        },
+        { field: 'title', headerName: '제목', width: 130 },
+        { field: 'contents', headerName: '내용', width: 130 },
       ];
 
     useEffect(() => {
@@ -52,4 +45,4 @@ const AdminMemberInfo = () => {
     )
 }
 
-export default AdminMemberInfo;
+export default AdminItemList;

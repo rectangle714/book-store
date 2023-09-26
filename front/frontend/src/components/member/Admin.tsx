@@ -5,6 +5,7 @@ import Styls from'./Admin.module.css';
 import { useAppDispatch } from "../../store/configureStore";
 import AdminMemberInfo from './AdminMemberInfo';
 import AdminItemRegister from './AdminItemRegister';
+import AdminItemList from './AdminItemList';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -62,7 +63,7 @@ const Admin = () => {
       setSelectedFiles(fileUrlList);
 
       const selectedFileArray: any = Array.from(selectedFiles);
-
+ 
       const imageArray = selectedFileArray.map((file: any) => {
         return file.name;
       })
@@ -82,11 +83,8 @@ const Admin = () => {
         )
       })
 
-    /* 상품등록 */
-
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
       setValue(newValue);
-      // rowData();
   };
 
     return (
@@ -108,7 +106,7 @@ const Admin = () => {
             </TabPanel>
             {/* 상품조회 */}
             <TabPanel value={value} index={2}>
-                제품조회 내용
+              <AdminItemList></AdminItemList>
             </TabPanel>
         </Container>
     )

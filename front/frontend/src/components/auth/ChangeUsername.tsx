@@ -1,10 +1,8 @@
-import { useContext, useRef } from "react";
+import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-// import AuthContext from "../../store/auth-context";
 
 const ChangeUsername = () => {
     let navigate = useNavigate();
-    // const authCtx = useContext(AuthContext);
     const nicknameInputRef = useRef<HTMLInputElement>(null);
 
     const submitHandler = (event: React.FormEvent) => {

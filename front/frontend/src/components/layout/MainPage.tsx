@@ -2,7 +2,6 @@ import Container from '@mui/material/Container';
 import ItemGrid from './ItemGrid';
 import Styls from'./MainPage.module.css'
 import Slider from './Slider';
-import Admin from '../member/Admin';
 
 const MainPage = () => {
 

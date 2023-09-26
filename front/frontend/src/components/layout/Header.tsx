@@ -1,18 +1,18 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { IconButton, Button, AppBar, Box, Toolbar, Typography} from '@mui/material';
+import { useAppSelect, useAppDispatch } from "../../store/configureStore";
+import { logout, userInfo } from "../../store/modules/user";
 import MenuIcon from '@mui/icons-material/Menu';
 import Avatar from '@mui/joy/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { useAppSelect, useAppDispatch } from "../../store/configureStore";
-import { logout, userInfo } from "../../store/modules/user";
 
 const Header = () => {
     const dispatch = useAppDispatch();
     const isLogin = useAppSelect((state) => state.userReducer.isLogin);
     const nickname = useAppSelect((state) => state.userReducer.nickname);
-    const authority = useAppSelect((state) => state.userReducer.authority);
+    const role = useAppSelect((state) => state.userReducer.role);
     const { state } = useLocation();
 
     let navigate = useNavigate();
@@ -91,7 +91,7 @@ const Header = () => {
                 onClose={handleClose}
                 >
                 {isLogin ? <MenuItem onClick={(e)=>navFunction(e,'mypage')}>마이페이지</MenuItem> : <Button onClick={(e)=>navFunction(e,'signup')} color="inherit">회원가입</Button>}
-                {(isLogin && authority == 'ROLE_ADMIN')  ? <MenuItem onClick={(e) => navFunction(e,'admin')}>관리자</MenuItem> : ''}
+                {(isLogin && role == 'ROLE_ADMIN')  ? <MenuItem onClick={(e) => navFunction(e,'admin')}>관리자</MenuItem> : ''}
                 {isLogin ? <MenuItem onClick={toggleLogoutHandler}>로그아웃</MenuItem> : <MenuItem onClick={(e)=>navFunction(e,'login')}>로그인</MenuItem>}
                 </Menu>
                 <Typography align="center" variant="h6" component="div" sx={{ flexGrow: 1 }}>

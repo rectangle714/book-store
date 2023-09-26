@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, TextField, ButtonGroup, InputAdornment, Alert } from '@mui/material';
 import Styles from './LoginForm.module.css';
@@ -13,7 +13,7 @@ let logoutTimer:NodeJS.Timeout;
 const LoginForm = () => {
     const emailInputRef = useRef<HTMLInputElement>(null);
     const passwordInputRef = useRef<HTMLInputElement>(null);
-    const user = useRef<User>({ email: '', password: '', nickname: '', loading: '', isLogin: false, authority: '' });
+    const user = useRef<User>({ email: '', password: '', nickname: '', loading: '', isLogin: false, role: '' });
     const dispatch = useAppDispatch();
     const [loginText, setLoginText] = useState('');
     let navigate = useNavigate();
@@ -34,7 +34,7 @@ const LoginForm = () => {
             return false;
         }
 
-        user.current = { email:enteredEmail, password:enteredPassword, nickname:'', loading:'', isLogin: false, authority:'' };
+        user.current = { email:enteredEmail, password:enteredPassword, nickname:'', loading:'', isLogin: false, role:'' };
 
         const result = await dispatch(login(user.current));
         if(result.payload != undefined) {

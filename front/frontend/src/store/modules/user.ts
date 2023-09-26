@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { setCookie, removeCookie, getCookie } from '../cookie';
+import { removeCookie, getCookie } from '../cookie';
+import { createTokenHeader, LoginTokenHandler, reissue  } from './auth'
 import axios from 'axios';
 
 export let logoutTimer:NodeJS.Timeout;
@@ -10,7 +11,7 @@ const initialState = {
     nickname: '',
     loading: '',
     isLogin: false,
-    authority: ''
+    role: ''
 };
 
 export interface User {
@@ -19,7 +20,7 @@ export interface User {
     nickname: string,
     loading: string,
     isLogin: boolean,
-    authority: string
+    role: string
 }
 
 interface Token {
@@ -50,7 +51,7 @@ const userSlice = createSlice({
         });
         builder.addCase(userInfo.fulfilled, (state, action) => {
             state.nickname = action.payload?.data.nickname;
-            state.authority = action.payload?.data.authority;
+            state.role = action.payload?.data.role;
             return state;
         })
     },
@@ -99,7 +100,7 @@ export const logout = createAsyncThunk('LOGOUT', async () => {
         if(getCookie('accessToken') != undefined) { accessToken = getCookie('accessToken') } else { throw new Error('accessToken이 존재하지 않습니다.') };
         if(getCookie('refreshToken') != undefined) { refreshToken = getCookie('refreshToken') } else { throw new Error('refreshToken이 존재하지 않습니다.') };
 
-        if( getCookie('accessToken') != undefined || getCookie('refreshToken') != undefined ) {
+        if(getCookie('accessToken') != undefined || getCookie('refreshToken') != undefined) {
             accessToken = getCookie('accessToken');
             refreshToken = getCookie('refreshToken');
             
@@ -113,7 +114,7 @@ export const logout = createAsyncThunk('LOGOUT', async () => {
         
             return response.data;
         } else {
-            throw new Error('');
+            throw new Error('로그아웃 에러 발생');
         }
 
     } catch(error) {
@@ -176,40 +177,5 @@ export const allUserInfo = createAsyncThunk('ALL_USER_INFO', async () => {
 
     }
 });
-
-/* 토큰 생성 */
-const createTokenHeader = (accessToken:string, refreshToken:string) => {
-    return {
-        headers: {
-            'Authorization' : 'Bearer ' + accessToken,
-            'RefreshToken' : 'Bearer ' + refreshToken
-        }
-    }
-}
-
-/* 토큰 만료시간 계산 */
-const calculateRemainingTime = (expirationTime:number) => {
-    const currentTime = new Date().getTime();
-    const adjExpirationTime = new Date(expirationTime).getTime();
-    const remainingDuration = adjExpirationTime - currentTime;
-    return remainingDuration;
-}
-
-/* 토큰값, 만료시간을 저장 */
-const LoginTokenHandler = (accessToken:string, refreshtoken:string, expirationTime:number) => {
-    setCookie('accessToken', accessToken);
-    setCookie('refreshToken', refreshtoken);
-    setCookie('expirationTime', String(expirationTime));
-    const remaingTime = calculateRemainingTime(+ expirationTime);
-    return remaingTime;
-}
-
-/* 재발급 토큰 설정 */
-const reissue = (response:any) => {
-    if(response.headers.authorization != null && response.headers.authorization != '') {
-        const newToken = response.headers.authorization.substring(7);
-        setCookie('accessToken', newToken);
-    }
-}
 
 export default userSlice.reducer;

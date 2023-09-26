@@ -1,6 +1,6 @@
 package com.bootProject.dto;
 
-import com.bootProject.entity.Authority;
+import com.bootProject.entity.Role;
 import com.bootProject.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,21 +18,21 @@ public class MemberDTO {
     private String email;
     private String password;
     private String nickname;
-    private String authority;
+    private String role;
 
     public Member toMember(PasswordEncoder passwordEncoder) {
         return Member.builder()
                 .email(email)
                 .password(passwordEncoder.encode(password))
                 .nickname(nickname)
-                .authority(Authority.ROLE_USER)
+                .role(Role.ROLE_USER)
                 .build();
     }
     public static MemberDTO of(Member member) {
         return MemberDTO.builder()
                 .email(member.getEmail())
                 .nickname(member.getNickname())
-                .authority(member.getAuthority().toString())
+                .role(member.getRole().toString())
                 .build();
     }
 

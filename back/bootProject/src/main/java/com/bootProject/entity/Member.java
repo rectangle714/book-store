@@ -25,15 +25,15 @@ public class Member extends Base{
     private String nickname;
 
     @Enumerated(EnumType.STRING)
-    private Authority authority;
+    private Role role;
 
     @Builder
-    public Member(Long id, String email, String password, String nickname, Authority authority) {
+    public Member(Long id, String email, String password, String nickname, Role role) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.nickname = nickname;
-        this.authority = authority;
+        this.role = role;
     }
 }
 
