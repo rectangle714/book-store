@@ -1,38 +1,34 @@
 import { useRef } from 'react';
 import { Button, TextField, InputAdornment } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+
+import Preview from '../common/Preview';
 
 const AdminItemRegister = () => {
 
     const titleInputRef = useRef<HTMLInputElement>(null);
     const contentsInputRef = useRef<HTMLInputElement>(null);
 
-    const VisuallyHiddenInput = styled('input')({
-        clip: 'rect(0 0 0 0)',
-        clipPath: 'inset(50%)',
-        height: 1,
-        overflow: 'hidden',
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        whiteSpace: 'nowrap',
-        width: 1,
-      });
-
     const itemSubmitHandler = async (event: React.FormEvent) => {
         event.preventDefault();
   
         const enterTitle = titleInputRef.current!.value;
         const enterContents = contentsInputRef.current!.value;
-  
-        console.log('enterTitle: ',enterTitle);
-        console.log('enterContents: ',enterContents);
+
+        if(enterTitle == '' || enterTitle == undefined) {
+          alert('제목을 입력해주세요');
+          return;
+        }
+
+        if(enterContents == '' || enterContents == undefined) {
+          alert('내용을 입력해주세요');
+          return;
+        }
+
   
       }
 
     return (
-        <form onSubmit={itemSubmitHandler}>
+        <form onSubmit={itemSubmitHandler} encType='multipart/form/data'>
         <div>
           <div>상품명</div>
           <div>
@@ -68,11 +64,8 @@ const AdminItemRegister = () => {
           <div>
             이미지
           </div>
-          <div style={{paddingTop:100}}>
-            <Button color='success' component="label" variant="contained" startIcon={<CloudUploadIcon />}>
-                Upload file
-                <VisuallyHiddenInput type="file" style={{display: "none"}} />
-            </Button>
+          <div>
+                <Preview></Preview>
           </div>
         </div>
         <div style={{ paddingTop: 50 }}>

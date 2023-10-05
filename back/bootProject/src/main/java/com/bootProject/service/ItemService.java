@@ -6,7 +6,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,10 +23,11 @@ public class ItemService {
     private final ItemRepository itemRepository;
 
     @Transactional
-    public void saveItem(Item item) {
+    public void saveItem(@RequestPart MultipartFile file, Item item) {
         try {
             itemRepository.save(item);
         } catch(Exception e) {
+            log.debug("아이템 저장 에러 발생 ");
             e.printStackTrace();
         }
     }
@@ -32,10 +37,14 @@ public class ItemService {
         try {
             itemList = itemRepository.findAll();
         } catch(Exception e) {
-            log.debug("전체 아이템 조회 에러 발생");
+            log.debug("전체 아이템 조회 에러 발생 ");
             e.printStackTrace();
         }
         return itemList;
+    }
+
+    public void uploadFile(MultipartFile file) throws IOException {
+        file.transferTo(new File("C:\\image\\"+file.getOriginalFilename()));
     }
 
 }

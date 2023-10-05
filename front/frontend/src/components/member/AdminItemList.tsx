@@ -21,6 +21,7 @@ const AdminItemList = () => {
         { field: 'id', headerName: 'ID', width: 70 },
         { field: 'title', headerName: '제목', width: 130 },
         { field: 'contents', headerName: '내용', width: 130 },
+        { field: 'image', headerName: '이미지', width: 130 },
       ];
 
     useEffect(() => {
