@@ -5,13 +5,15 @@ import axios from 'axios';
 const initialState = {
     title: '',
     contents: '',
-    imageName: ''
+    originName: '',
+    storedName: ''
 }
 
 export interface Item {
     title: string,
     contents: string,
-    imageName: string
+    originName: string,
+    storedName: string
 }
 
 const itemSlice = createSlice({

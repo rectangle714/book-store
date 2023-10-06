@@ -2,30 +2,34 @@ import { useRef } from 'react';
 import { Button, TextField, InputAdornment } from '@mui/material';
 
 import Preview from '../common/Preview';
+import { Item } from '../../store/modules/item';
 
 const AdminItemRegister = () => {
 
     const titleInputRef = useRef<HTMLInputElement>(null);
     const contentsInputRef = useRef<HTMLInputElement>(null);
 
+    const item = useRef<Item>({ title: '', contents: '', originName: '', storedName: ''});
+
     const itemSubmitHandler = async (event: React.FormEvent) => {
-        event.preventDefault();
+      event.preventDefault();
   
-        const enterTitle = titleInputRef.current!.value;
-        const enterContents = contentsInputRef.current!.value;
+      const enterTitle = titleInputRef.current!.value;
+      const enterContents = contentsInputRef.current!.value;
 
-        if(enterTitle == '' || enterTitle == undefined) {
-          alert('제목을 입력해주세요');
-          return;
-        }
-
-        if(enterContents == '' || enterContents == undefined) {
-          alert('내용을 입력해주세요');
-          return;
-        }
-
-  
+      if(enterTitle == '' || enterTitle == undefined) {
+        alert('제목을 입력해주세요');
+        return;
       }
+
+      if(enterContents == '' || enterContents == undefined) {
+        alert('내용을 입력해주세요');
+        return;
+      }
+
+      
+  
+    }
 
     return (
         <form onSubmit={itemSubmitHandler} encType='multipart/form/data'>
@@ -61,12 +65,10 @@ const AdminItemRegister = () => {
           </div>
         </div>
         <div style={{paddingTop:30}}>
-          <div>
+          <div style={{paddingBottom:'20px'}}>
             이미지
           </div>
-          <div>
-                <Preview></Preview>
-          </div>
+          <div><Preview/></div>
         </div>
         <div style={{ paddingTop: 50 }}>
           <Button color='success' variant='contained' size="large" type='submit'>등록</Button>

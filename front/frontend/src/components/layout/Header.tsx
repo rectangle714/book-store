@@ -98,7 +98,7 @@ const Header = () => {
                     <img 
                         src="/image/puppy.png" 
                         alt='logo image' 
-                        style={{ width:50, height:50, marginTop:15, marginBottom:10, cursor:"pointer" }} 
+                        style={{ width:50, height:50, marginTop:15, marginBottom:10, cursor:"pointer", paddingLeft:'50px' }} 
                         onClick={(e)=>navFunction(e,'main')}>
                     </img>
                 </Typography>

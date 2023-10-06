@@ -20,31 +20,41 @@ const Preview = () => {
     const [imageSrc, setImegeSrc]: any = useState(null);
 
     const onUpload = (e: any) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
+        // const file = e.target.files[0];
+        // const reader = new FileReader();
+        // reader.readAsDataURL(file);
 
-        return new Promise<void>((resolve) => {
-            reader.onload = () => {
-                setImegeSrc(reader.result || null);
-                resolve();
-            }
-        })
+        // return new Promise<void>((resolve) => {
+        //     reader.onload = () => {
+        //         setImegeSrc(reader.result || null);
+        //         resolve();
+        //     }
+        // })
 
+        let reader = new FileReader();
+
+        reader.onload = function(e) {
+            setImegeSrc(e.target?.result);
+        };
+        reader.readAsDataURL(e.target.files[0]);
     }
 
     return (
         <>
-            <div style={{clear:"both", border:""}}><img width={'20%'} src={imageSrc}/></div>
-            <div>
-            <Button color='success' component="label" variant="contained" startIcon={<CloudUploadIcon />}>
-                Upload
-                <VisuallyHiddenInput 
-                accept="image/*" 
-                multiple type="file"
-                onChange={e => onUpload(e)}
-                />
-            </Button>
+            <div style={{height:'200px', position:'relative'}}>
+                <div style={{border:'solid 1px ', height:'210px', width:'210px', margin:'0 auto', borderRadius:'20px'}}>
+                    <img src={imageSrc} style={{maxWidth:'100px',position:'absolute', top:'25%', left:'44%'}}/>
+                </div>
+            </div>
+            <div style={{paddingTop:'20px'}}>
+                <Button color='success' component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+                    Upload
+                    <VisuallyHiddenInput 
+                    accept="image/*" 
+                    multiple type="file"
+                    onChange={e => onUpload(e)}
+                    />
+                </Button>
             </div>
         </>
     )
