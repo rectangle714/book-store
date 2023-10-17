@@ -1,7 +1,7 @@
 package com.bootProject.service;
 
 import com.bootProject.entity.Item;
-import com.bootProject.repository.ItemRepository;
+import com.bootProject.repository.item.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,11 +25,16 @@ public class ItemService {
     @Transactional
     public void saveItem(@RequestPart MultipartFile file, Item item) {
         try {
+            uploadFile(file);
             itemRepository.save(item);
+        } catch (IOException e) {
+            log.debug("파일 저장에 오류가 발생했습니다.");
+            e.printStackTrace();
         } catch(Exception e) {
-            log.debug("아이템 저장 에러 발생 ");
+            log.debug("상품 저장 에러 발생가 발생했습니다. ");
             e.printStackTrace();
         }
+
     }
 
     public List<Item> findAllItem() {

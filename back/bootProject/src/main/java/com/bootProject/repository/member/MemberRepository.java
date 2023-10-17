@@ -1,4 +1,4 @@
-package com.bootProject.repository;
+package com.bootProject.repository.member;
 
 import com.bootProject.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;

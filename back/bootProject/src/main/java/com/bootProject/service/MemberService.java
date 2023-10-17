@@ -3,7 +3,7 @@ package com.bootProject.service;
 import com.bootProject.config.SecurityUtil;
 import com.bootProject.dto.MemberDTO;
 import com.bootProject.entity.Member;
-import com.bootProject.repository.MemberRepository;
+import com.bootProject.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

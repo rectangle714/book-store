@@ -1,10 +1,6 @@
 package com.bootProject.jwt;
 
 import com.bootProject.common.RedisUtil;
-import com.bootProject.entity.Member;
-import com.bootProject.entity.RefreshToken;
-import com.bootProject.repository.MemberRepository;
-import com.bootProject.repository.RefreshTokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

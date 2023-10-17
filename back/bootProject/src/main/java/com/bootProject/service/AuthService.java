@@ -8,7 +8,7 @@ import com.bootProject.entity.Member;
 import com.bootProject.common.exception.BusinessException;
 import com.bootProject.common.code.ErrorCode;
 import com.bootProject.jwt.TokenProvider;
-import com.bootProject.repository.MemberRepository;
+import com.bootProject.repository.member.MemberRepository;
 import com.bootProject.repository.RefreshTokenRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,7 +34,6 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
     private final RedisUtil redisUtil;
-    private final RefreshTokenRepository refreshTokenRepository;
     private final CookieUtil cookieUtil;
 
     @Transactional
