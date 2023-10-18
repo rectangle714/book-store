@@ -22,10 +22,10 @@
 
 | 메인 | 로그인 | 회원가입 |
 | :---: | :---: | :---: |
-| <img src="https://github.com/rectangle714/bootPrj/assets/62207860/c169ddfd-08dc-4f06-89a4-764dd16699ea" /> | ![image1](https://github.com/rectangle714/bootPrj/assets/62207860/d45ab8ea-21a2-4ec8-90ec-50614cbb02da) | ![image4](https://github.com/rectangle714/bootPrj/assets/62207860/dcb374e6-e2aa-4cd2-8faa-eb506ebded18) |
+| ![메인png](https://github.com/rectangle714/bootPrj/assets/62207860/0d426c2b-5a3b-4d92-9bd6-9b6f30372b42) | ![로그인](https://github.com/rectangle714/bootPrj/assets/62207860/b165bfe3-b573-48f5-b1ff-68769cca79e0) | ![회원가입](https://github.com/rectangle714/bootPrj/assets/62207860/156a51e0-f6ea-4982-acdb-23cb097b8877) |
 
 ### 관리자
 
 | 회원정보 | 상품등록 | 상품조회 |
 | :---: | :---: | :---: |
-| ![image2](https://github.com/rectangle714/bootPrj/assets/62207860/2674f6a9-3345-4ea3-8860-85da71944cd4) | ![image3](https://github.com/rectangle714/bootPrj/assets/62207860/459f0f12-c926-4123-9a28-b926e1da1285) | ![image5](https://github.com/rectangle714/bootPrj/assets/62207860/1bce82df-a30c-46e2-baaf-267066123803) |
+| ![회원정보](https://github.com/rectangle714/bootPrj/assets/62207860/99916d8b-10c0-4970-8236-075f58b5b02f) | ![상품등록](https://github.com/rectangle714/bootPrj/assets/62207860/51e32948-2281-4035-92eb-2a5eb2448cef) | ![상품조회](https://github.com/rectangle714/bootPrj/assets/62207860/ea57a7e0-ac6e-4089-a05b-2e4a6d49f3d7) |
