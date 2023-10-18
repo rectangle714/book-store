@@ -1,4 +1,21 @@
-<h1 align="center">BootProject</h1>
+<h1 align="center">BootPrj</h1>
+
+## **개발환경**
+### Front
+- React
+- Typescript
+### Back
+- Java 17
+- Spring Boot
+- Spring Security
+- Jwt
+- Jpa
+- Gradle
+### DataBase
+- MariaDB
+- Redis
+### Cloud
+- AWS
 
 ## **화면 설명**
 ### 사용자
