@@ -17,6 +17,9 @@ bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
+# Q클래스 ignore 설정
+**/generated/com/bootProject/entity
+
 ### IntelliJ IDEA ###
 .idea
 *.iws

@@ -1,5 +1,9 @@
 package com.bootProject.repository.item;
 
-public interface ItemRepositoryCustom {
+import com.bootProject.entity.Item;
 
+import java.util.List;
+
+public interface ItemRepositoryCustom {
+    List<Item> findListAll();
 }

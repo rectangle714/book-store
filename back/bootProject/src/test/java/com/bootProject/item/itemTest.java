@@ -1,7 +1,7 @@
 package com.bootProject.item;
 
 import com.bootProject.entity.Item;
-import com.bootProject.repository.ItemRepository;
+import com.bootProject.repository.item.ItemRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

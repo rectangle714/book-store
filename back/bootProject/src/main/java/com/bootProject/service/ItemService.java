@@ -40,7 +40,7 @@ public class ItemService {
     public List<Item> findAllItem() {
         List<Item> itemList = new ArrayList<Item>();
         try {
-            itemList = itemRepository.findAll();
+            itemList = itemRepository.findListAll();
         } catch(Exception e) {
             log.debug("전체 아이템 조회 에러 발생 ");
             e.printStackTrace();
