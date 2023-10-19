@@ -4,16 +4,12 @@ import axios from 'axios';
 
 const initialState = {
     title: '',
-    contents: '',
-    originName: '',
-    storedName: ''
+    contents: ''
 }
 
 export interface Item {
     title: string,
-    contents: string,
-    originName: string,
-    storedName: string
+    contents: string
 }
 
 const itemSlice = createSlice({
@@ -27,17 +23,27 @@ const itemSlice = createSlice({
 })
 
 /* 상품 등록 */
-export const registerItem = async (item:Item) => {
+export const registerItem = createAsyncThunk('REGISTER_ITEM', async (item:Item) => { 
     try {
         console.log('[상품 등록 시작]');
         const URL = '/item/save';
-        const response = await axios.post(URL, item);
-
-        return response.status;
+        const validResult = validToken();
+        const response = await axios.post(
+            URL,
+            item,
+            { 
+                headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization' : 'Bearer ' + validResult.accessToken,
+                'RefreshToken' : 'Bearer ' + validResult.refreshToken
+                } 
+            }
+        );
+        return response;
     } catch(error) {
         console.error('에러발생 :'+ error);
     }
-}
+});
 
 /* 전체 상품 조회 */
 export const allItemInfo = createAsyncThunk('ALL_ITEM_INFO', async () => {

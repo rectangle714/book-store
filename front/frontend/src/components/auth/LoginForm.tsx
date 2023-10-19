@@ -104,6 +104,16 @@ const LoginForm = () => {
                         </div>
                     </form>
                     <div style={{
+                            paddingTop: 50
+                        }}>
+                            <Button color='success' variant='contained' size="small">Google Login</Button>
+                            <Button color='success' variant='contained' size="small">Naver Login</Button>
+                            <Button color='success' variant='contained' size="small">Kakao Login</Button> 
+                            {/* <a href="/oauth2/authorization/google" role="button">Google Login</a> */}
+                            {/* <a href="/oauth2/authorization/naver" role="button">Naver Login</a> */}
+                            {/* <a href="/oauth2/authorization/kakao" role="button">Kakao Login</a> */}
+                    </div>
+                    <div style={{
                             paddingTop: 10,
                             fontSize: 12, 
                             color: 'red',

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { styled } from '@mui/material/styles';
 import { Button } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
@@ -18,20 +18,11 @@ const Preview = () => {
       });
 
     const [imageSrc, setImegeSrc]: any = useState(null);
+    const selectFileRef:any = useRef("");
 
-    const onUpload = (e: any) => {
-        // const file = e.target.files[0];
-        // const reader = new FileReader();
-        // reader.readAsDataURL(file);
-
-        // return new Promise<void>((resolve) => {
-        //     reader.onload = () => {
-        //         setImegeSrc(reader.result || null);
-        //         resolve();
-        //     }
-        // })
-
+    const onSelectedFiles = (e: any) => {
         let reader = new FileReader();
+        console.log('선택 파일 값',e.target.files);
 
         reader.onload = function(e) {
             setImegeSrc(e.target?.result);
@@ -52,7 +43,8 @@ const Preview = () => {
                     <VisuallyHiddenInput 
                     accept="image/*" 
                     multiple type="file"
-                    onChange={e => onUpload(e)}
+                    ref={selectFileRef}
+                    onChange={e => onSelectedFiles(e)}
                     />
                 </Button>
             </div>
