@@ -1,18 +1,44 @@
 import { useRef, useState } from 'react';
 import { Button, TextField, InputAdornment } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import store from "../../store/configureStore";
 import { registerItem } from '../../store/modules/item';
-
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Preview from '../common/Preview';
 import { Item } from '../../store/modules/item';
 
 const AdminItemRegister = () => {
-
+    const [imageSrc, setImageSrc]: any = useState(null);
+    const [file, setFile] = useState<File>();
     const titleInputRef = useRef<HTMLInputElement>(null);
     const contentsInputRef = useRef<HTMLInputElement>(null);
-
-    const [selectedFiles, setSelectedFiles] = useState(null as any);
     const item = useRef<Item>({ title: '', contents: ''});
+
+    const VisuallyHiddenInput = styled('input')({
+      clip: 'rect(0 0 0 0)',
+      clipPath: 'inset(50%)',
+      height: 1,
+      overflow: 'hidden',
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      whiteSpace: 'nowrap',
+      width: 1,
+    });
+
+    const onSelectedFiles = async (e: any) => {
+      let reader = new FileReader();
+
+      reader.onload = function(e) {
+          setImageSrc(e.target?.result);
+      };
+      reader.readAsDataURL(e.target.files[0]);
+      setFile(e.currentTarget.files[0]);
+
+      // for(const data of e.target.files) {
+      //   fileInputRef.current = data;
+      // }
+    }
 
     const itemSubmitHandler = async (event: React.FormEvent) => {
       event.preventDefault();
@@ -30,32 +56,22 @@ const AdminItemRegister = () => {
         return;
       }
 
+      const formData = new FormData();
       item.current = { title: enteredTitle, contents: enteredContents };
-      console.log('아이템: ', item.current);
+      formData.append('title', item.current.title);
+      formData.append('contents', item.current.contents);
+      if(file !== undefined){
+        formData.append('file', file);
+      }
+      for(const data of formData) {console.log(data);}
 
-      const result = await store.dispatch(registerItem(item.current));
+      const result = await store.dispatch(registerItem(formData));
 
       if(result.payload != undefined) {
         console.log(result);
       }
 
     }
-
-    const getSelectedFiles = (v:any) => {
-      setSelectedFiles(v);
-    }
-
-    // const registFile = async (id:any) => {
-    //   const formData = new FormData();
-
-    //   //request로 보내야할 데이터를 formData에 넣어서 보냈다. 
-    //   for (let i = 0; i < selectedFiles.length; i++) {
-    //     formData.append('file', selectedFiles[i]);
-    //   }
-    //   formData.append('type', 'itemQna');
-    //   // 서버에서 받은 id값 사용
-    //   formData.append('targetId', id);
-    // }
 
     return (
         <form encType='multipart/form/data'>
@@ -95,7 +111,24 @@ const AdminItemRegister = () => {
           <div style={{paddingBottom:'20px'}}>
             이미지
           </div>
-          <div><Preview/></div>
+          <div>
+          <div style={{height:'200px', position:'relative'}}>
+                <div style={{border:'solid 1px ', height:'210px', width:'210px', margin:'0 auto', borderRadius:'20px'}}>
+                    <img src={imageSrc} style={{maxWidth:'100px',position:'absolute', top:'25%', left:'44%'}}/>
+                </div>
+            </div>
+            <div style={{paddingTop:'20px'}}>
+                <Button color='success' component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+                    Upload
+                    <VisuallyHiddenInput 
+                    accept="image/*" 
+                    multiple type="file"
+                    // ref={fileInputRef}
+                    onChange={e => onSelectedFiles(e)}
+                    />
+                </Button>
+            </div>
+          </div>
         </div>
         <div style={{ paddingTop: 50 }}>
           <Button color='success' variant='contained' size="large" onClick={itemSubmitHandler}>등록</Button>

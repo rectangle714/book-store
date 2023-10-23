@@ -7,6 +7,7 @@ import KeyIcon from '@mui/icons-material/Key';
 import { Container } from "@mui/joy";
 import { useAppDispatch } from "../../store/configureStore";
 import { login, logout, User } from "../../store/modules/user";
+import GoogleLoginButton from "./GoogleLoginButton";
 
 let logoutTimer:NodeJS.Timeout;
 
@@ -106,9 +107,10 @@ const LoginForm = () => {
                     <div style={{
                             paddingTop: 50
                         }}>
-                            <Button color='success' variant='contained' size="small">Google Login</Button>
+                            {/* <Button color='success' variant='contained' size="small">Google Login</Button>
                             <Button color='success' variant='contained' size="small">Naver Login</Button>
-                            <Button color='success' variant='contained' size="small">Kakao Login</Button> 
+                            <Button color='success' variant='contained' size="small">Kakao Login</Button> */}
+                            <GoogleLoginButton></GoogleLoginButton>
                             {/* <a href="/oauth2/authorization/google" role="button">Google Login</a> */}
                             {/* <a href="/oauth2/authorization/naver" role="button">Naver Login</a> */}
                             {/* <a href="/oauth2/authorization/kakao" role="button">Kakao Login</a> */}

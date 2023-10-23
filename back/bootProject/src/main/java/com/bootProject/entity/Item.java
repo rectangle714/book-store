@@ -18,17 +18,13 @@ public class Item extends Base{
     private Long id;
     private String title;
     private String contents;
-    private String originFileName;
-    private String storedFileName;
 
 
     @Builder
-    public Item(Long id, String title, String contents, String originFileName, String storedFileName) {
+    public Item(Long id, String title, String contents, String originFileName, String storedFileName, Long fileSize) {
         this.id = id;
         this.title = title;
         this.contents = contents;
-        this.originFileName = originFileName;
-        this.storedFileName = storedFileName;
     }
 
 }

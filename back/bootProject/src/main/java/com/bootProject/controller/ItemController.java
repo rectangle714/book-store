@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,10 +22,10 @@ public class ItemController {
 
     private final ItemService itemService;
 
-    @RequestMapping("/save")
-    public ResponseEntity<Void> saveItem(@RequestPart MultipartFile file, Item item) {
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public ResponseEntity<Void> saveItem(@RequestPart List<MultipartFile> multipartFile, Item item) {
         if(item != null) {
-            itemService.saveItem(file, item);
+            itemService.saveItem(multipartFile, item);
         }
         return ResponseEntity.ok().build();
     }

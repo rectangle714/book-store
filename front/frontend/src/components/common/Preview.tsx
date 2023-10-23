@@ -4,7 +4,8 @@ import { Button } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 const Preview = () => {
-
+    const [imageSrc, setImegeSrc]: any = useState(null);
+    const fileInputRef:any = useRef("");
     const VisuallyHiddenInput = styled('input')({
         clip: 'rect(0 0 0 0)',
         clipPath: 'inset(50%)',
@@ -15,10 +16,7 @@ const Preview = () => {
         left: 0,
         whiteSpace: 'nowrap',
         width: 1,
-      });
-
-    const [imageSrc, setImegeSrc]: any = useState(null);
-    const selectFileRef:any = useRef("");
+    });
 
     const onSelectedFiles = (e: any) => {
         let reader = new FileReader();
@@ -27,6 +25,7 @@ const Preview = () => {
         reader.onload = function(e) {
             setImegeSrc(e.target?.result);
         };
+
         reader.readAsDataURL(e.target.files[0]);
     }
 
@@ -43,11 +42,12 @@ const Preview = () => {
                     <VisuallyHiddenInput 
                     accept="image/*" 
                     multiple type="file"
-                    ref={selectFileRef}
+                    ref={fileInputRef}
                     onChange={e => onSelectedFiles(e)}
                     />
                 </Button>
             </div>
+            <input type="hidden" value={fileInputRef.current}/>
         </>
     )
 }

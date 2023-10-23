@@ -23,7 +23,7 @@ const itemSlice = createSlice({
 })
 
 /* 상품 등록 */
-export const registerItem = createAsyncThunk('REGISTER_ITEM', async (item:Item) => { 
+export const registerItem = createAsyncThunk('REGISTER_ITEM', async (item:any) => { 
     try {
         console.log('[상품 등록 시작]');
         const URL = '/item/save';
