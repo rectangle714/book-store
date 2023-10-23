@@ -2,6 +2,7 @@ package com.bootProject.repository.item;
 
 import com.bootProject.entity.Item;
 import com.bootProject.entity.QItem;
+import com.bootProject.entity.QSaveFile;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 

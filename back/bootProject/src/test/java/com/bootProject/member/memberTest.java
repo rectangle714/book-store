@@ -2,7 +2,7 @@ package com.bootProject.member;
 
 import com.bootProject.entity.Role;
 import com.bootProject.entity.Member;
-import com.bootProject.repository.MemberRepository;
+import com.bootProject.repository.member.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

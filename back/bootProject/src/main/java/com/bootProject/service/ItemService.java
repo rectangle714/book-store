@@ -2,6 +2,7 @@ package com.bootProject.service;
 
 import com.bootProject.entity.Item;
 import com.bootProject.entity.SaveFile;
+import com.bootProject.repository.File.FileRepository;
 import com.bootProject.repository.item.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,13 +28,14 @@ import java.util.List;
 public class ItemService {
 
     private final ItemRepository itemRepository;
+    private final FileRepository fileRepository;
 
     @Transactional
     public void saveItem(List<MultipartFile> multipartFile, Item item) throws Exception {
         item = itemRepository.save(item);
         if(!multipartFile.isEmpty()) {
             List<SaveFile> fileList = uploadFile(multipartFile, item);
-//            fileList.
+            fileRepository.saveAll(fileList);
         }
     }
 
@@ -48,6 +50,7 @@ public class ItemService {
         return itemList;
     }
 
+    /** 파일 저장  **/
     public List<SaveFile> uploadFile(List<MultipartFile> multipartFile, Item item) throws Exception{
 
             List<SaveFile> fileList = new ArrayList<>();

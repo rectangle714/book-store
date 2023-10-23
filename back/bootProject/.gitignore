@@ -19,6 +19,8 @@ bin/
 
 # Q클래스 ignore 설정
 **/generated/com/bootProject/entity
+# 파일 저장공간
+images/**
 
 ### IntelliJ IDEA ###
 .idea

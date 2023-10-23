@@ -22,18 +22,19 @@ public class ItemController {
 
     private final ItemService itemService;
 
+    /* 상품 저장 */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public ResponseEntity<Void> saveItem(@RequestPart List<MultipartFile> multipartFile, Item item) {
+    public ResponseEntity<Void> saveItem(@RequestPart List<MultipartFile> file, Item item) throws Exception {
         if(item != null) {
-            itemService.saveItem(multipartFile, item);
+            itemService.saveItem(file, item);
         }
         return ResponseEntity.ok().build();
     }
 
+    /* 상품 전체 찾기 */
     @RequestMapping("/findAll")
     public ResponseEntity<List<Item>> saveItem() {
         List<Item> result = itemService.findAllItem();
-
         return ResponseEntity.ok(result);
     }
 

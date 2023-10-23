@@ -4,6 +4,6 @@ import com.bootProject.entity.SaveFile;
 
 public interface FileRepositoryCoustom {
 
-    public int saveAllFile(SaveFile saveFile);
+    public long saveAllFile(SaveFile saveFile);
 
 }
