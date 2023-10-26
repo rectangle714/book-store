@@ -21,6 +21,8 @@ bin/
 **/generated/com/bootProject/entity
 # 파일 저장공간
 images/**
+# yml 파일
+src/main/resources/application.yml
 
 ### IntelliJ IDEA ###
 .idea
