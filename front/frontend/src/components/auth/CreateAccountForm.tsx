@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { signup, User } from "../../store/modules/user";
 import store from "../../store/configureStore";
 import Button from '@mui/material/Button';
-import Styles from './CreateAccountForm.module.css';
+import Styles from '../../styles/auth/CreateAccountForm.module.css';
 import TextField from '@mui/material/TextField';
 import EmailIcon from '@mui/icons-material/Email';
 import KeyIcon from '@mui/icons-material/Key';

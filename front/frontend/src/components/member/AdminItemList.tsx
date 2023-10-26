@@ -5,7 +5,7 @@ import { allItemInfo } from '../../store/modules/item';
 
 const AdminItemList = () => {
 
-    let [rows, setRows] = useState([]);
+    const [rows, setRows] = useState([]);
     const dispatch = useAppDispatch();
 
     const rowData = async () => {
@@ -21,7 +21,37 @@ const AdminItemList = () => {
         { field: 'id', headerName: 'ID', width: 70 },
         { field: 'title', headerName: '제목', width: 130 },
         { field: 'contents', headerName: '내용', width: 130 },
-        { field: 'image', headerName: '이미지', width: 130 },
+        { 
+            field: 'registerDate',
+            headerName: '등록날짜', 
+            width: 150,
+            type: 'date',
+            valueGetter: ({ value }) => value && new Date(value),
+        },
+        { 
+            field: 'updateDate', 
+            headerName: '수정날짜', 
+            width: 150,
+            type: 'date',
+            valueGetter: ({ value }) => value && new Date(value),
+        },
+        { 
+            field: 'fileList', 
+            headerName: '이미지', 
+            width: 150,
+            renderCell: (params) => {
+                if(params.value[0].storedFileName != '') {
+                    console.log('params ', params.value[0].storedFileName);
+                    return (
+                      <>
+                        <img 
+                        src={'../'+params.value[0].storedFileName}
+                        style={{ width:40, height:40}}/>
+                      </>
+                    );
+                }
+              }
+        },
       ];
 
     useEffect(() => {
@@ -36,7 +66,7 @@ const AdminItemList = () => {
             columns={columns}
             initialState={{
             pagination: {
-                paginationModel: { page: 0, pageSize: 5 },
+                paginationModel: { page: 0, pageSize: 10 },
             },
             }}
             pageSizeOptions={[5, 10]}

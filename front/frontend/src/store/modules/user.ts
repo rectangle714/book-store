@@ -46,6 +46,7 @@ const userSlice = createSlice({
             return state;
         });
         builder.addCase(logout.fulfilled, (state) => {
+            console.log('성공');
             state.isLogin = false;
             return state;
         });
@@ -53,7 +54,15 @@ const userSlice = createSlice({
             state.nickname = action.payload?.data.nickname;
             state.role = action.payload?.data.role;
             return state;
-        })
+        });
+        builder.addCase(userInfo.rejected, (state) => {
+            console.log('실패');
+            state.isLogin = false;
+            return state;
+        });
+        // ['/member/me']: (state) => {
+            
+        // }
     },
 })
 
@@ -134,24 +143,21 @@ export const logout = createAsyncThunk('LOGOUT', async () => {
 
 /* 사용자 정보 조회 */
 export const userInfo = createAsyncThunk('USER_INFO', async () => {
-    try {
-         console.log('[사용자 조회]');
-         const URL = '/member/me';
-         let accessToken = '';
-         let refreshToken = '';
+    console.log('[사용자 조회]');
+    const URL = '/member/me';
+    let accessToken = '';
+    let refreshToken = '';
 
-         if(getCookie('accessToken') != undefined) { accessToken = getCookie('accessToken') } else { throw new Error('accessToken이 존재하지 않습니다.') };
-         if(getCookie('refreshToken') != undefined) { refreshToken = getCookie('refreshToken') } else { throw new Error('refreshToken이 존재하지 않습니다.') };
-         const response = await axios.get(URL, createTokenHeader(accessToken, refreshToken));
-         if(response.status == 200) {
-            reissue(response);
-            console.log('[사용자 조회 완료] : ', response);
-         }
-         return response;
-
-    } catch(error) {
-        console.error('에러발생 :'+ error);
+    if(getCookie('accessToken') != undefined) { accessToken = getCookie('accessToken') } else { throw new Error('accessToken이 존재하지 않습니다.') };
+    if(getCookie('refreshToken') != undefined) { refreshToken = getCookie('refreshToken') } else { throw new Error('refreshToken이 존재하지 않습니다.') };
+    const response = await axios.get(URL, createTokenHeader(accessToken, refreshToken));
+    if(response.status == 200) {
+        reissue(response);
+        console.log('[사용자 조회 완료] : ', response);
     }
+
+    return response;
+
 });
 
 /* 사용자 전체 정보 조회 */
@@ -174,7 +180,6 @@ export const allUserInfo = createAsyncThunk('ALL_USER_INFO', async () => {
 
     } catch(error) {
         console.error('에러발생 :'+ error);
-
     }
 });
 

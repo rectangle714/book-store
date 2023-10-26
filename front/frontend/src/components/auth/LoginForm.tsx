@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, TextField, ButtonGroup, InputAdornment, Alert } from '@mui/material';
-import Styles from './LoginForm.module.css';
+import Styles from '../../styles/auth/LoginForm.module.css';
 import EmailIcon from '@mui/icons-material/Email';
 import KeyIcon from '@mui/icons-material/Key';
 import { Container } from "@mui/joy";

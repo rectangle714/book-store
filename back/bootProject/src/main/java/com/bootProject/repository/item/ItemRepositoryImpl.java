@@ -15,8 +15,10 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom{
     @Override
     public List<Item> findListAll() {
         QItem item = QItem.item;
+        QSaveFile file = QSaveFile.saveFile;
         return queryFactory
                 .selectFrom(item)
+                .join(item.fileList,file).fetchJoin()
                 .fetch();
     }
 }

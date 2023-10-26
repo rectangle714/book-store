@@ -4,7 +4,7 @@ import { Box, Container } from '@mui/material';
 import RestoreIcon from '@mui/icons-material/Restore';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import Styles from './Footer.module.css';
+import Styles from '../../styles/layout/Footer.module.css';
 
 const Footer = () => {
     const [value, setValue] = React.useState(0);

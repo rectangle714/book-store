@@ -2,7 +2,7 @@ import { useState } from 'react';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import imageData from "../../store/imageData";
-import Styles from "./Slider.module.css";
+import Styles from "../../styles/layout/Slider.module.css";
 
 const Slider = () => {
 

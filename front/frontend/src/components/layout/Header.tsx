@@ -55,7 +55,6 @@ const Header = () => {
         if(isLogin) {
             async function getUserInfo() {
                 const response = await dispatch(userInfo());
-                console.log('response : ',response);
             }
             getUserInfo();
         }
@@ -96,7 +95,7 @@ const Header = () => {
                 </Menu>
                 <Typography align="center" variant="h6" component="div" sx={{ flexGrow: 1 }}>
                     <img 
-                        src="/image/puppy.png" 
+                        src="/images/puppy.png" 
                         alt='logo image' 
                         style={{ width:50, height:50, marginTop:15, marginBottom:10, cursor:"pointer", paddingLeft:'50px' }} 
                         onClick={(e)=>navFunction(e,'main')}>

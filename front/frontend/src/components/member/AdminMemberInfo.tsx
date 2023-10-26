@@ -5,7 +5,7 @@ import { allUserInfo } from "../../store/modules/user"
 
 const AdminMemberInfo = () => {
 
-    let [rows, setRows] = useState([]);
+    const [rows, setRows] = useState([]);
     const dispatch = useAppDispatch();
 
     const rowData = async () => {
@@ -25,8 +25,22 @@ const AdminMemberInfo = () => {
           headerName: '권한',
           description: 'This column has a value getter and is not sortable.',
           sortable: false,
-          width: 160,
+          width: 130,
           valueGetter: ({value}) => value=='USER'? '사용자':'관리자',
+        },
+        { 
+            field: 'registerDate',
+            headerName: '등록날짜', 
+            width: 150,
+            type: 'date',
+            valueGetter: ({ value }) => value && new Date(value),
+        },
+        { 
+            field: 'updateDate', 
+            headerName: '수정날짜', 
+            width: 150,
+            type: 'date',
+            valueGetter: ({ value }) => value && new Date(value),
         },
       ];
 

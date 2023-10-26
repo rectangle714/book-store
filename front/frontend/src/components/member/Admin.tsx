@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Container from '@mui/material/Container';
 import { Tabs, Tab, Box } from '@mui/material';
-import Styls from'./Admin.module.css';
+import Styls from'../../styles/member/Admin.module.css';
 import { useAppDispatch } from "../../store/configureStore";
 import AdminMemberInfo from './AdminMemberInfo';
 import AdminItemRegister from './AdminItemRegister';

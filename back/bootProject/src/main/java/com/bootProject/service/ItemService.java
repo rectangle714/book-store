@@ -43,6 +43,7 @@ public class ItemService {
         List<Item> itemList = new ArrayList<Item>();
         try {
             itemList = itemRepository.findListAll();
+            log.debug(itemList.get(0).toString());
         } catch(Exception e) {
             log.debug("전체 아이템 조회 에러 발생 ");
             e.printStackTrace();
@@ -62,11 +63,11 @@ public class ItemService {
 
             // 프로젝트 디렉터리 내의 저장을 위한 절대 경로 설정
             // 경로 구분자 File.separator 사용
-            String absolutePath = new File("").getAbsolutePath() + File.separator + File.separator;
+            String absolutePath = new File("../../front/frontend/public/").getCanonicalPath(); //+ File.separator + File.separator;
 
             // 파일을 저장할 세부 경로 지정
             String path = "images" + File.separator + current_date;
-            File newFile = new File(path);
+            File newFile = new File(absolutePath + File.separator + path);
             if(!newFile.exists()){
                 boolean wasSuccessful = newFile.mkdirs();
                 if(!wasSuccessful) log.error("file: was not successful");
@@ -95,7 +96,7 @@ public class ItemService {
                 newFileName = System.nanoTime() + originalFileExtension;
 
                 SaveFile saveFile = SaveFile.builder()
-                        .item_id(item)
+                        .item(item)
                         .originFileName(file.getOriginalFilename())
                         .storedFileName(path + File.separator + newFileName)
                         .fileSize(file.getSize())
@@ -103,7 +104,7 @@ public class ItemService {
 
                 fileList.add(saveFile);
 
-                newFile = new File(absolutePath + path + File.separator + newFileName);
+                newFile = new File(absolutePath + File.separator + path + File.separator + newFileName);
                 file.transferTo(newFile);
 
                 newFile.setWritable(true);

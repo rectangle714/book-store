@@ -43,7 +43,7 @@ public class WebSecurityConfig {
 
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/", "/auth/**", "/member/me", "/member/findAll", "/accounts.google.com/**").permitAll()
+                .requestMatchers("/", "/auth/**", "/member/me", "/member/findAll", "/item/findAll").permitAll()
                 .requestMatchers("/item/findAll").hasRole("ADMIN")
                 .anyRequest().authenticated()
 

@@ -3,7 +3,7 @@ import React from 'react';
 import { Fragment } from 'react';
 import Header from './Header';
 import Footer from './Footer';
-import Styles from './Layout.module.css';
+import Styles from '../../styles/layout/Layout.module.css';
 
 type Props = {
     children?: React.ReactNode
