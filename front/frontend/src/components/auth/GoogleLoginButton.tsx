@@ -7,7 +7,7 @@ const GoogleLoginButton = () => {
     return (
         <>
             <GoogleOAuthProvider clientId={clientId}>
-                <GoogleLogin 
+                <GoogleLogin  size="medium"
                     onSuccess={(res) => {
                         console.log(res);
                     }}

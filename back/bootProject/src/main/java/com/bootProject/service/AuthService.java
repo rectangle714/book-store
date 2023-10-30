@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -22,6 +23,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Date;
 
@@ -35,6 +38,22 @@ public class AuthService {
     private final TokenProvider tokenProvider;
     private final RedisUtil redisUtil;
     private final CookieUtil cookieUtil;
+
+    /** 네이버 로그인 관련 config 값 **/
+/*    @Value("${security.oauth2.client.registration.naver.base-url}")
+    private String naverUrl;*/
+    @Value("${spring.security.oauth2.client.registration.naver.client-id}")
+    private String naverClientId;
+    @Value("${spring.security.oauth2.client.registration.naver.redirect-uri}")
+    private String naverRedirectUri;
+
+    /** 카카오 로그인 관련 config 값 **/
+    /*@Value("${security.oauth2.client.registration.kakao.base-url}")
+    private String kakaoUrl;*/
+    @Value("${spring.security.oauth2.client.registration.kakao.redirect-uri}")
+    private String kakaoClientId;
+    @Value("${spring.security.oauth2.client.registration.kakao.redirect-uri}")
+    private String kakaoRedirectUri;
 
     @Transactional
     public MemberDTO signup(MemberDTO requestDto) throws BusinessException {
@@ -82,5 +101,18 @@ public class AuthService {
             log.debug("[로그아웃] 쿠키가 비어있습니다.");
         }
     }
+
+    /*public String getNaverAuthorizeUrl() {
+        UriComponents uriComponents = UriComponentsBuilder
+                .fromUriString()
+                .queryParam()
+                .queryParam()
+                .queryParam()
+                .queryParam()
+                .build();
+
+        return uriComponents;
+
+    }*/
 
 }

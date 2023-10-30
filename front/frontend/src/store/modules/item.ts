@@ -51,9 +51,9 @@ export const allItemInfo = createAsyncThunk('ALL_ITEM_INFO', async () => {
     try {
         console.log('[전체 상품 조회 시작]')
         const URL = '/item/findAll';
-        const validResult = validToken();
+        //const validResult = validToken();
 
-        const response = await axios.get(URL, createTokenHeader(validResult.accessToken, validResult.refreshToken));
+        const response = await axios.get(URL);
         if(response.status == 200) {
             reissue(response);
             console.log('전체 상품 response = ',response);

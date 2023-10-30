@@ -13,10 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -49,4 +46,17 @@ public class AuthController {
     public void logOut(HttpServletRequest request, HttpServletResponse response) {
         authService.logOut(request, response);
     }
+
+    /** Auth 2.0 Login (네이버) **/
+    @GetMapping("/naver-login")
+    public void naverLogin(HttpServletRequest request, HttpServletResponse response) {
+
+    }
+
+    /** Auth 2.0 Login (카카오) **/
+    @GetMapping("/kakao-login")
+    public void kakaoLogin(HttpServletRequest request, HttpServletResponse response) {
+
+    }
+
 }

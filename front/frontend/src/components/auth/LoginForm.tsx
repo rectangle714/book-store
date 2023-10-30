@@ -101,25 +101,22 @@ const LoginForm = () => {
                             paddingTop: 10,
                             paddingLeft : 80
                         }}>
-                        <Button color='success' variant='contained' size="large" type='submit'>로그인</Button>
+                        <Button color='success' variant='outlined' size="large" type='submit'>로그인</Button>
                         </div>
                     </form>
                     <div style={{
-                            paddingTop: 50
+                            paddingTop: 20,
+                            paddingLeft: 30
                         }}>
-                            {/* <Button color='success' variant='contained' size="small">Google Login</Button>
-                            <Button color='success' variant='contained' size="small">Naver Login</Button>
-                            <Button color='success' variant='contained' size="small">Kakao Login</Button> */}
-                            <GoogleLoginButton></GoogleLoginButton>
-                            {/* <a href="/oauth2/authorization/google" role="button">Google Login</a> */}
-                            {/* <a href="/oauth2/authorization/naver" role="button">Naver Login</a> */}
-                            {/* <a href="/oauth2/authorization/kakao" role="button">Kakao Login</a> */}
+                        <a style={{cursor:'pointer'}} ><img src='/images/auth/naverLoginButton.png' style={{width:140}}/></a>
+                        <a style={{cursor:'pointer'}} ><img src='/images/auth/kakaoLoginButton.png' style={{width:150, marginLeft:5}}/></a>
                     </div>
                     <div style={{
                             paddingTop: 10,
                             fontSize: 12, 
                             color: 'red',
-                            textAlign: 'center'
+                            textAlign: 'center',
+                            paddingLeft: 30
                         }}>
                         {loginText}
                     </div>

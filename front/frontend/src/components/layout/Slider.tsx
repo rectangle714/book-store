@@ -19,7 +19,9 @@ const Slider = () => {
     }
 
     return (
-        <div style={{paddingTop:'20px', marginBottom:'50px', border: '2px solid black', borderRadius: '15px'}}>
+        <div 
+        style={{paddingTop:'20px', marginBottom:'50px', 
+        border: '2px solid black', borderRadius: '15px', paddingBottom:'20px'}}>
             <Carousel
             swipeable={true}
             showArrows={true}
