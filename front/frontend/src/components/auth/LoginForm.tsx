@@ -7,7 +7,6 @@ import KeyIcon from '@mui/icons-material/Key';
 import { Container } from "@mui/joy";
 import { useAppDispatch } from "../../store/configureStore";
 import { login, logout, User } from "../../store/modules/user";
-import GoogleLoginButton from "./GoogleLoginButton";
 
 let logoutTimer:NodeJS.Timeout;
 
@@ -64,12 +63,15 @@ const LoginForm = () => {
     return (
         <Container maxWidth="lg" fixed>
             <section className={Styles.loginSection}>
-                    <form style={{border:2}} onSubmit={submitHandler}>
+                <div style={{fontWeight:800, fontSize:'20px', lineHeight:'20px', textAlign:'center'}}>로그인</div>
+                    <form style={{border:'2px'}} onSubmit={submitHandler}>
                         <div>
                             <TextField 
                                 label='이메일'
                                 variant='standard'
                                 autoComplete='true'
+                                style={{width:'290px'}}
+                                placeholder="이메일을 입력해주세요"
                                 id='email' 
                                 inputRef={emailInputRef}
                                 InputProps={{
@@ -86,6 +88,8 @@ const LoginForm = () => {
                                 label='패스워드'
                                 type='password'
                                 variant='standard'
+                                style={{width:'290px'}}
+                                placeholder="패스워드를 입력해주세요"
                                 id='password' 
                                 inputRef={passwordInputRef} 
                                 InputProps={{
@@ -97,16 +101,24 @@ const LoginForm = () => {
                                 }}
                                 />
                         </div>
+                        <div style={{display:"flex", justifyContent:'flex-end', marginTop: '10px', fontSize:'13px'}}>
+                                <a style={{cursor:'pointer'}}>아이디찾기 </a>
+                                <span style={{
+                                    width:'1px',
+                                    height: '10px',
+                                    margin: '3px 6px 0px',
+                                    backgroundColor: 'rgb(51, 51, 51)'
+                                }}></span>
+                                <a style={{cursor:'pointer'}}> 패스워드 찾기</a>
+                        </div>
                         <div style={{
-                            paddingTop: 10,
-                            paddingLeft : 80
+                            paddingTop: 10
                         }}>
-                        <Button color='success' variant='outlined' size="large" type='submit'>로그인</Button>
+                        <Button style={{width: '100%', height:'50px'}} color='success' variant='contained' type='submit'>로그인</Button>
                         </div>
                     </form>
                     <div style={{
                             paddingTop: 20,
-                            paddingLeft: 30
                         }}>
                         <a style={{cursor:'pointer'}} ><img src='/images/auth/naverLoginButton.png' style={{width:140}}/></a>
                         <a style={{cursor:'pointer'}} ><img src='/images/auth/kakaoLoginButton.png' style={{width:150, marginLeft:5}}/></a>

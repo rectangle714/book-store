@@ -33,7 +33,7 @@ const Header = () => {
         } else if(path == 'signup') {
             navigate('/signup');
         } else if(path == 'mypage') {
-            navigate('/');
+            navigate('/profile');
         } else if(path == 'admin') {
             navigate('/admin/info')
         }

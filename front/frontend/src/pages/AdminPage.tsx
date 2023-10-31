@@ -1,4 +1,4 @@
-import Admin  from '../components/member/Admin';
+import Admin  from '../components/member/admin/Admin';
 
 const AdminPage = () => {
     return <Admin></Admin>

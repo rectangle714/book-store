@@ -1,7 +1,7 @@
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { useAppDispatch } from "../../store/configureStore";
+import { useAppDispatch } from "../../../store/configureStore";
 import { useState, useEffect } from 'react';
-import { allItemInfo } from '../../store/modules/item';
+import { allItemInfo } from '../../../store/modules/item';
 
 const AdminItemList = () => {
 

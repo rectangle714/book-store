@@ -1,7 +1,7 @@
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { useState, useEffect } from 'react';
-import { useAppDispatch } from "../../store/configureStore";
-import { allUserInfo } from "../../store/modules/user"
+import { useAppDispatch } from "../../../store/configureStore";
+import { allUserInfo } from "../../../store/modules/user"
 
 const AdminMemberInfo = () => {
 

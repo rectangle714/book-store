@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import Container from '@mui/material/Container';
 import { Tabs, Tab, Box } from '@mui/material';
-import Styls from'../../styles/member/Admin.module.css';
-import { useAppDispatch } from "../../store/configureStore";
-import AdminMemberInfo from './AdminMemberInfo';
-import AdminItemRegister from './AdminItemRegister';
-import AdminItemList from './AdminItemList';
+import Styls from'../../../styles/member/Admin.module.css';
+import { useAppDispatch } from "../../../store/configureStore";
+import AdminMemberInfo from '../admin/AdminMemberInfo';
+import AdminItemRegister from '../admin/AdminItemRegister';
+import AdminItemList from '../admin/AdminItemList';
 
 interface TabPanelProps {
     children?: React.ReactNode;
