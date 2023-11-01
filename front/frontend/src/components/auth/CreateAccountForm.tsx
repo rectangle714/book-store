@@ -55,14 +55,16 @@ const CreateAccountForm = () => {
 
     return (
         <section className={Styles.AccountSection}>
-            <h1>회원가입</h1>
-            <form onSubmit={submitHandler}>
+            <div style={{fontWeight:800, fontSize:'20px', lineHeight:'20px', textAlign:'center'}}>회원가입</div>
+            <form style={{marginTop:'20px'}} onSubmit={submitHandler}>
                 <div>
                    <TextField 
                         label="이메일"
                         variant="standard"
                         id='email'
                         autoComplete='true'
+                        style={{width:'290px', height: '60px'}}
+                        placeholder="이메일을 입력해주세요"
                         inputRef={emailInputRef}
                         InputProps={{
                             startAdornment: (
@@ -77,6 +79,8 @@ const CreateAccountForm = () => {
                         label="패스워드" 
                         type="password" 
                         variant="standard" 
+                        style={{width:'290px'}}
+                        placeholder="패스워드를 입력해주세요"
                         inputRef={passwordInputRef} 
                         InputProps={{
                             startAdornment: (
@@ -91,6 +95,8 @@ const CreateAccountForm = () => {
                         label="닉네임"
                         variant="standard"
                         id='nickname'
+                        style={{width:'290px'}}
+                        placeholder="닉네임을 입력해주세요"
                         inputRef={nicknameInputRef}
                         InputProps={{
                             startAdornment: (
@@ -106,8 +112,8 @@ const CreateAccountForm = () => {
                     color: 'red',
                     textAlign: "center"
                 }}>{signupResultText}</div>
-                <div style={{ paddingTop: 30, paddingLeft: 60 }}>
-                <Button style={{ width: 120 }} variant="outlined" color="success" type='submit'>등록</Button>
+                <div style={{ paddingTop: 30}}>
+                <Button style={{width: '100%', height:'50px'}} variant="contained" color="success" type='submit'>등록</Button>
                 </div>
             </form>
         </section>

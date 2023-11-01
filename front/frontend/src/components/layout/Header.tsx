@@ -72,7 +72,7 @@ const Header = () => {
                     aria-label="menu"
                     sx={{ mr: 2 }}
                 >
-                <MenuIcon />
+                {/* <MenuIcon /> */}
                 </IconButton>
                 <Menu
                 id="menu-appbar"
@@ -104,7 +104,13 @@ const Header = () => {
                 <div style={{marginRight:'10px', width: '50px'}}>{isLogin ? nickname : ''}</div>
                 <Avatar onClick={handleMenu} style={{ cursor: "pointer" }}/>
                 </Toolbar>
-
+                <div style={{height:'40px' ,borderTop:'1px solid white', backgroundColor:'white', display:"flex", justifyContent:'center'}}>
+                    <div style={{border: '1px solid black', width:'20%'}}>dd</div>
+                    <div style={{border: '1px solid black', width:'20%'}}>dd</div>
+                    <div style={{border: '1px solid black', width:'20%'}}>dd</div>
+                    <div style={{border: '1px solid black', width:'20%'}}>dd</div>
+                    <div style={{border: '1px solid black', width:'20%'}}>dd</div>
+                </div>
             </AppBar>
             </Box>
         </header>

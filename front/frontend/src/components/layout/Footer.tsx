@@ -5,6 +5,7 @@ import RestoreIcon from '@mui/icons-material/Restore';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import Styles from '../../styles/layout/Footer.module.css';
+import CurrentMap from '../common/CurrentMap';
 
 const Footer = () => {
     const [value, setValue] = React.useState(0);
@@ -21,6 +22,7 @@ const Footer = () => {
               setValue(newValue);
             }}
           >
+            <CurrentMap/>
             <BottomNavigationAction sx={{color:'white'}} label="Recents" icon={<RestoreIcon />} />
             <BottomNavigationAction sx={{color:'white'}} label="Favorites" icon={<FavoriteIcon />} />
             <BottomNavigationAction sx={{color:'white'}} label="Nearby" icon={<LocationOnIcon />} />

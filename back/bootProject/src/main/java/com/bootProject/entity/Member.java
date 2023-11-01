@@ -16,6 +16,12 @@ public class Member extends Base{
     private Long id;
 
     @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String phone;
+
+    @Column(nullable = false)
     private String email;
 
     @Column(nullable = false)
@@ -28,9 +34,11 @@ public class Member extends Base{
     private Role role;
 
     @Builder
-    public Member(Long id, String email, String password, String nickname, Role role) {
+    public Member(Long id, String email, String phone, String name, String password, String nickname, Role role) {
         this.id = id;
         this.email = email;
+        this.phone = phone;
+        this.name = name;
         this.password = password;
         this.nickname = nickname;
         this.role = role;
