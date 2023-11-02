@@ -42,7 +42,7 @@ const CurrentMap = () => {
 	const errorHandler = (error:any) => {
 		console.log(error);
 	};
-  /**/
+  /****/
 
   return (
     <>
@@ -54,13 +54,13 @@ const CurrentMap = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <div>현재위치</div>
+          <div style={{textAlign:'center', fontWeight:'bold', paddingBottom:'40px'}}>현재위치</div>
           {location && (
           <Map 
-                    center={{ lat: location.latitude, lng: location.longitude }} 
-                    style={{ width: '1000px', height: '600px' }} 
-                    level={3}
-                  >
+            center={{ lat: location.latitude, lng: location.longitude }} 
+            style={{ width: '1000px', height: '500px' }} 
+            level={3}
+          >
             <MapMarker position={{ lat: location.latitude, lng: location.longitude }} />
           </Map>
         )}
