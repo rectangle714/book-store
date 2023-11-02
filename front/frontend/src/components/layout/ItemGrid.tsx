@@ -29,7 +29,7 @@ const ItemGrid = () => {
     <>
       <Grid sx={{ flexGrow: 2 }} container spacing={1}>
         <Grid item xs={12}>
-          <Grid container justifyContent="center" spacing={spacing} style={{paddingTop:10, justifyContent:'left'}}>
+          <Grid container justifyContent="center" spacing={spacing} style={{paddingTop:10, justifyContent:'left', paddingLeft:'70px'}}>
             {rows.map((value, index) => (
               <Grid key={value.id} item >
                 <Paper

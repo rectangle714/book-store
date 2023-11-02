@@ -49,6 +49,13 @@ const Admin = () => {
 
     return (
         <Container maxWidth="md" fixed className={Styls.container}>
+          <section style={{
+            minHeight:'84.8vh',
+            display:'flex',
+            flexDirection:'column',
+            alignItems:'center',
+            justifyContent:'center'
+          }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider'}}>
                 <Tabs centered={true} value={value} onChange={handleChange} aria-label="basic tabs example">
                     <Tab label="회원정보" {...a11yProps(0)} />
@@ -68,6 +75,7 @@ const Admin = () => {
             <TabPanel value={value} index={2}>
               <AdminItemList></AdminItemList>
             </TabPanel>
+          </section>
         </Container>
     )
 }

@@ -11,8 +11,8 @@ import { login, logout, User } from "../../store/modules/user";
 let logoutTimer:NodeJS.Timeout;
 
 const LoginForm = () => {
-    const naverLoginUrl = "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id="+process.env.REACT_APP_NAVER_CLIENT_ID+"&state=test&redirect_url="+process.env.REACT_APP_NAVER_REDIRECT_URL+"";
-    const kakaoLoginUrl = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id="+process.env.REACT_APP_KAKAO_CLIENT_ID+"&redirect_uri="+process.env.REACT_APP_KAKAO_REDIRECT_URL+"";
+    const naverLoginUrl = process.env.REACT_APP_NAVER_LOGIN_URL;
+    const kakaoLoginUrl = process.env.REACT_APP_KAKAO_LOGIN_URL;
     
     const emailInputRef = useRef<HTMLInputElement>(null);
     const passwordInputRef = useRef<HTMLInputElement>(null);
@@ -106,7 +106,7 @@ const LoginForm = () => {
                                     />
                             </div>
                             <div style={{display:"flex", justifyContent:'flex-end', marginTop: '10px', fontSize:'13px'}}>
-                                    <a onClick={() => {navigate('/findId')}} style={{cursor:'pointer'}}>아이디찾기 </a>
+                                    <a onClick={() => {navigate('/findId')}} style={{cursor:'pointer'}}>이메일 찾기 </a>
                                     <span style={{
                                         width:'1px',
                                         height: '13px',
