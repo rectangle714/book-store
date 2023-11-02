@@ -7,6 +7,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Avatar from '@mui/joy/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import HeaderMenu from './HeaderMenu';
 
 const Header = () => {
     const dispatch = useAppDispatch();
@@ -97,20 +98,14 @@ const Header = () => {
                     <img 
                         src="/images/puppy.png" 
                         alt='logo image' 
-                        style={{ width:50, height:50, marginTop:15, marginBottom:10, cursor:"pointer", paddingLeft:'50px' }} 
+                        style={{ width:50, height:50, marginTop:15, marginBottom:10, cursor:"pointer", paddingLeft:'70px' }} 
                         onClick={(e)=>navFunction(e,'main')}>
                     </img>
                 </Typography>
                 <div style={{marginRight:'10px', width: '50px'}}>{isLogin ? nickname : ''}</div>
                 <Avatar onClick={handleMenu} style={{ cursor: "pointer" }}/>
                 </Toolbar>
-                <div style={{height:'40px' ,borderTop:'1px solid white', backgroundColor:'white', display:"flex", justifyContent:'center'}}>
-                    <div style={{border: '1px solid black', width:'20%'}}>dd</div>
-                    <div style={{border: '1px solid black', width:'20%'}}>dd</div>
-                    <div style={{border: '1px solid black', width:'20%'}}>dd</div>
-                    <div style={{border: '1px solid black', width:'20%'}}>dd</div>
-                    <div style={{border: '1px solid black', width:'20%'}}>dd</div>
-                </div>
+                <HeaderMenu></HeaderMenu>
             </AppBar>
             </Box>
         </header>

@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState, useRef } from "react";
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -56,6 +54,7 @@ const CurrentMap = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
+          <div>현재위치</div>
           {location && (
           <Map 
                     center={{ lat: location.latitude, lng: location.longitude }} 

@@ -1,7 +1,8 @@
-import AuthForm from "../components/auth/LoginForm";
+import LoginForm from "../components/auth/LoginForm";
 
-const AuthPage = () => {
-    return <AuthForm />;
+
+const LoginPage = () => {
+    return <LoginForm />;
 }
 
-export default AuthPage;
+export default LoginPage;
