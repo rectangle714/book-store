@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, TextField, ButtonGroup, InputAdornment, Alert } from '@mui/material';
 import Styles from '../../styles/auth/LoginForm.module.css';
@@ -10,6 +10,12 @@ import { login, logout, User } from "../../store/modules/user";
 
 let logoutTimer:NodeJS.Timeout;
 
+declare global {
+    interface Window {
+      naver: any;
+    }
+  }
+
 const LoginForm = () => {
     const naverLoginUrl = process.env.REACT_APP_NAVER_LOGIN_URL;
     const kakaoLoginUrl = process.env.REACT_APP_KAKAO_LOGIN_URL;
@@ -20,6 +26,25 @@ const LoginForm = () => {
     const dispatch = useAppDispatch();
     const [loginText, setLoginText] = useState('');
     let navigate = useNavigate();
+
+    const NaverLogin = () => {
+        const { naver } = window;
+      
+        const naverLogin = new naver.LoginWithNaverId(
+          {
+            clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
+            callbackUrl: process.env.REACT_APP_NAVER_REDIRECT_URL,
+            isPopup: false, /* 팝업을 통한 연동처리 여부, true 면 팝업 */
+            loginButton: {color: "green", type: 2, height: 36.88}
+          }
+        );
+      
+        naverLogin.init();
+    }
+
+    useEffect(() => {
+        NaverLogin(); // useEffect로 안하고 onclick하면 로그인배너아이콘 안뜸
+      }, []);
 
     const submitHandler = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -57,10 +82,6 @@ const LoginForm = () => {
             return false;
         }
 
-    }
-
-    const findPasswordHandler = () => {
-        navigate('/profile');
     }
 
     return (
@@ -123,7 +144,8 @@ const LoginForm = () => {
                         <div style={{
                                 paddingTop: 20,
                             }}>
-                            <a style={{cursor:'pointer'}} href={naverLoginUrl}><img src='/images/auth/naverLoginButton.png' style={{width:140}}/></a>
+                            <span className="grid-naver" id='naverIdLogin'></span>
+                            {/* <a style={{cursor:'pointer'}} href={naverLoginUrl}><img src='/images/auth/naverLoginButton.png' style={{width:140}}/></a> */}
                             <a style={{cursor:'pointer'}} href={kakaoLoginUrl}><img src='/images/auth/kakaoLoginButton.png' style={{width:150, marginLeft:5}}/></a>
                         </div>
                         <div style={{

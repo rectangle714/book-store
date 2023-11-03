@@ -69,7 +69,7 @@ const userSlice = createSlice({
 /* 회원가입 */
 export const signup = createAsyncThunk('SIGNUP', async (user:User) => {
     try{
-        const URL = "/auth/signup";
+        const URL = "/api/v1/auth/signup";
         const response = await axios.post(URL, user);
         
         return response.status;
@@ -83,7 +83,7 @@ export const signup = createAsyncThunk('SIGNUP', async (user:User) => {
 export const login = createAsyncThunk('LOGIN', async (user:User) => {
     try {
         console.log('[로그인 시작] : ',user);
-        const URL = "/auth/login";
+        const URL = "/api/v1/auth/login";
     
         const response = await axios.post(URL, user);
         if(response.status == 200) {
@@ -102,7 +102,7 @@ export const login = createAsyncThunk('LOGIN', async (user:User) => {
 export const logout = createAsyncThunk('LOGOUT', async () => {
     try {
         console.log('[로그아웃 시작]');
-        const URL = '/auth/logout';
+        const URL = '/api/v1/auth/logout';
         let accessToken = '';
         let refreshToken = '';
 
@@ -144,7 +144,7 @@ export const logout = createAsyncThunk('LOGOUT', async () => {
 /* 사용자 정보 조회 */
 export const userInfo = createAsyncThunk('USER_INFO', async () => {
     console.log('[사용자 조회]');
-    const URL = '/member/me';
+    const URL = '/api/v1/member/me';
     let accessToken = '';
     let refreshToken = '';
 
@@ -164,7 +164,7 @@ export const userInfo = createAsyncThunk('USER_INFO', async () => {
 export const allUserInfo = createAsyncThunk('ALL_USER_INFO', async () => {
     try {
          console.log('[전체 사용자 조회]');
-         const URL = '/member/findAll';
+         const URL = '/api/v1/member/findAll';
          let accessToken = '';
          let refreshToken = '';
 
@@ -180,6 +180,20 @@ export const allUserInfo = createAsyncThunk('ALL_USER_INFO', async () => {
 
     } catch(error) {
         console.error('에러발생 :'+ error);
+    }
+});
+
+/* 네이버 로그인 a */
+export const naverLogin = createAsyncThunk('NAVER_LOGIN', async (token:string) => {
+    const URL = '/api/v1/auth/naver-login'
+    // const URL = '/auth/naver-login';
+
+    if(URL != null) {
+        const response = await axios.get(URL);
+        if(response.status == 200) {
+            console.log('response = ',response);
+        }
+        return response.data;
     }
 });
 

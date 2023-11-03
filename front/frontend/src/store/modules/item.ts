@@ -26,7 +26,7 @@ const itemSlice = createSlice({
 export const registerItem = createAsyncThunk('REGISTER_ITEM', async (item:any) => { 
     try {
         console.log('[상품 등록 시작]');
-        const URL = '/item/save';
+        const URL = '/api/v1/item/save';
         const validResult = validToken();
         const response = await axios.post(
             URL,
@@ -50,7 +50,7 @@ export const registerItem = createAsyncThunk('REGISTER_ITEM', async (item:any) =
 export const allItemInfo = createAsyncThunk('ALL_ITEM_INFO', async () => {
     try {
         console.log('[전체 상품 조회 시작]')
-        const URL = '/item/findAll';
+        const URL = '/api/v1/item/findAll';
         //const validResult = validToken();
 
         const response = await axios.get(URL);

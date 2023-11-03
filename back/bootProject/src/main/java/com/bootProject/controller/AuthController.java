@@ -15,9 +15,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @Slf4j
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
@@ -48,15 +50,20 @@ public class AuthController {
     }
 
     /** Auth 2.0 Login (네이버) **/
-    @GetMapping("/naver-login")
-    public void naverLogin(HttpServletRequest request, HttpServletResponse response) {
-
+    @RequestMapping("/naver-login")
+    public void naverLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String url = authService.getNaverAuthorizeUrl("authorize");
+        try {
+            response.sendRedirect("/login");
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /** Auth 2.0 Login (카카오) **/
-    @GetMapping("/kakao-login")
+    @RequestMapping("/kakao-login")
     public void kakaoLogin(HttpServletRequest request, HttpServletResponse response) {
-
+        log.debug("카카오 요청 들어옴");
     }
 
 }

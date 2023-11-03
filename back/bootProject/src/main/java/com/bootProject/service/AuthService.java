@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URLEncoder;
 import java.util.Date;
 
 @Slf4j
@@ -40,16 +41,16 @@ public class AuthService {
     private final CookieUtil cookieUtil;
 
     /** 네이버 로그인 관련 config 값 **/
-/*    @Value("${security.oauth2.client.registration.naver.base-url}")
-    private String naverUrl;*/
+    @Value("${spring.security.oauth2.client.provider.naver.authorization-uri}")
+    private String naverUrl;
     @Value("${spring.security.oauth2.client.registration.naver.client-id}")
     private String naverClientId;
     @Value("${spring.security.oauth2.client.registration.naver.redirect-uri}")
     private String naverRedirectUri;
 
     /** 카카오 로그인 관련 config 값 **/
-    /*@Value("${security.oauth2.client.registration.kakao.base-url}")
-    private String kakaoUrl;*/
+    @Value("${spring.security.oauth2.client.registration.kakao.base-url}")
+    private String kakaoUrl;
     @Value("${spring.security.oauth2.client.registration.kakao.redirect-uri}")
     private String kakaoClientId;
     @Value("${spring.security.oauth2.client.registration.kakao.redirect-uri}")
@@ -102,17 +103,20 @@ public class AuthService {
         }
     }
 
-    /*public String getNaverAuthorizeUrl() {
+    public String getNaverAuthorizeUrl(String type) throws Exception {
+
+        String baseUrl = naverUrl;
+        String clientId = naverClientId;
+        String redirectUrl = naverRedirectUri;
+
         UriComponents uriComponents = UriComponentsBuilder
-                .fromUriString()
-                .queryParam()
-                .queryParam()
-                .queryParam()
-                .queryParam()
+                .fromUriString(baseUrl + "/" + type)
+                .queryParam("response_type", "code")
+                .queryParam("client_id", clientId)
+                .queryParam("redirectUrl", URLEncoder.encode(redirectUrl, "UTF-8"))
+                .queryParam("state", URLEncoder.encode("1234", "UTF-8"))
                 .build();
-
-        return uriComponents;
-
-    }*/
+        return uriComponents.toString();
+    }
 
 }
