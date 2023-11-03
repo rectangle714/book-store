@@ -49,8 +49,8 @@ public class AuthService {
     private String naverRedirectUri;
 
     /** 카카오 로그인 관련 config 값 **/
-    @Value("${spring.security.oauth2.client.registration.kakao.base-url}")
-    private String kakaoUrl;
+    /*@Value("${spring.security.oauth2.client.registration.kakao.base-url}")
+    private String kakaoUrl;*/
     @Value("${spring.security.oauth2.client.registration.kakao.redirect-uri}")
     private String kakaoClientId;
     @Value("${spring.security.oauth2.client.registration.kakao.redirect-uri}")
@@ -105,18 +105,34 @@ public class AuthService {
 
     public String getNaverAuthorizeUrl(String type) throws Exception {
 
-        String baseUrl = naverUrl;
-        String clientId = naverClientId;
-        String redirectUrl = naverRedirectUri;
+        if("authorize".equals(type)) {
+            String baseUrl = naverUrl;
+            String clientId = naverClientId;
+            String redirectUrl = naverRedirectUri;
 
-        UriComponents uriComponents = UriComponentsBuilder
-                .fromUriString(baseUrl + "/" + type)
-                .queryParam("response_type", "code")
-                .queryParam("client_id", clientId)
-                .queryParam("redirectUrl", URLEncoder.encode(redirectUrl, "UTF-8"))
-                .queryParam("state", URLEncoder.encode("1234", "UTF-8"))
-                .build();
-        return uriComponents.toString();
+            UriComponents uriComponents = UriComponentsBuilder
+                    .fromUriString(baseUrl + "/" + type)
+                    .queryParam("response_type", "code")
+                    .queryParam("client_id", clientId)
+                    .queryParam("redirectUrl", URLEncoder.encode(redirectUrl, "UTF-8"))
+                    .queryParam("state", URLEncoder.encode("1234", "UTF-8"))
+                    .build();
+            return uriComponents.toString();
+        } else if("token".equals(type)) {
+            String baseUrl = naverUrl;
+            String clientId = naverClientId;
+            String redirectUrl = naverRedirectUri;
+
+            UriComponents uriComponents = UriComponentsBuilder
+                    .fromUriString(baseUrl + "/" + type)
+                    .queryParam("response_type", "code")
+                    .queryParam("client_id", clientId)
+                    .queryParam("redirectUrl", URLEncoder.encode(redirectUrl, "UTF-8"))
+                    .queryParam("state", URLEncoder.encode("1234", "UTF-8"))
+                    .build();
+            return uriComponents.toString();
+        }
+        return "";
     }
 
 }

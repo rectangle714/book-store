@@ -50,9 +50,19 @@ public class AuthController {
     }
 
     /** Auth 2.0 Login (네이버) **/
-    @RequestMapping("/naver-login")
-    public void naverLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @RequestMapping("/naverLoginAuthorize")
+    public void naverLoginAuthorize(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String url = authService.getNaverAuthorizeUrl("authorize");
+        try {
+            response.sendRedirect("/login");
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping("/naverLoginToken")
+    public void naverLoginToken(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String url = authService.getNaverAuthorizeUrl("token");
         try {
             response.sendRedirect("/login");
         } catch(IOException e) {
