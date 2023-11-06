@@ -52,12 +52,15 @@ dependencies {
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
 
-	//retrofit2
+	// retrofit2
 	implementation 'com.squareup.retrofit2:retrofit:(insert latest version)'
-	//요청,응답 객체를 파싱해주는 라이브러리(gson을 이용함)
+	// 요청,응답 객체를 파싱해주는 라이브러리(gson을 이용함)
 	implementation 'com.squareup.retrofit2:converter-gson:2.7.2'
-	//선택사항 : http 통신 로그를 출력한다
+	// 선택사항 : http 통신 로그를 출력한다
 	implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
+
+	// json 추가
+	implementation 'org.json:json:20231013'
 }
 
 /** QueryDsl 설정 **/

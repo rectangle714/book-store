@@ -12,8 +12,6 @@ const AuthLogin = () => {
   
     // 쿼리 취득
     const token = searchParams.get('#access_token'); // code 취득
-    const state = searchParams.get('state'); // code 취득
-    console.log('token: ', token); // id: 10
 
     if(token != undefined && token != '') {
         const result = dispatch(naverLogin(token));

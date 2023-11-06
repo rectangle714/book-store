@@ -3,6 +3,7 @@ package com.bootProject.service;
 import com.bootProject.common.CookieUtil;
 import com.bootProject.common.RedisUtil;
 import com.bootProject.dto.MemberDTO;
+import com.bootProject.dto.NaverToken;
 import com.bootProject.dto.TokenDTO;
 import com.bootProject.entity.Member;
 import com.bootProject.common.exception.BusinessException;
@@ -10,11 +11,18 @@ import com.bootProject.common.code.ErrorCode;
 import com.bootProject.jwt.TokenProvider;
 import com.bootProject.repository.member.MemberRepository;
 import com.bootProject.repository.RefreshTokenRepository;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.json.JSONParser;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -26,8 +34,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Base64;
 import java.util.Date;
+import java.util.LinkedHashMap;
 
 @Slf4j
 @Service
@@ -43,8 +57,12 @@ public class AuthService {
     /** 네이버 로그인 관련 config 값 **/
     @Value("${spring.security.oauth2.client.provider.naver.authorization-uri}")
     private String naverUrl;
+    @Value("${spring.security.oauth2.client.provider.naver.token-url}")
+    private String naverTokenUrl;
     @Value("${spring.security.oauth2.client.registration.naver.client-id}")
     private String naverClientId;
+    @Value("${spring.security.oauth2.client.registration.naver.client-secret}")
+    private String naverClientSecret;
     @Value("${spring.security.oauth2.client.registration.naver.redirect-uri}")
     private String naverRedirectUri;
 
@@ -103,7 +121,7 @@ public class AuthService {
         }
     }
 
-    public String getNaverAuthorizeUrl(String type) throws Exception {
+    public String getNaverAuthorizeUrl(String type, String accessToken) throws Exception {
 
         if("authorize".equals(type)) {
             String baseUrl = naverUrl;
@@ -114,25 +132,96 @@ public class AuthService {
                     .fromUriString(baseUrl + "/" + type)
                     .queryParam("response_type", "code")
                     .queryParam("client_id", clientId)
-                    .queryParam("redirectUrl", URLEncoder.encode(redirectUrl, "UTF-8"))
-                    .queryParam("state", URLEncoder.encode("1234", "UTF-8"))
+                    .queryParam("redirectUrl", redirectUrl)
+                    .queryParam("state", "test", "UTF-8")
                     .build();
             return uriComponents.toString();
         } else if("token".equals(type)) {
-            String baseUrl = naverUrl;
+            String baseUrl = naverTokenUrl;
             String clientId = naverClientId;
+            String clientSecret = naverClientSecret;
             String redirectUrl = naverRedirectUri;
 
             UriComponents uriComponents = UriComponentsBuilder
-                    .fromUriString(baseUrl + "/" + type)
-                    .queryParam("response_type", "code")
+                    .fromUriString(baseUrl)
+                    .queryParam("grant_type", "authorization_code")
                     .queryParam("client_id", clientId)
-                    .queryParam("redirectUrl", URLEncoder.encode(redirectUrl, "UTF-8"))
-                    .queryParam("state", URLEncoder.encode("1234", "UTF-8"))
+                    .queryParam("client_secret", clientSecret)
+                    .queryParam("redirect_uri", redirectUrl)
+                    .queryParam("code", accessToken)
+                    .queryParam("state", URLEncoder.encode("test", "UTF-8"))
                     .build();
+            try {
+                URL url = new URL(uriComponents.toString());
+                HttpURLConnection con = (HttpURLConnection)url.openConnection();
+                con.setRequestMethod("GET");
+                int responseCode = con.getResponseCode();
+                BufferedReader br;
+
+                if(responseCode == 200) {
+                    br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                } else {
+                    br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+                }
+
+                String inputLine = "";
+                StringBuffer response = new StringBuffer();
+                while((inputLine = br.readLine()) != null) {
+                    response.append(inputLine);
+                }
+
+                br.close();
+                return response.toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             return uriComponents.toString();
         }
-        return "";
+        return null;
+    }
+
+    public String getNaverUserByToken(String token) {
+
+        try {
+            String accessToken = token;
+
+            URL url = new URL("https://openapi.naver.com/v1/nid/me");
+            HttpURLConnection con = (HttpURLConnection)url.openConnection();
+            con.setRequestMethod("GET");
+            con.setRequestProperty("Authorization", "bearer" + " " + accessToken);
+
+            int responseCode = con.getResponseCode();
+            BufferedReader br;
+
+            if(responseCode==200) { // 정상 호출
+                br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            } else {  // 에러 발생
+                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+            }
+
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+            while ((inputLine = br.readLine()) != null) {
+                response.append(inputLine);
+            }
+
+            br.close();
+
+            String resultUser = response.toString();
+
+            JSONObject jObject = new JSONObject(resultUser);
+            JSONObject responseObj = jObject.getJSONObject("response");
+            String email = responseObj.getString("email");
+            String name = responseObj.getString("name");
+
+            // email로 확인 후 있으면 로그인 없으면 회원가입으로 이동
+
+            return response.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

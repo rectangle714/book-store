@@ -185,7 +185,7 @@ export const allUserInfo = createAsyncThunk('ALL_USER_INFO', async () => {
 
 /* 네이버 로그인 a */
 export const naverLogin = createAsyncThunk('NAVER_LOGIN', async (token:string) => {
-    const URL = '/api/v1/auth/naverLoginToken?'+token;
+    const URL = '/api/v1/auth/naverLoginToken?token='+token;
     // const URL = '/auth/naver-login';
 
     if(URL != null) {
