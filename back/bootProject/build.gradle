@@ -19,7 +19,7 @@ repositories {
 }
 
 bootJar {
-	mainClassName = 'com.bootProject.BootProjectApplication'
+
 }
 
 dependencies {
