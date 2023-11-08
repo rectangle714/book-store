@@ -29,19 +29,19 @@ public class memberTest {
         List<Member> memberList = new ArrayList<Member>();
 
         Member user = Member.builder()
-                .role(Role.ROLE_USER)
+                .name("사용자")
                 .email("test")
-                .nickname("사용자")
                 .password(password)
+                .role(Role.ROLE_USER)
                 .build();
 
         memberList.add(user);
 
         Member admin = Member.builder()
-                .role(Role.ROLE_ADMIN)
+                .name("관리자")
                 .email("admin")
-                .nickname("관리자")
                 .password(password)
+                .role(Role.ROLE_ADMIN)
                 .build();
 
         memberList.add(admin);
