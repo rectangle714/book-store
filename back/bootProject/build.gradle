@@ -19,7 +19,8 @@ repositories {
 }
 
 bootJar {
-
+	archivesBaseName = 'boot_project'
+	archiveFileName = 'boot_project.jar'
 }
 
 jar {
