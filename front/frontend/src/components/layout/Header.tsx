@@ -90,7 +90,7 @@ const Header = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
                 >
-                {isLogin ? <MenuItem onClick={(e)=>navFunction(e,'mypage')}>마이페이지</MenuItem> : <Button onClick={(e)=>navFunction(e,'signup')} color="inherit">회원가입</Button>}
+                {isLogin ? <MenuItem onClick={(e)=>navFunction(e,'mypage')}>마이페이지</MenuItem> : <MenuItem onClick={(e)=>navFunction(e,'signup')} color="inherit">회원가입</MenuItem>}
                 {(isLogin && role == 'ROLE_ADMIN')  ? <MenuItem onClick={(e) => navFunction(e,'admin')}>관리자</MenuItem> : ''}
                 {isLogin ? <MenuItem onClick={toggleLogoutHandler}>로그아웃</MenuItem> : <MenuItem onClick={(e)=>navFunction(e,'login')}>로그인</MenuItem>}
                 </Menu>
