@@ -16,6 +16,9 @@
 - Redis
 ### Cloud
 - AWS
+### DevOps
+- Docker
+- Jenkins
 
 ## **화면 설명**
 ### 사용자
