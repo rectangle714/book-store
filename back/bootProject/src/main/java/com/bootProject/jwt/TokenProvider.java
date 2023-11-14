@@ -1,30 +1,22 @@
 package com.bootProject.jwt;
 
-import com.bootProject.common.RedisUtil;
+import com.bootProject.common.util.RedisUtil;
 import com.bootProject.dto.TokenDTO;
 import com.bootProject.service.CustomUserDetailsService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -62,6 +54,29 @@ public class TokenProvider {
 
         String accessToken = generateAccessToken(authentication.getName());
         String refreshToken = generateRefreshToken(authentication.getName());
+
+        log.info("accessToken = {}", accessToken);
+        log.info("refreshToken = {}", refreshToken);
+
+        return TokenDTO.builder()
+                .grantType(BEARER_TYPE)
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .accessTokenExpiresIn(accessTokenExpiresIn.getTime())
+                .refreshTokenExpiresIn(refreshTokenExpiresIn.getTime())
+                .build();
+    }
+
+    /**
+     *   TokenDTO에 access, refresh 토큰 값을 담아준다. (oauth 로그인)
+     */
+    public TokenDTO generateTokenDtoByOauth(String memberId) {
+        long now = (new Date()).getTime();
+        Date accessTokenExpiresIn = new Date(now + accessTokenExpireTime);
+        Date refreshTokenExpiresIn = new Date(now + refreshTokenExpireTime);
+
+        String accessToken = generateAccessToken(memberId);
+        String refreshToken = generateRefreshToken(memberId);
 
         log.info("accessToken = {}", accessToken);
         log.info("refreshToken = {}", refreshToken);

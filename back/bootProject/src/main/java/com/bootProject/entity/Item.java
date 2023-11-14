@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @Getter
 @Table(name = "item")
-@NoArgsConstructor
+@Builder
 public class Item extends Base{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,13 +25,5 @@ public class Item extends Base{
     @JsonManagedReference
     @OneToMany(mappedBy = "item")
     private List<SaveFile> fileList = new ArrayList<>();
-
-
-    @Builder
-    public Item(Long id, String title, String contents) {
-        this.id = id;
-        this.title = title;
-        this.contents = contents;
-    }
 
 }

@@ -1,5 +1,6 @@
 package com.bootProject.entity;
 
+import com.bootProject.oauth2.SocialType;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -7,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@Builder
 public class Member extends Base{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,16 +30,10 @@ public class Member extends Base{
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @Builder
-    public Member(Long id, String email, String name, String password, String phone, String nickname, Role role) {
-        this.id = id;
-        this.email = email;
-        this.name = name;
-        this.password = password;
-        this.phone = phone;
-        this.nickname = nickname;
-        this.role = role;
-    }
+    private String socialId; // 로그인한 소셜 타입의 식별자 값 (일반 로그인인 경우 null)
+    @Enumerated(EnumType.STRING)
+    private SocialType socialType; // KAKAO, NAVER, GOOGLE
+
 }
 
 

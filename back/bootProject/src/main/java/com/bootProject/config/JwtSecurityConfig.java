@@ -1,6 +1,6 @@
 package com.bootProject.config;
 
-import com.bootProject.common.RedisUtil;
+import com.bootProject.common.util.RedisUtil;
 import com.bootProject.jwt.JwtFilter;
 import com.bootProject.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;

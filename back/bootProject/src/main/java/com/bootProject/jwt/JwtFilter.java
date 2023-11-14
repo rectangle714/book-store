@@ -1,6 +1,6 @@
 package com.bootProject.jwt;
 
-import com.bootProject.common.RedisUtil;
+import com.bootProject.common.util.RedisUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

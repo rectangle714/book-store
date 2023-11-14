@@ -7,6 +7,7 @@ import lombok.Getter;
 @Entity
 @Getter
 @Table(name = "cart")
+@Builder
 public class Cart extends Base{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,10 +22,4 @@ public class Cart extends Base{
     @JoinColumn(name = "item_id")
     private Item item_id;
 
-    @Builder
-    public Cart(Long id, Member member_id, Item item_id) {
-        this.id = id;
-        this.member_id = member_id;
-        this.item_id = item_id;
-    }
 }

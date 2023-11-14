@@ -1,4 +1,4 @@
-package com.bootProject.common;
+package com.bootProject.common.util;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;

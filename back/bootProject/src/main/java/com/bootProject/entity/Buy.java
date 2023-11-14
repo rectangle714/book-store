@@ -7,6 +7,7 @@ import lombok.Getter;
 @Entity
 @Getter
 @Table(name = "buy")
+@Builder
 public class Buy extends Base{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,15 +23,4 @@ public class Buy extends Base{
     private String res_phone;   //받는 사람 핸드폰번호
     private String res_requirement; //받는사람 요청사항
     private Long total_price;   //합계
-
-    @Builder
-    public Buy(Long id, Member member, String res_name, String res_address, String res_phone, String res_requirement, Long total_price) {
-        this.id = id;
-        this.member = member;
-        this.res_name = res_name;
-        this.res_address = res_address;
-        this.res_phone = res_phone;
-        this.res_requirement = res_requirement;
-        this.total_price = total_price;
-    }
 }

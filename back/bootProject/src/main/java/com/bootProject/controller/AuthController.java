@@ -1,25 +1,16 @@
 package com.bootProject.controller;
 
 import com.bootProject.common.exception.BusinessException;
-import com.bootProject.config.SecurityUtil;
 import com.bootProject.dto.MemberDTO;
-import com.bootProject.dto.NaverToken;
 import com.bootProject.dto.TokenDTO;
 import com.bootProject.jwt.TokenProvider;
 import com.bootProject.service.AuthService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.json.JSONParser;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
-import java.util.LinkedHashMap;
 
 @Slf4j
 @RestController

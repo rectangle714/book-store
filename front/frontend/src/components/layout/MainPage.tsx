@@ -6,7 +6,7 @@ import Slider from './Slider';
 const MainPage = () => {
 
     return (
-        <Container maxWidth="md" fixed className={Styls.container}>
+        <Container fixed className={Styls.container}>
           <Slider/>
           <ItemGrid/>
         </Container>

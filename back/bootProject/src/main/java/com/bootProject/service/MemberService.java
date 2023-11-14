@@ -1,6 +1,6 @@
 package com.bootProject.service;
 
-import com.bootProject.config.SecurityUtil;
+import com.bootProject.common.util.SecurityUtil;
 import com.bootProject.dto.MemberDTO;
 import com.bootProject.entity.Member;
 import com.bootProject.repository.member.MemberRepository;

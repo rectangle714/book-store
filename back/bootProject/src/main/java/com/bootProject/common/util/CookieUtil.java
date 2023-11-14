@@ -1,4 +1,4 @@
-package com.bootProject.common;
+package com.bootProject.common.util;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

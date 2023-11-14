@@ -1,27 +1,20 @@
 package com.bootProject.service;
 
-import com.bootProject.common.CookieUtil;
-import com.bootProject.common.RedisUtil;
+import com.bootProject.common.util.CookieUtil;
+import com.bootProject.common.util.RedisUtil;
+import com.bootProject.common.code.ErrorCode;
+import com.bootProject.common.exception.BusinessException;
 import com.bootProject.dto.MemberDTO;
-import com.bootProject.dto.NaverToken;
 import com.bootProject.dto.TokenDTO;
 import com.bootProject.entity.Member;
-import com.bootProject.common.exception.BusinessException;
-import com.bootProject.common.code.ErrorCode;
+import com.bootProject.entity.Role;
 import com.bootProject.jwt.TokenProvider;
 import com.bootProject.repository.member.MemberRepository;
-import com.bootProject.repository.RefreshTokenRepository;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.json.JSONParser;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -39,9 +32,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.Base64;
 import java.util.Date;
-import java.util.LinkedHashMap;
 
 @Slf4j
 @Service
@@ -208,14 +199,33 @@ public class AuthService {
 
             br.close();
 
+            /** 회원 여부 확인 후 없으면 생성, 토큰 생성 **/
             String resultUser = response.toString();
 
             JSONObject jObject = new JSONObject(resultUser);
             JSONObject responseObj = jObject.getJSONObject("response");
-            String email = responseObj.getString("email");
-            String name = responseObj.getString("name");
+            String userEmail = responseObj.getString("email");
+            String userName = responseObj.getString("name");
 
             // email로 확인 후 있으면 로그인 없으면 회원가입으로 이동
+            String generatedAccessToken = "";
+            boolean isUser = memberRepository.findByEmail(userEmail).isPresent();
+
+            TokenDTO newToken = new TokenDTO();
+            if(isUser) {
+                Member member = memberRepository.findByEmail(userEmail).get();
+                newToken = tokenProvider.generateTokenDtoByOauth(member.getId().toString());
+                redisUtil.setData(member.getId().toString(), newToken.getRefreshToken(), newToken.getRefreshTokenExpiresIn());
+            } else {
+                Member member = Member.builder()
+                        .email(userEmail)
+                        .name(userName)
+                        .role(Role.USER)
+                        .build();
+                member = memberRepository.save(member);
+//                tokenProvider.generateTokenDto()
+            }
+
 
             return response.toString();
         } catch (Exception e) {

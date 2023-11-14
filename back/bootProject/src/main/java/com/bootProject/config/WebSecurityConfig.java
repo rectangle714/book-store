@@ -1,6 +1,6 @@
 package com.bootProject.config;
 
-import com.bootProject.common.RedisUtil;
+import com.bootProject.common.util.RedisUtil;
 import com.bootProject.jwt.JwtAccessDeniedHandler;
 import com.bootProject.jwt.JwtAuthenticationEntryPoint;
 import com.bootProject.jwt.TokenProvider;
@@ -48,6 +48,13 @@ public class WebSecurityConfig {
 
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider,redisUtil));
+
+//                .and()
+//                .oauth2Login()
+//                .successHandler()
+//                .failureHandler()
+//                .userInfoEndpoint().userService();
+
 
         return http.build();
     }
