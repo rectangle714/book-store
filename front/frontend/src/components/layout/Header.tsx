@@ -95,12 +95,15 @@ const Header = () => {
                 {isLogin ? <MenuItem onClick={toggleLogoutHandler}>로그아웃</MenuItem> : <MenuItem onClick={(e)=>navFunction(e,'login')}>로그인</MenuItem>}
                 </Menu>
                 <Typography align="center" variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                    <div>
                     <img 
                         src="/images/puppy.png" 
                         alt='logo image' 
-                        style={{ width:50, height:50, marginTop:15, marginBottom:10, cursor:"pointer", paddingLeft:'70px' }} 
+                        style={{ width:50, height:50, marginTop:15, cursor:"pointer", paddingLeft:'70px'}} 
                         onClick={(e)=>navFunction(e,'main')}>
                     </img>
+                    </div>
+                    <span style={{color:'black', paddingLeft:'70px'}}>Ｃｏｌｌｉｅ</span>
                 </Typography>
                 <div style={{marginRight:'10px', width: '50px'}}>{isLogin ? nickname : ''}</div>
                 <Avatar onClick={handleMenu} style={{ cursor: "pointer" }}/>

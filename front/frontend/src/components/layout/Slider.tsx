@@ -25,7 +25,7 @@ const Slider = () => {
             <Carousel
             swipeable={true}
             showArrows={true}
-            autoPlay={true}
+            // autoPlay={true}
             infiniteLoop={true}
             showThumbs={false}
             onChange={handleChange}>

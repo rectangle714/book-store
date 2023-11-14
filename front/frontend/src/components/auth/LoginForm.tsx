@@ -27,6 +27,8 @@ const LoginForm = () => {
     const [loginText, setLoginText] = useState('');
     let navigate = useNavigate();
 
+	const naverRef = useRef<any>(null);
+
     const NaverLogin = () => {
         const { naver } = window;
       
@@ -41,6 +43,12 @@ const LoginForm = () => {
       
         naverLogin.init();
     }
+
+     // handleClick 함수 onClick 이벤트 발생 시 useRef 를 통해 지정한 naverRef 항목이 클릭 된다.
+    // current 를 통해 아래 div 태그의 ref={} 속성을 줄 수 있다. ( 자세한 내용은 공식문서를 확인하자. )
+	const handleNaverLogin = () => {
+		naverRef.current.children[0].click()
+	}
 
     useEffect(() => {
         NaverLogin(); // useEffect로 안하고 onclick하면 로그인배너아이콘 안뜸
@@ -144,8 +152,8 @@ const LoginForm = () => {
                         <div style={{
                                 paddingTop: 20,
                             }}>
-                            <span className="grid-naver" id='naverIdLogin'></span>
-                            {/* <a style={{cursor:'pointer'}} href={naverLoginUrl}><img src='/images/auth/naverLoginButton.png' style={{width:140}}/></a> */}
+                            <div className="grid-naver" ref={naverRef} id='naverIdLogin' style={{display:'none'}}></div>
+                            <img onClick={handleNaverLogin} src='/images/auth/naverLoginButton.png' style={{width:140, cursor:'pointer'}}/>
                             <a style={{cursor:'pointer'}} href={kakaoLoginUrl}><img src='/images/auth/kakaoLoginButton.png' style={{width:150, marginLeft:5}}/></a>
                         </div>
                         <div style={{
