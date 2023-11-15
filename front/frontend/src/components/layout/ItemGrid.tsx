@@ -43,11 +43,11 @@ const ItemGrid = () => {
                     textAlign: 'left'
                   }}
                 >
-                {<img 
+                {value.fileList[0] != undefined? <img 
                   src={value.fileList[0].storedFileName}
                   alt='logo image' 
                   style={{ width:198, height:200, cursor:"pointer" }}
-                />}
+                /> : ''}
                 </Paper>
                 <div style={{textAlign:'left'}}>{value.title}</div>
               </Grid>

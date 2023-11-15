@@ -1,13 +1,14 @@
 package com.bootProject.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 @Entity
 @Getter
 @Table(name = "buy")
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Buy extends Base{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

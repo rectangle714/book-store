@@ -25,7 +25,7 @@ public class MemberDTO {
                 .email(email)
                 .password(passwordEncoder.encode(password))
                 .nickname(nickname)
-                .role(Role.ROLE_USER)
+                .role(Role.USER)
                 .build();
     }
     public static MemberDTO of(Member member) {

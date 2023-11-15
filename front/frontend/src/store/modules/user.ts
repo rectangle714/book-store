@@ -36,6 +36,7 @@ const userSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
+        /** 로그인 **/
         builder.addCase(login.fulfilled, (state, action) => {
             if(action.payload != undefined) {
                 state.email = action.meta.arg.email;
@@ -45,11 +46,15 @@ const userSlice = createSlice({
             }
             return state;
         });
+
+        /** 로그아웃 **/
         builder.addCase(logout.fulfilled, (state) => {
             console.log('성공');
             state.isLogin = false;
             return state;
         });
+
+        /** 사용자 조회 **/
         builder.addCase(userInfo.fulfilled, (state, action) => {
             state.nickname = action.payload?.data.nickname;
             state.role = action.payload?.data.role;
@@ -60,9 +65,17 @@ const userSlice = createSlice({
             state.isLogin = false;
             return state;
         });
-        // ['/member/me']: (state) => {
-            
-        // }
+        
+        /** 네이버로그인 **/
+        builder.addCase(naverLogin.fulfilled, (state, action) => {
+            console.log('네이버 로그인 성공');
+            if(action.payload != undefined) {
+                state.nickname = '';
+                state.isLogin = true;
+                state.loading = 'success'; 
+            }
+            return state;
+        })
     },
 })
 
@@ -183,18 +196,23 @@ export const allUserInfo = createAsyncThunk('ALL_USER_INFO', async () => {
     }
 });
 
-/* 네이버 로그인 a */
+/* 네이버 로그인 */
 export const naverLogin = createAsyncThunk('NAVER_LOGIN', async (token:string) => {
     const URL = '/api/v1/auth/naverLoginToken?token='+token;
-    // const URL = '/auth/naver-login';
 
-    if(URL != null) {
-        const response = await axios.get(URL);
-        if(response.status == 200) {
-            console.log('response = ',response);
-        }
-        return response.data;
+    const response = await axios.get(URL);
+    if(response.status == 200) {
+        const token:Token = response.data;
+        LoginTokenHandler(token.accessToken, token.refreshToken, token.refreshTokenExpiresIn);
     }
+    return response.data;
+
+});
+
+/* 카카오 로그인 */
+export const kakaoLoginGetToken = createAsyncThunk('KAKAO_LOGIN_GET_TOKEN', async (code:string) => {
+    const URL = 'https://kauth.kakao.com/oauth/token?client_id='+code+'&';
+
 });
 
 export default userSlice.reducer;

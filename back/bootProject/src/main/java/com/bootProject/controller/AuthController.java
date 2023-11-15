@@ -45,19 +45,10 @@ public class AuthController {
     }
 
     /** Auth 2.0 Login (네이버) **/
-/*    @RequestMapping("/naverLoginAuthorize")
-    public void naverLoginAuthorize(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String url = authService.getNaverAuthorizeUrl("authorize", "");
-        try {
-            response.sendRedirect("/login");
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
-    }*/
-
     @RequestMapping("/naverLoginToken")
-    public void naverLoginToken(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "token", required = false)String accessToken) throws Exception {
-        String responseUser = authService.getNaverUserByToken(accessToken);
+    public TokenDTO naverLoginToken(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "token", required = false)String accessToken) throws Exception {
+        TokenDTO responseToken = authService.getNaverUserByToken(accessToken);
+        return responseToken;
     }
 
     /** Auth 2.0 Login (카카오) **/

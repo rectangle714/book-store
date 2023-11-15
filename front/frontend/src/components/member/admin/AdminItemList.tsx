@@ -40,7 +40,7 @@ const AdminItemList = () => {
             headerName: '이미지', 
             width: 150,
             renderCell: (params) => {
-                if(params.value[0].storedFileName != '') {
+                if(params.value[0] != undefined && params.value[0].storedFileName != '') {
                     console.log('params ', params.value[0].storedFileName);
                     return (
                       <>

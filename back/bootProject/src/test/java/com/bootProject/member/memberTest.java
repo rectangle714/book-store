@@ -32,7 +32,7 @@ public class memberTest {
                 .name("사용자")
                 .email("test")
                 .password(password)
-                .role(Role.ROLE_USER)
+                .role(Role.USER)
                 .build();
 
         memberList.add(user);
@@ -41,7 +41,7 @@ public class memberTest {
                 .name("관리자")
                 .email("admin")
                 .password(password)
-                .role(Role.ROLE_ADMIN)
+                .role(Role.ADMIN)
                 .build();
 
         memberList.add(admin);

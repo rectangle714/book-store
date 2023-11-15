@@ -23,7 +23,7 @@ public class MemberController {
     *   마이페이지
     */
     @GetMapping("/me")
-    public ResponseEntity<MemberDTO> getMyMemberInfo() {
+    public ResponseEntity<MemberDTO> findMemberInfo() {
         MemberDTO myInfoBySecurity = memberService.getMyInfoBySecurity();
         return ResponseEntity.ok(myInfoBySecurity);
     }

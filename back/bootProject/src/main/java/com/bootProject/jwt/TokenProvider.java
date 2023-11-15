@@ -70,13 +70,13 @@ public class TokenProvider {
     /**
      *   TokenDTO에 access, refresh 토큰 값을 담아준다. (oauth 로그인)
      */
-    public TokenDTO generateTokenDtoByOauth(String memberId) {
+    public TokenDTO generateTokenDtoByOauth(String email) {
         long now = (new Date()).getTime();
         Date accessTokenExpiresIn = new Date(now + accessTokenExpireTime);
         Date refreshTokenExpiresIn = new Date(now + refreshTokenExpireTime);
 
-        String accessToken = generateAccessToken(memberId);
-        String refreshToken = generateRefreshToken(memberId);
+        String accessToken = generateAccessToken(email);
+        String refreshToken = generateRefreshToken(email);
 
         log.info("accessToken = {}", accessToken);
         log.info("refreshToken = {}", refreshToken);

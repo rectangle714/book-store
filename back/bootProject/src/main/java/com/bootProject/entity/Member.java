@@ -2,13 +2,13 @@ package com.bootProject.entity;
 
 import com.bootProject.oauth2.SocialType;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends Base{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +21,6 @@ public class Member extends Base{
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
     private String password;
 
     private String phone;

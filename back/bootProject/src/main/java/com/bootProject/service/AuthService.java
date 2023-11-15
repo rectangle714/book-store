@@ -9,6 +9,7 @@ import com.bootProject.dto.TokenDTO;
 import com.bootProject.entity.Member;
 import com.bootProject.entity.Role;
 import com.bootProject.jwt.TokenProvider;
+import com.bootProject.oauth2.SocialType;
 import com.bootProject.repository.member.MemberRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -44,12 +45,16 @@ public class AuthService {
     private final TokenProvider tokenProvider;
     private final RedisUtil redisUtil;
     private final CookieUtil cookieUtil;
+    @Value(value = "${jwt.token.accessTokenExpireTime}")
+    private long accessTokenExpireTime;
+    @Value(value = "${jwt.token.refreshTokenExpireTime}")
+    private long refreshTokenExpireTime;
 
     /** 네이버 로그인 관련 config 값 **/
     @Value("${spring.security.oauth2.client.provider.naver.authorization-uri}")
     private String naverUrl;
-    @Value("${spring.security.oauth2.client.provider.naver.token-url}")
-    private String naverTokenUrl;
+    @Value("${spring.security.oauth2.client.provider.naver.token-uri}")
+    private String naverTokenUri;
     @Value("${spring.security.oauth2.client.registration.naver.client-id}")
     private String naverClientId;
     @Value("${spring.security.oauth2.client.registration.naver.client-secret}")
@@ -112,67 +117,7 @@ public class AuthService {
         }
     }
 
-    public String getNaverAuthorizeUrl(String type, String accessToken) throws Exception {
-
-        if("authorize".equals(type)) {
-            String baseUrl = naverUrl;
-            String clientId = naverClientId;
-            String redirectUrl = naverRedirectUri;
-
-            UriComponents uriComponents = UriComponentsBuilder
-                    .fromUriString(baseUrl + "/" + type)
-                    .queryParam("response_type", "code")
-                    .queryParam("client_id", clientId)
-                    .queryParam("redirectUrl", redirectUrl)
-                    .queryParam("state", "test", "UTF-8")
-                    .build();
-            return uriComponents.toString();
-        } else if("token".equals(type)) {
-            String baseUrl = naverTokenUrl;
-            String clientId = naverClientId;
-            String clientSecret = naverClientSecret;
-            String redirectUrl = naverRedirectUri;
-
-            UriComponents uriComponents = UriComponentsBuilder
-                    .fromUriString(baseUrl)
-                    .queryParam("grant_type", "authorization_code")
-                    .queryParam("client_id", clientId)
-                    .queryParam("client_secret", clientSecret)
-                    .queryParam("redirect_uri", redirectUrl)
-                    .queryParam("code", accessToken)
-                    .queryParam("state", URLEncoder.encode("test", "UTF-8"))
-                    .build();
-            try {
-                URL url = new URL(uriComponents.toString());
-                HttpURLConnection con = (HttpURLConnection)url.openConnection();
-                con.setRequestMethod("GET");
-                int responseCode = con.getResponseCode();
-                BufferedReader br;
-
-                if(responseCode == 200) {
-                    br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                } else {
-                    br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-                }
-
-                String inputLine = "";
-                StringBuffer response = new StringBuffer();
-                while((inputLine = br.readLine()) != null) {
-                    response.append(inputLine);
-                }
-
-                br.close();
-                return response.toString();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return uriComponents.toString();
-        }
-        return null;
-    }
-
-    public String getNaverUserByToken(String token) {
+    public TokenDTO getNaverUserByToken(String token) {
 
         try {
             String accessToken = token;
@@ -204,30 +149,36 @@ public class AuthService {
 
             JSONObject jObject = new JSONObject(resultUser);
             JSONObject responseObj = jObject.getJSONObject("response");
+            String socialId = responseObj.getString("id");
             String userEmail = responseObj.getString("email");
             String userName = responseObj.getString("name");
 
-            // email로 확인 후 있으면 로그인 없으면 회원가입으로 이동
+            // email로 확인 후 있으면 로그인 없으면 사용자 저장
             String generatedAccessToken = "";
-            boolean isUser = memberRepository.findByEmail(userEmail).isPresent();
+            Member member = memberRepository.findByEmail(userEmail).orElse(null);
 
             TokenDTO newToken = new TokenDTO();
-            if(isUser) {
-                Member member = memberRepository.findByEmail(userEmail).get();
-                newToken = tokenProvider.generateTokenDtoByOauth(member.getId().toString());
-                redisUtil.setData(member.getId().toString(), newToken.getRefreshToken(), newToken.getRefreshTokenExpiresIn());
+            if(member != null) {
+                newToken = tokenProvider.generateTokenDtoByOauth(member.getEmail());
+                redisUtil.setData(member.getEmail(), newToken.getRefreshToken(), newToken.getRefreshTokenExpiresIn());
             } else {
-                Member member = Member.builder()
+                Member guest = Member.builder()
                         .email(userEmail)
                         .name(userName)
-                        .role(Role.USER)
+                        .role(Role.GUEST)
+                        .socialId(socialId)
+                        .socialType(SocialType.NAVER)
                         .build();
-                member = memberRepository.save(member);
-//                tokenProvider.generateTokenDto()
+                guest = memberRepository.save(guest);
+                newToken = tokenProvider.generateTokenDtoByOauth(guest.getEmail());
+                redisUtil.setData(guest.getEmail(), newToken.getRefreshToken(), newToken.getRefreshTokenExpiresIn());
             }
 
+            Authentication auth = null;
+            auth = tokenProvider.getAuthentication(newToken.getAccessToken());
+            SecurityContextHolder.getContext().setAuthentication(auth);
+            return newToken;
 
-            return response.toString();
         } catch (Exception e) {
             e.printStackTrace();
         }

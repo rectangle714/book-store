@@ -22,11 +22,12 @@ function App() {
         <Route path="/" element={<HomePage/>}></Route>
         <Route path="/signup" element={isLogin ? <Navigate to='/' /> : <CreateAccountPage />}></Route>
         <Route path="/login/*" element={isLogin ? <Navigate to='/' /> : <LoginPage/>}></Route>
-        <Route path="/admin/*" element={(isLogin && role != 'ROLE_ADMIN') ? <Navigate to='/' /> : <AdminPage/>}></Route>
+        <Route path="/admin/*" element={(isLogin && role != 'ADMIN') ? <Navigate to='/' /> : <AdminPage/>}></Route>
         <Route path="/profile/*" element={<ProfilePage/>}></Route>
         <Route path="/findPassword/*" element={<FindPasswordPage/>}></Route>
         <Route path="/findId/*" element={<FindIdPage/>}></Route>
-        <Route path="/auth/naver-login" element={<AuthLogin/>}></Route>
+        <Route path="/auth/naver-login" element={<AuthLogin oauthType='NAVER'/>}></Route>
+        <Route path="/auth/kakao-login" element={<AuthLogin oauthType='KAKAO'/>}></Route>
       </Routes>
     </Layout>
   );

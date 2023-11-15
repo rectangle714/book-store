@@ -18,7 +18,7 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom{
         QSaveFile file = QSaveFile.saveFile;
         return queryFactory
                 .selectFrom(item)
-                .join(item.fileList,file).fetchJoin()
+                .leftJoin(item.fileList,file).fetchJoin()
                 .fetch();
     }
 }

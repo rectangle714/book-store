@@ -17,7 +17,6 @@ declare global {
   }
 
 const LoginForm = () => {
-    const naverLoginUrl = process.env.REACT_APP_NAVER_LOGIN_URL;
     const kakaoLoginUrl = process.env.REACT_APP_KAKAO_LOGIN_URL;
     
     const emailInputRef = useRef<HTMLInputElement>(null);
@@ -25,7 +24,7 @@ const LoginForm = () => {
     const user = useRef<User>({ email: '', password: '', nickname: '', loading: '', isLogin: false, role: '' });
     const dispatch = useAppDispatch();
     const [loginText, setLoginText] = useState('');
-    let navigate = useNavigate();
+    const navigate = useNavigate();
 
 	const naverRef = useRef<any>(null);
 
@@ -35,7 +34,7 @@ const LoginForm = () => {
         const naverLogin = new naver.LoginWithNaverId(
           {
             clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
-            callbackUrl: process.env.REACT_APP_NAVER_REDIRECT_URL,
+            callbackUrl: process.env.REACT_APP_NAVER_REDIRECT_URI,
             isPopup: false, /* 팝업을 통한 연동처리 여부, true 면 팝업 */
             loginButton: {color: "green", type: 2, height: 36.88}
           }

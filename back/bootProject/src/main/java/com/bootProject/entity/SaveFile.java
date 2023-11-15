@@ -2,14 +2,14 @@ package com.bootProject.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
 @Table(name = "file")
-@NoArgsConstructor
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class SaveFile extends Base {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,13 +24,4 @@ public class SaveFile extends Base {
     private String originFileName;
     private String storedFileName;
     private Long fileSize;
-
-    @Builder
-    public SaveFile(Long file_id, Item item, String originFileName, String storedFileName, Long fileSize) {
-        this.file_id = file_id;
-        this.item = item;
-        this.originFileName = originFileName;
-        this.storedFileName = storedFileName;
-        this.fileSize = fileSize;
-    }
 }
