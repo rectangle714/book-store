@@ -1,6 +1,7 @@
 package com.bootProject.controller;
 
 import com.bootProject.common.exception.BusinessException;
+import com.bootProject.dto.KakaoLoginDTO;
 import com.bootProject.dto.MemberDTO;
 import com.bootProject.dto.TokenDTO;
 import com.bootProject.jwt.TokenProvider;
@@ -45,16 +46,17 @@ public class AuthController {
     }
 
     /** Auth 2.0 Login (네이버) **/
-    @RequestMapping("/naverLoginToken")
-    public TokenDTO naverLoginToken(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "token", required = false)String accessToken) throws Exception {
+    @RequestMapping("/naverLogin")
+    public ResponseEntity<TokenDTO> naverLogin(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "token", required = false)String accessToken) throws Exception {
         TokenDTO responseToken = authService.getNaverUserByToken(accessToken);
-        return responseToken;
+        return ResponseEntity.ok(responseToken);
     }
 
     /** Auth 2.0 Login (카카오) **/
-    @RequestMapping("/kakao-login")
-    public void kakaoLogin(HttpServletRequest request, HttpServletResponse response) {
-        log.debug("카카오 요청 들어옴");
+    @RequestMapping("/kakaoLogin")
+    public ResponseEntity<TokenDTO> kakaoLogin(HttpServletRequest request, HttpServletResponse response, @RequestBody KakaoLoginDTO param) {
+        TokenDTO responseToken = authService.getKakaoUserByToken(param);
+        return ResponseEntity.ok(responseToken);
     }
 
 }

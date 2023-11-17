@@ -8,7 +8,7 @@ import ProfilePage from "./pages/ProfilePage";
 import AdminPage from "./pages/AdminPage";
 import FindIdPage from "./pages/FindIdPage";
 import FindPasswordPage from "./pages/FindPasswordPage";
-import AuthLogin from "./components/auth/AuthLogin";
+import OAuthLogin from "./components/auth/OAuthLogin";
 
 
 function App() {
@@ -26,8 +26,8 @@ function App() {
         <Route path="/profile/*" element={<ProfilePage/>}></Route>
         <Route path="/findPassword/*" element={<FindPasswordPage/>}></Route>
         <Route path="/findId/*" element={<FindIdPage/>}></Route>
-        <Route path="/auth/naver-login" element={<AuthLogin oauthType='NAVER'/>}></Route>
-        <Route path="/auth/kakao-login" element={<AuthLogin oauthType='KAKAO'/>}></Route>
+        <Route path="/auth/naver-login" element={<OAuthLogin oauthType='NAVER'/>}></Route>
+        <Route path="/auth/kakao-login" element={<OAuthLogin oauthType='KAKAO'/>}></Route>
       </Routes>
     </Layout>
   );

@@ -4,9 +4,6 @@ import com.bootProject.common.util.RedisUtil;
 import com.bootProject.jwt.JwtAccessDeniedHandler;
 import com.bootProject.jwt.JwtAuthenticationEntryPoint;
 import com.bootProject.jwt.TokenProvider;
-import com.bootProject.oauth2.handler.OAuth2LoginFailureHandler;
-import com.bootProject.oauth2.handler.OAuth2LoginSuccessHandler;
-import com.bootProject.oauth2.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,10 +24,6 @@ public class WebSecurityConfig {
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final RedisUtil redisUtil;
-    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
-    private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
-    private final CustomOAuth2UserService customOAuth2UserService;
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -53,15 +46,7 @@ public class WebSecurityConfig {
                 .anyRequest().authenticated()
 
                 .and()
-                .apply(new JwtSecurityConfig(tokenProvider,redisUtil))
-
-                //** OAuth2 설정 **//
-                .and()
-                .oauth2Login()
-                .successHandler(oAuth2LoginSuccessHandler)
-                .failureHandler(oAuth2LoginFailureHandler)
-                .userInfoEndpoint().userService(customOAuth2UserService);
-
+                .apply(new JwtSecurityConfig(tokenProvider,redisUtil));
 
         return http.build();
     }

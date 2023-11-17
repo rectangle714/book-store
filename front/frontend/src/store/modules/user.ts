@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { removeCookie, getCookie } from '../cookie';
 import { createTokenHeader, LoginTokenHandler, reissue  } from './auth'
+import { kakaoParam } from "../../components/auth/OAuthLogin";
+
 import axios from 'axios';
 
 export let logoutTimer:NodeJS.Timeout;
@@ -40,7 +42,6 @@ const userSlice = createSlice({
         builder.addCase(login.fulfilled, (state, action) => {
             if(action.payload != undefined) {
                 state.email = action.meta.arg.email;
-                state.nickname = '';
                 state.isLogin = true;
                 state.loading = 'success'; 
             }
@@ -49,8 +50,8 @@ const userSlice = createSlice({
 
         /** 로그아웃 **/
         builder.addCase(logout.fulfilled, (state) => {
-            console.log('성공');
             state.isLogin = false;
+            state.role = '';
             return state;
         });
 
@@ -60,22 +61,23 @@ const userSlice = createSlice({
             state.role = action.payload?.data.role;
             return state;
         });
-        builder.addCase(userInfo.rejected, (state) => {
-            console.log('실패');
-            state.isLogin = false;
-            return state;
-        });
         
-        /** 네이버로그인 **/
+        /** 네이버 로그인 **/
         builder.addCase(naverLogin.fulfilled, (state, action) => {
-            console.log('네이버 로그인 성공');
             if(action.payload != undefined) {
-                state.nickname = '';
                 state.isLogin = true;
                 state.loading = 'success'; 
             }
             return state;
-        })
+        });
+        /** 카카오 로그인 **/
+        builder.addCase(kakaoLogin.fulfilled, (state, action) => {
+            if(action.payload != undefined) {
+                state.isLogin = true;
+                state.loading = 'success'; 
+            }
+            return state;
+        });
     },
 })
 
@@ -198,10 +200,11 @@ export const allUserInfo = createAsyncThunk('ALL_USER_INFO', async () => {
 
 /* 네이버 로그인 */
 export const naverLogin = createAsyncThunk('NAVER_LOGIN', async (token:string) => {
-    const URL = '/api/v1/auth/naverLoginToken?token='+token;
+    const URL = '/api/v1/auth/naverLogin?token='+token;
 
     const response = await axios.get(URL);
     if(response.status == 200) {
+        console.log('1');
         const token:Token = response.data;
         LoginTokenHandler(token.accessToken, token.refreshToken, token.refreshTokenExpiresIn);
     }
@@ -210,9 +213,16 @@ export const naverLogin = createAsyncThunk('NAVER_LOGIN', async (token:string) =
 });
 
 /* 카카오 로그인 */
-export const kakaoLoginGetToken = createAsyncThunk('KAKAO_LOGIN_GET_TOKEN', async (code:string) => {
-    const URL = 'https://kauth.kakao.com/oauth/token?client_id='+code+'&';
+export const kakaoLogin = createAsyncThunk('KAKAO_LOGIN_GET_TOKEN', async (param:kakaoParam) => {
+    const URL ='/api/v1/auth/kakaoLogin';
 
+    const response = await axios.post(URL, param);
+    if(response.status == 200) {
+        console.log('2');
+        const token:Token = response.data;
+        LoginTokenHandler(token.accessToken, token.refreshToken, token.refreshTokenExpiresIn);
+    }
+    return response.data;
 });
 
 export default userSlice.reducer;

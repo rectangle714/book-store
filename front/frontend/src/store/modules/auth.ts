@@ -37,9 +37,9 @@ export const calculateRemainingTime = (expirationTime:number) => {
 
 /* 토큰값, 만료시간을 저장 */
 export const LoginTokenHandler = (accessToken:string, refreshtoken:string, expirationTime:number) => {
-    setCookie('accessToken', accessToken);
-    setCookie('refreshToken', refreshtoken);
-    setCookie('expirationTime', String(expirationTime));
+    setCookie('accessToken', accessToken, {path:'/'});
+    setCookie('refreshToken', refreshtoken, {path:'/'});
+    setCookie('expirationTime', String(expirationTime), {path:'/'});
     const remaingTime = calculateRemainingTime(+ expirationTime);
     return remaingTime;
 }

@@ -1,9 +1,12 @@
 package com.bootProject.service;
 
+import com.bootProject.dto.NaverLoginDTO;
+import com.bootProject.oauth2.ServerAPIs;
 import com.bootProject.common.util.CookieUtil;
 import com.bootProject.common.util.RedisUtil;
 import com.bootProject.common.code.ErrorCode;
 import com.bootProject.common.exception.BusinessException;
+import com.bootProject.dto.KakaoLoginDTO;
 import com.bootProject.dto.MemberDTO;
 import com.bootProject.dto.TokenDTO;
 import com.bootProject.entity.Member;
@@ -25,21 +28,23 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
+import retrofit2.Call;
+import retrofit2.Response;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.Date;
+import java.util.Map;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthService {
     private final AuthenticationManagerBuilder managerBuilder;
+    private final ServerAPIs serverAPIs;
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
@@ -63,9 +68,9 @@ public class AuthService {
     private String naverRedirectUri;
 
     /** 카카오 로그인 관련 config 값 **/
-    /*@Value("${spring.security.oauth2.client.registration.kakao.base-url}")
-    private String kakaoUrl;*/
-    @Value("${spring.security.oauth2.client.registration.kakao.redirect-uri}")
+//    @Value("${spring.security.oauth2.client.registration.kakao.base-uri}")
+//    private String kakaoUri;
+    @Value("${spring.security.oauth2.client.registration.kakao.client-id}")
     private String kakaoClientId;
     @Value("${spring.security.oauth2.client.registration.kakao.redirect-uri}")
     private String kakaoRedirectUri;
@@ -117,72 +122,140 @@ public class AuthService {
         }
     }
 
+    /** 네이버 사용자 정보 요청후 토큰처리 **/
     public TokenDTO getNaverUserByToken(String token) {
+        String accessToken = token;
 
+        Call<NaverLoginDTO> naverUserInfoCall = serverAPIs.getNaverUserInfo("bearer " + accessToken);
         try {
-            String accessToken = token;
+            Response<NaverLoginDTO> naverUserInfo = naverUserInfoCall.execute();
+            if(naverUserInfo.isSuccessful()) {
+                if (null != naverUserInfo.body().getResponse()) {
+                    NaverLoginDTO userInfo = new NaverLoginDTO(naverUserInfo.body().getResponse());
+                    // email로 확인 후 있으면 로그인 없으면 사용자 저장
+                    Member member = memberRepository.findByEmail(userInfo.getEmail()).orElse(null);
+                    TokenDTO newToken = new TokenDTO();
+                    if(member != null) {
+                        newToken = tokenProvider.generateTokenDtoByOauth(member.getEmail());
+                        redisUtil.setData(member.getEmail(), newToken.getRefreshToken(), newToken.getRefreshTokenExpiresIn());
+                    } else {
+                        Member guest = Member.builder()
+                                .email(userInfo.getEmail())
+                                .name(userInfo.getName())
+                                .role(Role.GUEST)
+                                .socialId(userInfo.getSocialId())
+                                .socialType(SocialType.NAVER)
+                                .build();
+                        guest = memberRepository.save(guest);
+                        newToken = tokenProvider.generateTokenDtoByOauth(guest.getEmail());
+                        redisUtil.setData(guest.getEmail(), newToken.getRefreshToken(), newToken.getRefreshTokenExpiresIn());
+                    }
 
-            URL url = new URL("https://openapi.naver.com/v1/nid/me");
-            HttpURLConnection con = (HttpURLConnection)url.openConnection();
-            con.setRequestMethod("GET");
-            con.setRequestProperty("Authorization", "bearer" + " " + accessToken);
-
-            int responseCode = con.getResponseCode();
-            BufferedReader br;
-
-            if(responseCode==200) { // 정상 호출
-                br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            } else {  // 에러 발생
-                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+                    Authentication auth = null;
+                    auth = tokenProvider.getAuthentication(newToken.getAccessToken());
+                    SecurityContextHolder.getContext().setAuthentication(auth);
+                    return newToken;
+                }
             }
-
-            String inputLine;
-            StringBuffer response = new StringBuffer();
-            while ((inputLine = br.readLine()) != null) {
-                response.append(inputLine);
-            }
-
-            br.close();
-
-            /** 회원 여부 확인 후 없으면 생성, 토큰 생성 **/
-            String resultUser = response.toString();
-
-            JSONObject jObject = new JSONObject(resultUser);
-            JSONObject responseObj = jObject.getJSONObject("response");
-            String socialId = responseObj.getString("id");
-            String userEmail = responseObj.getString("email");
-            String userName = responseObj.getString("name");
-
-            // email로 확인 후 있으면 로그인 없으면 사용자 저장
-            String generatedAccessToken = "";
-            Member member = memberRepository.findByEmail(userEmail).orElse(null);
-
-            TokenDTO newToken = new TokenDTO();
-            if(member != null) {
-                newToken = tokenProvider.generateTokenDtoByOauth(member.getEmail());
-                redisUtil.setData(member.getEmail(), newToken.getRefreshToken(), newToken.getRefreshTokenExpiresIn());
-            } else {
-                Member guest = Member.builder()
-                        .email(userEmail)
-                        .name(userName)
-                        .role(Role.GUEST)
-                        .socialId(socialId)
-                        .socialType(SocialType.NAVER)
-                        .build();
-                guest = memberRepository.save(guest);
-                newToken = tokenProvider.generateTokenDtoByOauth(guest.getEmail());
-                redisUtil.setData(guest.getEmail(), newToken.getRefreshToken(), newToken.getRefreshTokenExpiresIn());
-            }
-
-            Authentication auth = null;
-            auth = tokenProvider.getAuthentication(newToken.getAccessToken());
-            SecurityContextHolder.getContext().setAuthentication(auth);
-            return newToken;
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch(IOException e) {
+            log.error("네이버 로그인 에러 발생");
+            log.error(e.getMessage());
         }
         return null;
     }
+
+    /**
+     * 카카오 토큰으로 사용자 정보 조회 요청
+     * 사용자 정보 토큰 처리
+     **/
+    public TokenDTO getKakaoUserByToken(KakaoLoginDTO param) {
+        KakaoLoginDTO kakaoLoginDTO = getKakaoToken(param);
+        if(kakaoLoginDTO != null) {
+            String header = "Bearer "+kakaoLoginDTO.getAccess_token();
+            Call<KakaoLoginDTO> kakaoUserInfoCall = serverAPIs.getKakaoUserInfo(header);
+            try {
+                Response<KakaoLoginDTO> response = kakaoUserInfoCall.execute();
+                if (response.isSuccessful()) {
+                    Map<String, Object> profile = (Map<String, Object>) response.body().getKakao_account().get("profile");
+                    String userEmail = (String) response.body().getKakao_account().get("email");
+                    String nickname = (String) profile.get("nickname");
+
+                    Member member = memberRepository.findByEmail(userEmail).orElse(null);
+                    TokenDTO newToken = new TokenDTO();
+                    if(member != null) {
+                        newToken = tokenProvider.generateTokenDtoByOauth(member.getEmail());
+                        redisUtil.setData(member.getEmail(), newToken.getRefreshToken(), newToken.getRefreshTokenExpiresIn());
+                    } else {
+                        Member guest = Member.builder()
+                                .email(userEmail)
+                                .nickname(nickname)
+                                .role(Role.GUEST)
+                                .socialType(SocialType.KAKAO)
+                                .build();
+                        guest = memberRepository.save(guest);
+                        newToken = tokenProvider.generateTokenDtoByOauth(guest.getEmail());
+                        redisUtil.setData(guest.getEmail(), newToken.getRefreshToken(), newToken.getRefreshTokenExpiresIn());
+                    }
+
+                    Authentication auth = null;
+                    auth = tokenProvider.getAuthentication(newToken.getAccessToken());
+                    SecurityContextHolder.getContext().setAuthentication(auth);
+                    return newToken;
+
+                }
+            } catch (IOException e) {
+                log.error("카카오 사용자 정보 조회중 에러발생");
+                log.error(e.getMessage());
+            }
+        }
+
+        return null;
+    }
+
+    /** 카카오 토큰 요청 로직 **/
+    private KakaoLoginDTO getKakaoToken(KakaoLoginDTO param) {
+        String clientId = param.getClientId();
+        String redirectUri = param.getRedirectUri();
+        String grantType = "authorization_code";
+        String code = param.getCode();
+
+        KakaoLoginDTO kakaoLoginDTO = new KakaoLoginDTO();
+        Call<KakaoLoginDTO> kakaoTokenCall = serverAPIs.getKakaoToken(grantType, clientId, redirectUri, code);
+        try {
+            Response<KakaoLoginDTO> response = kakaoTokenCall.execute();
+            if(response.isSuccessful()) {
+                log.info(response.toString());
+                kakaoLoginDTO = response.body();
+            }
+        } catch(IOException e) {
+            log.error("카카오 토큰 요청 에러 발생");
+            log.error(e.getMessage());
+        }
+        return kakaoLoginDTO;
+    }
+
+    /** 카카오 토큰 요청 로직 **/
+    private KakaoLoginDTO getKakaoUserInfo(KakaoLoginDTO param) {
+        String clientId = param.getClientId();
+        String redirectUri = param.getRedirectUri();
+        String grantType = "authorization_code";
+        String code = param.getCode();
+
+        KakaoLoginDTO kakaoLoginDTO = new KakaoLoginDTO();
+        Call<KakaoLoginDTO> call = serverAPIs.getKakaoToken(grantType, clientId, redirectUri, code);
+        try {
+            Response<KakaoLoginDTO> response = call.execute();
+            if(response.isSuccessful()) {
+                log.info(response.toString());
+                kakaoLoginDTO = response.body();
+            }
+        } catch(IOException e) {
+            log.error("카카오 토큰 요청 에러 발생");
+            log.error(e.getMessage());
+        }
+
+        return kakaoLoginDTO;
+    }
+
 
 }

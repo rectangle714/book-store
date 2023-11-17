@@ -22,7 +22,7 @@ public class ItemController {
 
     /* 상품 저장 */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public ResponseEntity<Void> saveItem(@RequestPart List<MultipartFile> file,
+    public ResponseEntity<Void> saveItem(@RequestPart(required = false) List<MultipartFile> file,
                                          @RequestParam(name = "title", required = false) String title,
                                          @RequestParam(name = "contents", required = false) String contents) throws Exception {
         if(!"".equals(title) && !"".equals(contents)) {
