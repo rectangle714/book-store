@@ -43,4 +43,10 @@ public class ItemController {
         return ResponseEntity.ok(result);
     }
 
+    @RequestMapping("/detail")
+    public ResponseEntity<Item> findItemDetail(@RequestParam(value = "itemId")long id) {
+        Item result = itemService.findItemInfo(id);
+        return ResponseEntity.ok(result);
+    }
+
 }

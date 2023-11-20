@@ -66,4 +66,23 @@ export const allItemInfo = createAsyncThunk('ALL_ITEM_INFO', async () => {
 });
 
 
+/* 상품 상세 조회 */
+export const itemDetailInfo = createAsyncThunk('ITEM_DETAIL_INFO', async (itemId:any) => {
+    try {
+        console.log('[상품 조회 시작]')
+        const URL = '/api/v1/item/detail?itemId='+itemId;
+
+        const response = await axios.get(URL);
+        if(response.status == 200) {
+            reissue(response);
+            console.log('상품 response = ',response);
+         }
+         return response.data;
+    } catch(error) {
+        alert('상품 조회 에러가 발생했습니다.');
+        console.log('에러발생 : ' + error);
+    }
+});
+
+
 export default itemSlice.reducer;

@@ -42,6 +42,11 @@ const AdminMemberInfo = () => {
             type: 'date',
             valueGetter: ({ value }) => value && new Date(value),
         },
+        {
+            field: 'socialType',
+            headerName: '가입경로',
+            width: 150,
+        }
       ];
 
     useEffect(() => {

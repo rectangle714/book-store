@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -33,12 +34,13 @@ public class ItemService {
     @Transactional
     public void saveItem(List<MultipartFile> multipartFile, Item item) throws Exception {
         item = itemRepository.save(item);
-        if(!multipartFile.isEmpty()) {
+        if(null != multipartFile) {
             List<SaveFile> fileList = uploadFile(multipartFile, item);
             fileRepository.saveAll(fileList);
         }
     }
 
+    /* 전체 아이템 정보 */
     public List<Item> findAllItem() {
         List<Item> itemList = new ArrayList<Item>();
         try {
@@ -48,6 +50,12 @@ public class ItemService {
             e.printStackTrace();
         }
         return itemList;
+    }
+
+    /* 아이템 상세 정보 */
+    public Item findItemInfo(long id) {
+        Item itemById = itemRepository.findItemById(id);
+        return itemById;
     }
 
     /** 파일 저장  **/

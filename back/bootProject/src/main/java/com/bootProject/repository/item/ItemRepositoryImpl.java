@@ -7,6 +7,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class ItemRepositoryImpl implements ItemRepositoryCustom{
@@ -20,5 +21,17 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom{
                 .selectFrom(item)
                 .leftJoin(item.fileList,file).fetchJoin()
                 .fetch();
+    }
+
+    @Override
+    public Item findItemById(long id) {
+        QItem item = QItem.item;
+        QSaveFile file = QSaveFile.saveFile;
+
+        return queryFactory
+                .selectFrom(item)
+                .innerJoin(item.fileList, file).fetchJoin()
+                .where(item.id.eq(id))
+                .fetchOne();
     }
 }

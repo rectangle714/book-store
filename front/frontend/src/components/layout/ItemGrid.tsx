@@ -1,24 +1,55 @@
-import * as React from 'react';
 import { useAppDispatch } from "../../store/configureStore";
 import { useState, useEffect } from 'react';
+import { allItemInfo, itemDetailInfo } from '../../store/modules/item';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import { allItemInfo } from '../../store/modules/item';
-import { useAppSelect } from "../../store/configureStore";
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import Typography from '@mui/material/Typography';
+
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 600,
+  height: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
 const ItemGrid = () => {
-  const [spacing, setSpacing] = useState(2);
   const dispatch = useAppDispatch();
+  const [spacing, setSpacing] = useState(2);
   const [rows, setRows] = useState<any[]>([]);
-  const isLogin = useAppSelect((state) => state.userReducer.isLogin);
+  const [open, setOpen] = useState(false);
+  const handleClose = () => setOpen(false);
+
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalContents, setModalContents] = useState('');
+  const [imgSrc, setImgSrc] = useState('');
   
 
   const getItemList = async () => {
       const result = await dispatch(allItemInfo());
-      console.log('아이템 조회 완료 ',result);
       if(result.payload != undefined) {
-          setRows(result.payload);
+        setRows(result.payload);
       }
+  }
+
+  const handleOpen = async (arg:any, e:any) => {
+    const result = await dispatch(itemDetailInfo(arg));
+    if(result.payload != undefined) {
+      console.log('아이템 정보 ',result);
+      setModalTitle(result.payload.title);
+      setModalContents(result.payload.contents);
+      if(result.payload.fileList[0] != undefined) {
+        setImgSrc(result.payload.fileList[0].storedFileName);
+      }
+    }
+    setOpen(true);
   }
 
   useEffect(() => {
@@ -38,15 +69,15 @@ const ItemGrid = () => {
                     height: 200,
                     width: 195,
                     backgroundColor: (theme) =>
-                      theme.palette.mode === 'dark' ? '#1A2027' : 'white',
-                    // border: '2px solid black',
-                    textAlign: 'left'
+                      theme.palette.mode === 'dark' ? '#1A2027' : 'white', textAlign: 'left'
                   }}
+                  onClick={(e) => {handleOpen(value.id, e)}}
                 >
                 {value.fileList[0] != undefined? <img 
                   src={value.fileList[0].storedFileName}
                   alt='logo image' 
                   style={{ width:198, height:200, cursor:"pointer" }}
+                  item-id={value.id}
                 /> : ''}
                 </Paper>
                 <div style={{textAlign:'left'}}>{value.title}</div>
@@ -55,6 +86,27 @@ const ItemGrid = () => {
           </Grid>
         </Grid>
       </Grid>
+      <div>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h2" component="h3">
+            {modalTitle}
+          </Typography>
+          {imgSrc != ''? <img
+            src={imgSrc}
+            alt='logo image'
+            style={{ width:150, height:150, cursor:"pointer" }}/> : ''}
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            {modalContents}
+          </Typography>
+        </Box>
+        </Modal>
+      </div>
     </>
   );
 }

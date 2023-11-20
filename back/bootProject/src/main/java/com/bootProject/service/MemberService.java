@@ -1,21 +1,36 @@
 package com.bootProject.service;
 
+import com.bootProject.common.exception.BusinessException;
+import com.bootProject.common.util.RedisUtil;
 import com.bootProject.common.util.SecurityUtil;
 import com.bootProject.dto.MemberDTO;
 import com.bootProject.entity.Member;
+import com.bootProject.mail.MailService;
 import com.bootProject.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.time.Duration;
 import java.util.List;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class MemberService {
+    private static final String AUTH_CODE_PREFIX = "AuthCode ";
+    @Value("${spring.mail.auth-code-expiration-millis}")
+    private long authCodeExpirationMillis;
+    private final MailService mailService;
     private final MemberRepository memberRepository;
+    private final RedisUtil redisUtil;
     private final PasswordEncoder passwordEncoder;
 
     /*
@@ -73,5 +88,36 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
+    public void sendCodeToEmail(String toEmail) {
+        String title = "이메일 인증번호";
+        String authCode = createCode();
+        mailService.sendEmail(toEmail, title, authCode);
+        redisUtil.setData(AUTH_CODE_PREFIX + toEmail,
+                authCode, Duration.ofMillis(authCodeExpirationMillis).toMillis());
+
+    }
+
+    private String createCode() {
+        int length = 6;
+        try {
+            Random random = SecureRandom.getInstanceStrong();
+            StringBuilder builder = new StringBuilder();
+            for(int i=0; i<length; i++) {
+                builder.append(random.nextInt(10));
+            }
+            return builder.toString();
+        } catch (NoSuchAlgorithmException e) {
+            log.error("이메일 인증코드 생성중 오류발생");
+            return null;
+        }
+    }
+
+    /* 이메일 코드 검증 */
+    public boolean verifiedCode(String email, String authCode) {
+        String redisAuthCode = redisUtil.getData(AUTH_CODE_PREFIX + email);
+        boolean authResult = null != redisAuthCode && redisAuthCode.equals(authCode);
+
+        return authResult;
+    }
 
 }
