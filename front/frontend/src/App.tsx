@@ -6,7 +6,7 @@ import CreateAccountPage from "./pages/CreateAccountPage";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
 import AdminPage from "./pages/AdminPage";
-import FindIdPage from "./pages/FindIdPage";
+import FindEmailPage from "./pages/FindEmailPage";
 import FindPasswordPage from "./pages/FindPasswordPage";
 import OAuthLogin from "./components/auth/OAuthLogin";
 
@@ -25,7 +25,7 @@ function App() {
         <Route path="/admin/*" element={(isLogin && role != 'ADMIN') ? <Navigate to='/' /> : <AdminPage/>}></Route>
         <Route path="/profile/*" element={<ProfilePage/>}></Route>
         <Route path="/findPassword/*" element={<FindPasswordPage/>}></Route>
-        <Route path="/findId/*" element={<FindIdPage/>}></Route>
+        <Route path="/findEmail/*" element={<FindEmailPage/>}></Route>
         <Route path="/auth/naver-login" element={<OAuthLogin oauthType='NAVER'/>}></Route>
         <Route path="/auth/kakao-login" element={<OAuthLogin oauthType='KAKAO'/>}></Route>
       </Routes>

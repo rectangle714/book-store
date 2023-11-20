@@ -50,6 +50,8 @@ const userSlice = createSlice({
 
         /** 로그아웃 **/
         builder.addCase(logout.fulfilled, (state) => {
+            state.email = '';
+            state.nickname = '';
             state.isLogin = false;
             state.role = '';
             return state;
@@ -57,6 +59,7 @@ const userSlice = createSlice({
 
         /** 사용자 조회 **/
         builder.addCase(userInfo.fulfilled, (state, action) => {
+            state.email = action.payload?.data.email;
             state.nickname = action.payload?.data.nickname;
             state.role = action.payload?.data.role;
             return state;
@@ -64,6 +67,7 @@ const userSlice = createSlice({
         
         /** 네이버 로그인 **/
         builder.addCase(naverLogin.fulfilled, (state, action) => {
+            console.log('dd', action);
             if(action.payload != undefined) {
                 state.isLogin = true;
                 state.loading = 'success'; 

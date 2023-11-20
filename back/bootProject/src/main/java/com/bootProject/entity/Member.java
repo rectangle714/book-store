@@ -15,14 +15,9 @@ public class Member extends Base{
     @Column(name = "member_id")
     private Long id;
 
-    @Column(nullable = false)
     private String name;
-
-    @Column(nullable = false)
     private String email;
-
     private String password;
-
     private String phone;
     private String nickname;
 

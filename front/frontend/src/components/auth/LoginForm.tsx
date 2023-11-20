@@ -134,7 +134,7 @@ const LoginForm = () => {
                                     />
                             </div>
                             <div style={{display:"flex", justifyContent:'flex-end', marginTop: '10px', fontSize:'13px'}}>
-                                    <a onClick={() => {navigate('/findId')}} style={{cursor:'pointer'}}>이메일 찾기 </a>
+                                    <a onClick={() => {navigate('/findEmail')}} style={{cursor:'pointer'}}>이메일 찾기 </a>
                                     <span style={{
                                         width:'1px',
                                         height: '13px',
