@@ -7,7 +7,7 @@ import Styles from "../../styles/layout/Slider.module.css";
 const Slider = () => {
 
     const renderSlides = imageData.map(image => (
-        <div key={image.alt} style={{width: '200px', margin: 'auto'}}>
+        <div key={image.alt} style={{margin: 'auto'}}>
           <img src={image.url} alt={image.alt} className={Styles.carousel} />
         </div>
     ));
@@ -20,12 +20,11 @@ const Slider = () => {
 
     return (
         <div 
-        style={{paddingTop:'20px', marginBottom:'50px', 
-        border: '2px solid black', borderRadius: '15px', paddingBottom:'20px'}}>
+        style={{paddingTop:'20px', marginBottom:'50px', paddingBottom:'20px'}}>
             <Carousel
             swipeable={true}
             showArrows={true}
-            // autoPlay={true}
+            autoPlay={true}
             infiniteLoop={true}
             showThumbs={false}
             onChange={handleChange}>

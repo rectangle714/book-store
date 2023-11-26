@@ -23,7 +23,7 @@ const itemSlice = createSlice({
 })
 
 /* 상품 등록 */
-export const registerItem = createAsyncThunk('REGISTER_ITEM', async (item:any) => { 
+export const registerItem = createAsyncThunk('REGISTER_ITEM', async(item:any) => { 
     try {
         console.log('[상품 등록 시작]');
         const URL = '/api/v1/item/save';
@@ -47,7 +47,7 @@ export const registerItem = createAsyncThunk('REGISTER_ITEM', async (item:any) =
 });
 
 /* 전체 상품 조회 */
-export const allItemInfo = createAsyncThunk('ALL_ITEM_INFO', async () => {
+export const allItemInfo = createAsyncThunk('ALL_ITEM_INFO', async() => {
     try {
         console.log('[전체 상품 조회 시작]')
         const URL = '/api/v1/item/findAll';
@@ -67,7 +67,7 @@ export const allItemInfo = createAsyncThunk('ALL_ITEM_INFO', async () => {
 
 
 /* 상품 상세 조회 */
-export const itemDetailInfo = createAsyncThunk('ITEM_DETAIL_INFO', async (itemId:any) => {
+export const itemDetailInfo = createAsyncThunk('ITEM_DETAIL_INFO', async(itemId:any) => {
     try {
         console.log('[상품 조회 시작]')
         const URL = '/api/v1/item/detail?itemId='+itemId;
@@ -83,6 +83,12 @@ export const itemDetailInfo = createAsyncThunk('ITEM_DETAIL_INFO', async (itemId
         console.log('에러발생 : ' + error);
     }
 });
+
+export const deleteItem = createAsyncThunk('DELETE_ITEM', async() => {
+    console.log('[상품 삭제 시작]');
+    
+
+})
 
 
 export default itemSlice.reducer;

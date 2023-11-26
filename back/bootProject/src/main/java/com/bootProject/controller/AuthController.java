@@ -45,14 +45,18 @@ public class AuthController {
         authService.logOut(request, response);
     }
 
-    /** Auth 2.0 Login (네이버) **/
+    /*
+    *   Auth 2.0 Login (네이버)
+    */
     @RequestMapping("/naverLogin")
     public ResponseEntity<TokenDTO> naverLogin(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "token", required = false)String accessToken) throws Exception {
         TokenDTO responseToken = authService.getNaverUserByToken(accessToken);
         return ResponseEntity.ok(responseToken);
     }
 
-    /** Auth 2.0 Login (카카오) **/
+    /*
+    *   Auth 2.0 Login (카카오)
+    */
     @RequestMapping("/kakaoLogin")
     public ResponseEntity<TokenDTO> kakaoLogin(HttpServletRequest request, HttpServletResponse response, @RequestBody KakaoLoginDTO param) {
         TokenDTO responseToken = authService.getKakaoUserByToken(param);

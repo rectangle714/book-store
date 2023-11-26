@@ -97,6 +97,9 @@ public class MemberService {
 
     }
 
+    /*
+    *   이메일 인증 코드 생성
+    */
     private String createCode() {
         int length = 6;
         try {
@@ -112,7 +115,9 @@ public class MemberService {
         }
     }
 
-    /* 이메일 코드 검증 */
+    /*
+    *   이메일 코드 검증
+    */
     public boolean verifiedCode(String email, String authCode) {
         String redisAuthCode = redisUtil.getData(AUTH_CODE_PREFIX + email);
         boolean authResult = null != redisAuthCode && redisAuthCode.equals(authCode);

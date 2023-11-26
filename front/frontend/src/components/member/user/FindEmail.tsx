@@ -1,10 +1,10 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, TextField, ButtonGroup, InputAdornment, Alert } from '@mui/material';
-import { Container } from "@mui/joy";
-import { Tabs, Tab, Box } from '@mui/material';
 import EmailIcon from '@mui/icons-material/Email';
 import KeyIcon from '@mui/icons-material/Key';
+import { Container } from "@mui/joy";
+import { Tabs, Tab, Box } from '@mui/material';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -20,27 +20,26 @@ function a11yProps(index: number) {
 }
 
 function TabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
-  
-    return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        {...other}
-      >
-        {value === index && (
-          <Box sx={{ p: 3 }}>
-            {children}
-          </Box>
-        )}
-      </div>
-    );
-  }
+  const { children, value, index, ...other } = props;
 
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          {children}
+        </Box>
+      )}
+    </div>
+  );
+}
 
-const FindPassword = () => {
+const FindEmail = () => {
     const [value, setValue] = useState(0);
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
       setValue(newValue);
@@ -57,14 +56,14 @@ const FindPassword = () => {
                     justifyContent:'center',
                     fontSize:'calc(10px + 2vmin)'
                 }}>
-                    <div style={{fontWeight:800, fontSize:'28px', lineHeight:'20px', textAlign:'center', marginBottom:'20px'}}>패스워드 찾기</div>
-                        <Box sx={{ borderBottom: 1, borderColor: 'divider'}}>
-                            <Tabs centered={true} value={value} onChange={handleChange} aria-label="basic tabs example">
-                                <Tab label="이메일 인증" {...a11yProps(0)} />
-                            </Tabs>
-                        </Box>
-                        {/* 이메일 인증 */}
-                        <TabPanel value={value} index={0}>
+                    <div style={{fontWeight:800, fontSize:'28px', lineHeight:'20px', textAlign:'center', marginBottom:'20px'}}>이메일 찾기</div>
+                    <Box sx={{ borderBottom: 1, borderColor: 'divider'}}>
+                        <Tabs centered={true} value={value} onChange={handleChange} aria-label="basic tabs example">
+                            <Tab label="휴대폰 인증" {...a11yProps(0)} />
+                        </Tabs>
+                    </Box>
+                    {/* 휴대폰 인증 */}
+                    <TabPanel value={value} index={0}>
                         <form>
                             <div>
                                 <TextField 
@@ -85,12 +84,12 @@ const FindPassword = () => {
                             </div>
                             <div style={{marginTop:'30px'}}>
                                 <TextField 
-                                    label='이메일'
+                                    label='휴대폰 번호'
                                     type='text'
                                     variant='standard'
                                     style={{width:'290px'}}
-                                    placeholder="이메일을 입력해주세요"
-                                    id='email'
+                                    placeholder="휴대폰 번호를 입력해주세요"
+                                    id='phone'
                                     InputProps={{
                                         startAdornment: (
                                             <InputAdornment position='start'>
@@ -100,7 +99,7 @@ const FindPassword = () => {
                                     }}
                                     />
                             </div>
-                            <Button style={{width: '100%', height:'50px', marginTop:'30px'}} color='success' variant='contained'>확인</Button>
+                            <Button style={{width: '100%', height:'50px', marginTop:'30px'}} color='success' variant='contained' type='submit'>인증번호 받기</Button>
                         </form>
                         <div style={{
                                 paddingTop: 20,
@@ -115,22 +114,10 @@ const FindPassword = () => {
                             }}>
                         </div>
                     </TabPanel>
-                    <div style={{
-                            paddingTop: 20,
-                        }}>
-                    </div>
-                    <div style={{
-                            paddingTop: 10,
-                            fontSize: 12, 
-                            color: 'red',
-                            textAlign: 'center',
-                            paddingLeft: 30
-                        }}>
-                    </div>
                 </section>
             </Container>
         </>
     )
 }
 
-export default FindPassword;
+export default FindEmail;

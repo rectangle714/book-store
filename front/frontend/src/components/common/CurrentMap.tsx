@@ -12,7 +12,7 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 1000,
-  bgcolor: 'background.paper',
+  backgroundColor: 'white',
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
@@ -46,7 +46,7 @@ const CurrentMap = () => {
 
   return (
     <>
-    <BottomNavigationAction onClick={handleOpen} sx={{color:'white'}} label="위치" icon={<LocationOnIcon />} />
+    <BottomNavigationAction onClick={handleOpen} label="위치" icon={<LocationOnIcon />} />
       <Modal
         open={open}
         onClose={handleClose}
@@ -54,7 +54,7 @@ const CurrentMap = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <div style={{textAlign:'center', fontWeight:'bold', paddingBottom:'40px'}}>현재위치</div>
+          <div style={{textAlign:'center', backgroundColor:'white' ,fontWeight:'bold', paddingBottom:'40px'}}>현재위치</div>
           {location && (
           <Map 
             center={{ lat: location.latitude, lng: location.longitude }} 

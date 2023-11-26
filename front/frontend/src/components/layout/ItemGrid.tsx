@@ -42,7 +42,6 @@ const ItemGrid = () => {
   const handleOpen = async (arg:any, e:any) => {
     const result = await dispatch(itemDetailInfo(arg));
     if(result.payload != undefined) {
-      console.log('아이템 정보 ',result);
       setModalTitle(result.payload.title);
       setModalContents(result.payload.contents);
       if(result.payload.fileList[0] != undefined) {
@@ -94,16 +93,18 @@ const ItemGrid = () => {
           aria-describedby="modal-modal-description"
         >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h2" component="h3">
-            {modalTitle}
-          </Typography>
-          {imgSrc != ''? <img
-            src={imgSrc}
-            alt='logo image'
-            style={{ width:150, height:150, cursor:"pointer" }}/> : ''}
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            {modalContents}
-          </Typography>
+          <div style={{textAlign:'center'}}>
+            <Typography id="modal-modal-title" variant="h2" component="h3">
+              {modalTitle}
+            </Typography>
+            {imgSrc != ''? <img
+              src={imgSrc}
+              alt='logo image'
+              style={{ width:150, height:150, cursor:"pointer", marginTop:'50px', marginBottom:'50px' }}/> : ''}
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              {modalContents}
+            </Typography>
+          </div>
         </Box>
         </Modal>
       </div>

@@ -1,7 +1,5 @@
 .carousel {
-  height: 200px;
   min-width: 100%;
-
   min-height: 200px;
   background: no-repeat center center scroll;
   -webkit-background-size: cover;

@@ -15,7 +15,7 @@ const Footer = () => {
       <Container maxWidth="sm" fixed>
         <Box sx={{ width: 500 }}>
           <BottomNavigation
-            sx={{bgcolor:'green'}}
+            sx={{bgcolor:'white'}}
             showLabels
             value={value}
             onChange={(event, newValue) => {
@@ -23,9 +23,9 @@ const Footer = () => {
             }}
           >
             <CurrentMap/>
-            <BottomNavigationAction sx={{color:'white'}} label="Recents" icon={<RestoreIcon />} />
-            <BottomNavigationAction sx={{color:'white'}} label="Favorites" icon={<FavoriteIcon />} />
-            <BottomNavigationAction sx={{color:'white'}} label="Nearby" icon={<LocationOnIcon />} />
+            <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
+            <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
+            <BottomNavigationAction label="Nearby" icon={<LocationOnIcon />} />
           </BottomNavigation>
         </Box>
       </Container>

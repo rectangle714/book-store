@@ -48,9 +48,11 @@ const Header = () => {
     return(
         <header >
             <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static" sx={{bgcolor: 'green'}}>
-                <div style={{backgroundColor:'green', textAlign:'right',display:'flex', justifyContent:'flex-end'}}>
+            <AppBar position="static" sx={{bgcolor: 'white'}}>
+                <div style={{backgroundColor:'white', textAlign:'right',display:'flex', justifyContent:'flex-end'}}>
                     <div style={{width:'300px', display:'flex', justifyContent:'flex-start', marginTop:'10px'}}>
+                        {isLogin ? <span onClick={(e)=>navFunction(e,'mypage')} style={{fontSize:'12px', cursor:'pointer', color:'black'}}>장바구니</span> : ''}
+                        {isLogin ? <span style={{width:'1px', height:'15px', margin:'0px 12px', backgroundColor:'black'}}></span> : ''}
                         {isLogin ? <span onClick={(e)=>navFunction(e,'mypage')} style={{fontSize:'12px', cursor:'pointer', color:'black'}}>마이페이지</span> : 
                         <span onClick={(e)=>navFunction(e,'signup')} style={{fontSize:'12px', cursor:'pointer', color:'black'}}>회원가입</span>}
                         <span style={{width:'1px', height:'15px', margin:'0px 12px', backgroundColor:'black'}}></span>
