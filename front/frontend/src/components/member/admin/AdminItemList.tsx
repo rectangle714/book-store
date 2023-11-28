@@ -3,12 +3,14 @@ import { useAppDispatch } from "../../../store/configureStore";
 import { useState, useEffect } from 'react';
 import { allItemInfo, deleteItem } from '../../../store/modules/item';
 import { Button } from '@mui/material';
+import { useNavigate } from "react-router-dom";
 
 const AdminItemList = () => {
 
     const [rows, setRows] = useState<any[]>([]);
     const [selectedRows, setSelectedRows] = useState<any[]>([]);
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const rowData = async () => {
         const result = await dispatch(allItemInfo());
@@ -58,11 +60,27 @@ const AdminItemList = () => {
     ];
 
     const deleteItems = async() => {
-        if(selectedRows.length < 0) {
-            console.log('삭제할 상품을 선택해주세요.');
+        if(selectedRows.length <= 0) {
+            alert('삭제할 상품을 선택해주세요.');
         } else {
-            console.log('selectedRows :', selectedRows);
-            const result = await dispatch(deleteItem());
+            let param:any = {};
+            let itemIdList:any = [];
+            let fileIdList:any = [];
+            selectedRows.forEach(function(item, idx) {
+                console.log(idx, item);
+                itemIdList.push(item.id);
+                if(item.fileList != null && item.fileList != undefined) {
+                    fileIdList.push(item.fileList[0].file_id);
+                }
+            });
+            param.itemList = itemIdList;
+            param.fileList = fileIdList;
+
+            const result:any = await dispatch(deleteItem(param));
+            if(result != undefined && result.payload == 200){
+                alert('선택한 상품이 삭제 되었습니다.');
+                rowData();
+            }
         }
     }
 

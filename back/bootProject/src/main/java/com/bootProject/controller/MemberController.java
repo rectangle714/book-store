@@ -67,7 +67,7 @@ public class MemberController {
     /*
      *   이메일로 전송된 코드 체크
      */
-    @RequestMapping("/emails/verifications")
+    @PostMapping("/emails/verifications")
     public ResponseEntity verificationEmail(@RequestParam("email") String email,
                                             @RequestParam("code") String authCode) {
         boolean result = memberService.verifiedCode(email, authCode);

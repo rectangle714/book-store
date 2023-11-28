@@ -24,7 +24,7 @@ public class ItemController {
     /*
     *   상품 저장
     */
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @PostMapping(value = "/save")
     public ResponseEntity<Void> saveItem(@RequestPart(required = false) List<MultipartFile> file,
                                          @RequestParam(name = "title", required = false) String title,
                                          @RequestParam(name = "contents", required = false) String contents) throws Exception {
@@ -41,7 +41,7 @@ public class ItemController {
     /*
     *   상품 전체 찾기
     */
-    @RequestMapping("/findAll")
+    @GetMapping("/findAll")
     public ResponseEntity<List<Item>> saveItem() {
         List<Item> result = itemService.findAllItem();
 
@@ -51,7 +51,7 @@ public class ItemController {
     /*
     *   상품 상세 정보 조회
     */
-    @RequestMapping("/detail")
+    @GetMapping("/detail")
     public ResponseEntity<Item> findItemDetail(@RequestParam(value = "itemId")long id) {
         Item result = itemService.findItemInfo(id);
         return ResponseEntity.ok(result);
@@ -60,9 +60,9 @@ public class ItemController {
     /*
     *   상품 삭제
     */
-    @RequestMapping("/delete")
-    public ResponseEntity<HttpStatus> findItemDetail(@RequestParam(value = "itemList", required = false)List<Long> itemList,
-                                               @RequestParam(value = "fileList", required = false)List<Long> fileList) {
+    @PostMapping("/delete")
+    public ResponseEntity<HttpStatus> findItemDetail(@RequestParam(value = "itemList[]", required = false)List<Long> itemList,
+                                               @RequestParam(value = "fileList[]", required = false)List<Long> fileList) {
         itemService.deleteItem(itemList, fileList);
         return ResponseEntity.ok(HttpStatus.OK);
     }

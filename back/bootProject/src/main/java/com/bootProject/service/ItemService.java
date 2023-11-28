@@ -1,11 +1,14 @@
 package com.bootProject.service;
 
+import com.bootProject.common.code.ErrorCode;
+import com.bootProject.common.exception.BusinessException;
 import com.bootProject.entity.Item;
 import com.bootProject.entity.SaveFile;
 import com.bootProject.repository.File.FileRepository;
 import com.bootProject.repository.item.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -16,6 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -30,6 +35,10 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
     private final FileRepository fileRepository;
+
+    @Value("${com.upload.path}")
+    private String uploadPath;
+
 
     @Transactional
     public void saveItem(List<MultipartFile> multipartFile, Item item) throws Exception {
@@ -61,8 +70,25 @@ public class ItemService {
     @Transactional
     public void deleteItem (List<Long> itemList, List<Long> fileList) {
         try {
-            itemRepository.deleteAllByIdInBatch(itemList);
+            List<SaveFile> deleteFileList = fileRepository.findAllById(fileList);
+            deleteFileList.forEach(file -> {
+                try {
+                    String srcFileName = URLDecoder.decode(file.getStoredFileName(), "UTF-8");
+                    File deleteFile = new File(uploadPath + File.separator + srcFileName);
+                    boolean result = deleteFile.delete();
+                    if(!result) { throw new BusinessException(ErrorCode.FILE_DELETE_ERROR, "파일 삭제 실패"); }
+                } catch (UnsupportedEncodingException e) {
+                    log.error("파일명 decode 에러 발생");
+                    log.error(e.getMessage());
+                } catch (BusinessException e) {
+                    log.error("파일 삭제 실패");
+                    log.error(e.getMessage());
+                }
+            });
+
+
             fileRepository.deleteAllByIdInBatch(fileList);
+            itemRepository.deleteAllByIdInBatch(itemList);
         } catch(Exception e) {
             log.error("상품 삭제 중 에러 발생");
             log.error(e.getMessage());
@@ -82,7 +108,7 @@ public class ItemService {
 
         // 프로젝트 디렉터리 내의 저장을 위한 절대 경로 설정
         // 경로 구분자 File.separator 사용
-        String absolutePath = new File("../../front/frontend/public/").getCanonicalPath(); //+ File.separator + File.separator;
+        String absolutePath = new File(uploadPath).getCanonicalPath(); //+ File.separator + File.separator;
 
         // 파일을 저장할 세부 경로 지정
         String path = "images" + File.separator + current_date;

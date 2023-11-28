@@ -51,7 +51,6 @@ export const allItemInfo = createAsyncThunk('ALL_ITEM_INFO', async() => {
     try {
         console.log('[전체 상품 조회 시작]')
         const URL = '/api/v1/item/findAll';
-        //const validResult = validToken();
 
         const response = await axios.get(URL);
         if(response.status == 200) {
@@ -84,10 +83,24 @@ export const itemDetailInfo = createAsyncThunk('ITEM_DETAIL_INFO', async(itemId:
     }
 });
 
-export const deleteItem = createAsyncThunk('DELETE_ITEM', async() => {
+/* 상품 삭제 */
+export const deleteItem = createAsyncThunk('DELETE_ITEM', async(param:any) => {
     console.log('[상품 삭제 시작]');
-    
+    const URL = '/api/v1/item/delete';
+    const validResult = validToken();
 
+    const response = await axios.post(URL, param,
+        { 
+            headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization' : 'Bearer ' + validResult.accessToken,
+            'RefreshToken' : 'Bearer ' + validResult.refreshToken
+            } 
+        });
+    if(response.status == 200) {
+        reissue(response);
+    }
+    return response.status;
 })
 
 

@@ -48,7 +48,7 @@ public class AuthController {
     /*
     *   Auth 2.0 Login (네이버)
     */
-    @RequestMapping("/naverLogin")
+    @PostMapping("/naverLogin")
     public ResponseEntity<TokenDTO> naverLogin(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "token", required = false)String accessToken) throws Exception {
         TokenDTO responseToken = authService.getNaverUserByToken(accessToken);
         return ResponseEntity.ok(responseToken);
@@ -57,7 +57,7 @@ public class AuthController {
     /*
     *   Auth 2.0 Login (카카오)
     */
-    @RequestMapping("/kakaoLogin")
+    @PostMapping("/kakaoLogin")
     public ResponseEntity<TokenDTO> kakaoLogin(HttpServletRequest request, HttpServletResponse response, @RequestBody KakaoLoginDTO param) {
         TokenDTO responseToken = authService.getKakaoUserByToken(param);
         return ResponseEntity.ok(responseToken);

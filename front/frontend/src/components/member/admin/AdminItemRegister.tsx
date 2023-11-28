@@ -40,6 +40,7 @@ const AdminItemRegister = () => {
 
     const itemSubmitHandler = async (event: React.FormEvent) => {
       event.preventDefault();
+      event.stopPropagation();
   
       const enteredTitle = titleInputRef.current!.value;
       const enteredContents = contentsInputRef.current!.value;
@@ -114,7 +115,7 @@ const AdminItemRegister = () => {
           <div>
           <div style={{height:'200px', position:'relative'}}>
                 <div style={{border:'solid 1px ', height:'210px', width:'210px', margin:'0 auto', borderRadius:'20px'}}>
-                    <img src={imageSrc} style={{maxWidth:'100px',position:'absolute', top:'25%', left:'44%'}}/>
+                    <img src={imageSrc} style={{maxWidth:'100px',position:'absolute', top:'25%', left:'40%'}}/>
                 </div>
             </div>
             <div style={{paddingTop:'20px'}}>
