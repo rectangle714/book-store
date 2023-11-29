@@ -69,7 +69,7 @@ const AdminItemList = () => {
             selectedRows.forEach(function(item, idx) {
                 console.log(idx, item);
                 itemIdList.push(item.id);
-                if(item.fileList != null && item.fileList != undefined) {
+                if(item.fileList != null && item.fileList[0] != undefined) {
                     fileIdList.push(item.fileList[0].file_id);
                 }
             });

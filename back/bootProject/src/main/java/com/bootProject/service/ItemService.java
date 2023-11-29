@@ -70,25 +70,28 @@ public class ItemService {
     @Transactional
     public void deleteItem (List<Long> itemList, List<Long> fileList) {
         try {
-            List<SaveFile> deleteFileList = fileRepository.findAllById(fileList);
-            deleteFileList.forEach(file -> {
-                try {
-                    String srcFileName = URLDecoder.decode(file.getStoredFileName(), "UTF-8");
-                    File deleteFile = new File(uploadPath + File.separator + srcFileName);
-                    boolean result = deleteFile.delete();
-                    if(!result) { throw new BusinessException(ErrorCode.FILE_DELETE_ERROR, "파일 삭제 실패"); }
-                } catch (UnsupportedEncodingException e) {
-                    log.error("파일명 decode 에러 발생");
-                    log.error(e.getMessage());
-                } catch (BusinessException e) {
-                    log.error("파일 삭제 실패");
-                    log.error(e.getMessage());
-                }
-            });
+            if(null != fileList && 0 < fileList.size()) {
+                List<SaveFile> deleteFileList = fileRepository.findAllById(fileList);
+                deleteFileList.forEach(file -> {
+                    try {
+                        String srcFileName = URLDecoder.decode(file.getStoredFileName(), "UTF-8");
+                        File deleteFile = new File(uploadPath + File.separator + srcFileName);
+                        boolean result = deleteFile.delete();
+                        if(!result) { throw new BusinessException(ErrorCode.FILE_DELETE_ERROR, "파일 삭제 실패"); }
+                    } catch (UnsupportedEncodingException e) {
+                        log.error("파일명 decode 에러 발생");
+                        log.error(e.getMessage());
+                    } catch (BusinessException e) {
+                        log.error("파일 삭제 실패");
+                        log.error(e.getMessage());
+                    }
+                });
+                fileRepository.deleteAllByIdInBatch(fileList);
+            }
 
-
-            fileRepository.deleteAllByIdInBatch(fileList);
-            itemRepository.deleteAllByIdInBatch(itemList);
+            if(null != itemList && 0 < itemList.size()) {
+                itemRepository.deleteAllByIdInBatch(itemList);
+            }
         } catch(Exception e) {
             log.error("상품 삭제 중 에러 발생");
             log.error(e.getMessage());
