@@ -53,9 +53,9 @@ const MainPage = () => {
       <>
         <Slider/>
         <Container fixed className={Styls.container}>
-          <Tabs centered={true} aria-label="basic tabs example">
+          {/* <Tabs centered={true} aria-label="basic tabs example">
               <Tab label="책목록"/>
-          </Tabs>
+          </Tabs> */}
           <ItemGrid/>
           <Box sx={{ borderBottom: 1, borderColor: 'divider'}}>
                 <Tabs centered={true} value={value} onChange={handleChange} aria-label="basic tabs example">

@@ -13,7 +13,7 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 600,
-  height: 400,
+  height: 600,
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
@@ -65,8 +65,8 @@ const ItemGrid = () => {
                 <Paper
                   elevation={1}
                   sx={{
-                    height: 200,
-                    width: 195,
+                    height: 204,
+                    width: 140,
                     backgroundColor: (theme) =>
                       theme.palette.mode === 'dark' ? '#1A2027' : 'white', textAlign: 'left'
                   }}
@@ -75,7 +75,7 @@ const ItemGrid = () => {
                 {value.fileList[0] != undefined? <img 
                   src={value.fileList[0].storedFileName}
                   alt='logo image' 
-                  style={{ width:198, height:200, cursor:"pointer" }}
+                  style={{ width:140, height:204, cursor:"pointer" }}
                   item-id={value.id}
                 /> : ''}
                 </Paper>
@@ -100,7 +100,7 @@ const ItemGrid = () => {
             {imgSrc != ''? <img
               src={imgSrc}
               alt='logo image'
-              style={{ width:150, height:150, cursor:"pointer", marginTop:'50px', marginBottom:'50px' }}/> : ''}
+              style={{ width:200, height:310, cursor:"pointer", marginTop:'50px', marginBottom:'50px' }}/> : ''}
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
               {modalContents}
             </Typography>
