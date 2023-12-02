@@ -1,4 +1,4 @@
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridColumnVisibilityModel } from '@mui/x-data-grid';
 import { useState, useEffect } from 'react';
 import { useAppDispatch } from "../../../store/configureStore";
 import { allUserInfo } from "../../../store/modules/user"
@@ -16,6 +16,11 @@ const AdminMemberInfo = () => {
         }
     }
 
+    const [columnVisibilityModel, setColumnVisibilityModel] =
+    useState<GridColumnVisibilityModel>({
+      id: false
+    });
+
     const columns: GridColDef[] = [
         { field: 'id', headerName: 'ID', width: 70 },
         { field: 'email', headerName: '이메일', width: 130 },
@@ -31,21 +36,21 @@ const AdminMemberInfo = () => {
         { 
             field: 'registerDate',
             headerName: '등록날짜', 
-            width: 150,
-            type: 'date',
+            width: 200,
+            type: 'dateTime',
             valueGetter: ({ value }) => value && new Date(value),
         },
         { 
             field: 'updateDate', 
             headerName: '수정날짜', 
-            width: 150,
-            type: 'date',
+            width: 200,
+            type: 'dateTime',
             valueGetter: ({ value }) => value && new Date(value),
         },
         {
             field: 'socialType',
             headerName: '가입경로',
-            width: 150,
+            width: 120,
         }
       ];
 
@@ -56,16 +61,17 @@ const AdminMemberInfo = () => {
     return (
         <div style={{ height: 400, width: '100%' }}>
         <DataGrid
-            getRowId={(row) => row.id}
-            rows={rows}
-            columns={columns}
-            initialState={{
+          columnVisibilityModel={columnVisibilityModel}
+          getRowId={(row) => row.id}
+          rows={rows}
+          columns={columns}
+          initialState={{
             pagination: {
                 paginationModel: { page: 0, pageSize: 5 },
             },
-            }}
-            pageSizeOptions={[5, 10]}
-            checkboxSelection
+          }}
+          pageSizeOptions={[5, 10]}
+          checkboxSelection
         />
     </div>
     )

@@ -1,4 +1,4 @@
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridColumnVisibilityModel } from '@mui/x-data-grid';
 import { useAppDispatch } from "../../../store/configureStore";
 import { useState, useEffect } from 'react';
 import { allItemInfo, deleteItem } from '../../../store/modules/item';
@@ -20,25 +20,31 @@ const AdminItemList = () => {
     }
 
     const onRowsSelectionHandler = (ids:any) => {
-        setSelectedRows(ids.map((id:any) => rows.find((row) => row.id === id)));
-      };
+      setSelectedRows(ids.map((id:any) => rows.find((row) => row.id === id)));
+    };
+
+    const [columnVisibilityModel, setColumnVisibilityModel] =
+    useState<GridColumnVisibilityModel>({
+      id: false
+    });
+    
 
     const columns: GridColDef[] = [
-        { field: 'id', headerName: 'ID', width: 70 },
-        { field: 'title', headerName: '제목', width: 130 },
-        { field: 'contents', headerName: '내용', width: 130 },
+        { field: 'id', headerName: 'ID', width: 70, hideable: true},
+        { field: 'title', headerName: '제목', width: 150 },
+        { field: 'contents', headerName: '내용', width: 150 },
         { 
             field: 'registerDate',
             headerName: '등록날짜', 
-            width: 150,
-            type: 'date',
+            width: 200,
+            type: 'dateTime',
             valueGetter: ({ value }) => value && new Date(value),
         },
         { 
             field: 'updateDate', 
             headerName: '수정날짜', 
-            width: 150,
-            type: 'date',
+            width: 200,
+            type: 'dateTime',
             valueGetter: ({ value }) => value && new Date(value),
         },
         { 
@@ -92,17 +98,18 @@ const AdminItemList = () => {
         <>
             <div style={{ height: 400, width: '100%' }}>
                 <DataGrid
-                    onRowSelectionModelChange={(ids) => onRowsSelectionHandler(ids)}
-                    getRowId={(row) => row.id}
-                    rows={rows}
-                    columns={columns}
-                    initialState={{
+                  columnVisibilityModel={columnVisibilityModel}
+                  onRowSelectionModelChange={(ids) => onRowsSelectionHandler(ids)}
+                  getRowId={(row) => row.id}
+                  rows={rows}
+                  columns={columns}
+                  initialState={{
                     pagination: {
                         paginationModel: { page: 0, pageSize: 10 },
                     },
-                    }}
-                    pageSizeOptions={[5, 10]}
-                    checkboxSelection
+                  }}
+                  pageSizeOptions={[5, 10]}
+                  checkboxSelection
                 />
             </div>
             <div style={{marginTop:'20px', textAlign:'right'}}>

@@ -94,7 +94,7 @@ const ItemGrid = () => {
         >
         <Box sx={style}>
           <div style={{textAlign:'center'}}>
-            <Typography id="modal-modal-title" variant="h2" component="h3">
+            <Typography id="modal-modal-title" variant="h3" component="h3">
               {modalTitle}
             </Typography>
             {imgSrc != ''? <img

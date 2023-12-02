@@ -2,7 +2,7 @@ const imageData = [
   {
     label: "Image 1",
     alt: "image1",
-    url: "https://contents.kyobobook.co.kr/display/i_1624_450_fc2c38d3a40d49588b240bfe524706f7.jpg",
+    url: "https://contents.kyobobook.co.kr/display/1624_450_3_cde86ae6b57a421ea91dd8b76bc00b0d.png",
   },
 
   {

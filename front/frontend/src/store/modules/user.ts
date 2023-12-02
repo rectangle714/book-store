@@ -206,9 +206,8 @@ export const allUserInfo = createAsyncThunk('ALL_USER_INFO', async () => {
 export const naverLogin = createAsyncThunk('NAVER_LOGIN', async (token:string) => {
     const URL = process.env.REACT_APP_API_URL + '/api/v1/auth/naverLogin?token='+token;
 
-    const response = await axios.get(URL);
+    const response = await axios.post(URL);
     if(response.status == 200) {
-        console.log('1');
         const token:Token = response.data;
         LoginTokenHandler(token.accessToken, token.refreshToken, token.refreshTokenExpiresIn);
     }
