@@ -1,6 +1,29 @@
 <h1 align="center">BootPrj</h1>
 
-## **개발환경**
+## 💻 Front 기술 스택
+
+| 역할          | 스택명 |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 프레임워크    | ![React](https://shields.io/badge/react-black?logo=react&style=for-the-badge)                                                                                                             |
+| 상태관리      | ![Redux](https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white)                                                                                 |
+| 기본 언어     | ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)                                                                  |
+| 패키지 매니저 | ![NPM](https://img.shields.io/badge/NPM-CB3837?style=for-the-badge&logo=NPM&logoColor=white)                                                                                              |
+| 토큰 관리     | ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)                                                                                               |
+| 버전 컨트롤   | ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)                                                                              |
+
+<br>
+
+## 💻 Backend 기술 스택
+
+| 역할          | 스택명                                                                                                                                                                                                                                             |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 프레임워크    | ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)                                                                                                                                       |
+| 서버          | ![Nginx](https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white)                                                                                                                                          |
+| 토큰 관리     | ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)                                                                                                                                                        |
+| 데이터 베이스 | ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)                                                                                                                                             |
+| CI/CD         | ![GitHub Actions](https://img.shields.io/badge/githubactions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white) ![Jenkins](https://img.shields.io/badge/jenkins-%232C5263.svg?style=for-the-badge&logo=jenkins&logoColor=white) |
+| API 관리      | ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)                                                                                                                                           |
+| 버전 컨트롤   | ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)                                   
 ### Front
 - React
 - Typescript
