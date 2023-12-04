@@ -1,4 +1,4 @@
-<h1 align="center">BootPrj</h1>
+<h1 align="center">BookStore</h1>
 
 ## 💻 Frontend 기술 스택
 
