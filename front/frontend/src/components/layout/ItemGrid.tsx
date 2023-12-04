@@ -79,7 +79,9 @@ const ItemGrid = () => {
                   item-id={value.id}
                 /> : ''}
                 </Paper>
-                <div style={{textAlign:'left'}}>{value.title}</div>
+                <div style={{textAlign:'center', width:'140px'}}>
+                  <Typography  id="modal-modal-title" variant="body1" component="h3">{value.title}</Typography>
+                </div>
               </Grid>
             ))}
           </Grid>
@@ -93,17 +95,21 @@ const ItemGrid = () => {
           aria-describedby="modal-modal-description"
         >
         <Box sx={style}>
-          <div style={{textAlign:'center'}}>
-            <Typography id="modal-modal-title" variant="h3" component="h3">
-              {modalTitle}
-            </Typography>
-            {imgSrc != ''? <img
-              src={imgSrc}
-              alt='logo image'
-              style={{ width:200, height:310, cursor:"pointer", marginTop:'50px', marginBottom:'50px' }}/> : ''}
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              {modalContents}
-            </Typography>
+          <div style={{textAlign:'center', display:'flex'}}>
+            <div style={{ cursor:"pointer", marginTop:'50px', marginBottom:'50px' ,flex:'1' }}>
+              {imgSrc != ''? <img
+                src={imgSrc}
+                alt='logo image'
+                style={{ width:300, height:400 }}/> : ''}
+            </div>
+            <div style={{paddingTop:'50px', paddingLeft:'50px', flex:'2'}}>
+              <Typography id="modal-modal-title" variant="h5" component="h3">
+                {modalTitle}
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                {modalContents}
+              </Typography>
+            </div>
           </div>
         </Box>
         </Modal>

@@ -4,9 +4,7 @@ import Styls from'../../styles/layout/MainPage.module.css';
 import Slider from './Slider';
 import { Tabs, Tab, Box } from '@mui/material';
 import { useState } from 'react';
-import AdminMemberInfo from '../member/admin/AdminMemberInfo';
-import AdminItemRegister from '../member/admin/AdminItemRegister';
-import AdminItemList from '../member/admin/AdminItemList';
+import Typography from '@mui/material/Typography';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -53,9 +51,7 @@ const MainPage = () => {
       <>
         <Slider/>
         <Container fixed className={Styls.container}>
-          {/* <Tabs centered={true} aria-label="basic tabs example">
-              <Tab label="책목록"/>
-          </Tabs> */}
+          <Typography id="modal-modal-title" variant="h5" component="h3">최근 추가된 책</Typography>
           <ItemGrid/>
           <Box sx={{ borderBottom: 1, borderColor: 'divider'}}>
                 <Tabs centered={true} value={value} onChange={handleChange} aria-label="basic tabs example">
