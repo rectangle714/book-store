@@ -34,4 +34,17 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom{
                 .where(item.id.eq(id))
                 .fetchOne();
     }
+
+    @Override
+    public List<Item> findRecentRegisteredItem() {
+        QItem item = QItem.item;
+        QSaveFile file = QSaveFile.saveFile;
+        return queryFactory
+                .selectFrom(item)
+                .leftJoin(item.fileList,file).fetchJoin()
+                .orderBy(item.registerDate.desc())
+                .limit(14)
+                .fetch();
+
+    }
 }

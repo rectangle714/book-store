@@ -96,7 +96,7 @@ const AdminItemList = () => {
 
     return (
         <>
-            <div style={{ height: 400, width: '100%' }}>
+            <div style={{ height: 600, width: '100%' }}>
                 <DataGrid
                   columnVisibilityModel={columnVisibilityModel}
                   onRowSelectionModelChange={(ids) => onRowsSelectionHandler(ids)}

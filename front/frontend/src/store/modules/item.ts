@@ -64,6 +64,24 @@ export const allItemInfo = createAsyncThunk('ALL_ITEM_INFO', async() => {
     }
 });
 
+/* 최근 추가된 책 조회 */
+export const recentRegisteredItem = createAsyncThunk('RECENT_REGISTERED_ITEM', async() => {
+    try {
+        console.log('[최근 추가된 상품 조회 시작]')
+        const URL = process.env.REACT_APP_API_URL + '/api/v1/item/findRecentRegisteredItem';
+
+        const response = await axios.get(URL);
+        if(response.status == 200) {
+            reissue(response);
+            console.log('최근 추가된 상품 response = ',response);
+         }
+         return response.data;
+    } catch(error) {
+        alert('상품 조회 에러가 발생했습니다.');
+        console.log('에러발생 : ' + error);
+    }
+});
+
 
 /* 상품 상세 조회 */
 export const itemDetailInfo = createAsyncThunk('ITEM_DETAIL_INFO', async(itemId:any) => {

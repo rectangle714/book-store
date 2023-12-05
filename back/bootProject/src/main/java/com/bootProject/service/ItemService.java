@@ -50,7 +50,19 @@ public class ItemService {
     }
 
     /* 전체 아이템 정보 */
-    public List<Item> findAllItem() {
+    public List<Item> getAllItem() {
+        List<Item> itemList = new ArrayList<Item>();
+        try {
+            itemList = itemRepository.findListAll();
+        } catch(Exception e) {
+            log.debug("전체 아이템 조회 에러 발생 ");
+            e.printStackTrace();
+        }
+        return itemList;
+    }
+
+    /* 최근 추가된 책 조회 */
+    public List<Item> getRecentRegisteredItem() {
         List<Item> itemList = new ArrayList<Item>();
         try {
             itemList = itemRepository.findListAll();

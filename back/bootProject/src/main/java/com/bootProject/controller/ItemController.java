@@ -42,9 +42,18 @@ public class ItemController {
     *   상품 전체 찾기
     */
     @GetMapping("/findAll")
-    public ResponseEntity<List<Item>> saveItem() {
-        List<Item> result = itemService.findAllItem();
+    public ResponseEntity<List<Item>> findAllItem() {
+        List<Item> result = itemService.getAllItem();
 
+        return ResponseEntity.ok(result);
+    }
+
+    /*
+     *   최근 등록된 상품 조회
+     */
+    @GetMapping("/findRecentRegisteredItem")
+    public ResponseEntity<List<Item>> findRecentRegisteredItem() {
+        List<Item> result = itemService.getAllItem();
         return ResponseEntity.ok(result);
     }
 

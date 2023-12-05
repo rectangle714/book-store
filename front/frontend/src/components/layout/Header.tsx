@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { IconButton, Button, AppBar, Box, Toolbar, Typography} from '@mui/material';
 import { useAppSelect, useAppDispatch } from "../../store/configureStore";
 import { logout, userInfo } from "../../store/modules/user";
+import Styles from "../../styles/layout/Header.module.css"
 
 const Header = () => {
     const dispatch = useAppDispatch();
@@ -57,6 +58,7 @@ const Header = () => {
                         <span onClick={(e)=>navFunction(e,'signup')} style={{fontSize:'12px', cursor:'pointer', color:'black'}}>회원가입</span>}
                         <span style={{width:'1px', height:'15px', margin:'0px 12px', backgroundColor:'black'}}></span>
                         {isLogin ? <span onClick={toggleLogoutHandler} style={{fontSize:'12px', cursor:'pointer', color:'black'}}>로그아웃</span> : 
+                        // <span className={'material-symbols-outlined'}>login</span>
                         <span onClick={(e)=>navFunction(e,'login')} style={{fontSize:'12px', cursor:'pointer', color:'black'}}>로그인</span>}
 
                         {(isLogin && role == 'ADMIN')  ? <span style={{width:'1px', height:'15px', margin:'0px 12px', backgroundColor:'black'}}></span> : ''}

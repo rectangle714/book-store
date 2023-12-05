@@ -14,4 +14,6 @@ public interface ItemRepository extends JpaRepository<Item, Long>,  ItemReposito
     public List<Item> findListAll();
     @Override
     public Item findItemById(long id);
+    @Override
+    public  List<Item> findRecentRegisteredItem();
 }

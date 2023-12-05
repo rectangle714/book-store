@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface ItemRepositoryCustom {
     public List<Item> findListAll();
     public Item findItemById(long id);
+    public List<Item> findRecentRegisteredItem();
 }

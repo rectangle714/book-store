@@ -50,7 +50,7 @@ const Admin = () => {
     return (
         <Container maxWidth="lg" fixed className={Styls.container}>
           <section style={{
-            minHeight:'84.8vh',
+            height:'100%',
             display:'flex',
             flexDirection:'column',
             alignItems:'center',

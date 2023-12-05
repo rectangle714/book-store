@@ -1,6 +1,6 @@
 import { useAppDispatch } from "../../store/configureStore";
 import { useState, useEffect } from 'react';
-import { allItemInfo, itemDetailInfo } from '../../store/modules/item';
+import { allItemInfo, itemDetailInfo, recentRegisteredItem } from '../../store/modules/item';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -33,7 +33,7 @@ const ItemGrid = () => {
   
 
   const getItemList = async () => {
-      const result = await dispatch(allItemInfo());
+      const result = await dispatch(recentRegisteredItem());
       if(result.payload != undefined) {
         setRows(result.payload);
       }

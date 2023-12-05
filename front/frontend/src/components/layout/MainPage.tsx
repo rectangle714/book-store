@@ -2,50 +2,9 @@ import Container from '@mui/material/Container';
 import ItemGrid from './ItemGrid';
 import Styls from'../../styles/layout/MainPage.module.css';
 import Slider from './Slider';
-import { Tabs, Tab, Box } from '@mui/material';
-import { useState } from 'react';
 import Typography from '@mui/material/Typography';
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-  
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          {children}
-        </Box>
-      )}
-    </div>
-  );
-}
-
 const MainPage = () => {
-
-  const [value, setValue] = useState(0);
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
-
 
     return (
       <>
@@ -53,14 +12,9 @@ const MainPage = () => {
         <Container fixed className={Styls.container}>
           <Typography id="modal-modal-title" variant="h5" component="h3">최근 추가된 책</Typography>
           <ItemGrid/>
-          <Box sx={{ borderBottom: 1, borderColor: 'divider'}}>
-                <Tabs centered={true} value={value} onChange={handleChange} aria-label="basic tabs example">
-                    <Tab label="게시판" {...a11yProps(0)} />
-                </Tabs>
-          </Box>
-          {/* 게시판 */}
-          <TabPanel value={value} index={0}>
-          </TabPanel>
+          <div style={{paddingTop:'60px'}}>
+            <Typography id="modal-modal-title" variant="h5" component="h3">게시판</Typography>
+          </div>
         </Container>
       </>
     )

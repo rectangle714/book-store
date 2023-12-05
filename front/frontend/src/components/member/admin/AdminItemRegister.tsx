@@ -83,6 +83,7 @@ const AdminItemRegister = () => {
               variant='standard'
               autoComplete='true'
               id='title'
+              sx={{width:'490px'}}
               inputRef={titleInputRef}
               InputProps={{
                 startAdornment: (
@@ -114,8 +115,8 @@ const AdminItemRegister = () => {
           </div>
           <div>
           <div style={{height:'200px', position:'relative'}}>
-                <div style={{border:'solid 1px ', height:'210px', width:'210px', margin:'0 auto', borderRadius:'20px'}}>
-                    <img src={imageSrc} style={{maxWidth:'100px',position:'absolute', top:'25%', left:'40%'}}/>
+                <div style={{border:'solid 1px ', height:'210px', margin:'0 auto', borderRadius:'20px', overflow: 'hidden'}}>
+                    <img src={imageSrc} style={{ height:'200px',objectFit:'scale-down', objectPosition: 'center center'}}/>
                 </div>
             </div>
             <div style={{paddingTop:'20px'}}>
