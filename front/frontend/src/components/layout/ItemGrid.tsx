@@ -6,6 +6,7 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
+import { Button } from "@mui/material";
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -95,7 +96,7 @@ const ItemGrid = () => {
           aria-describedby="modal-modal-description"
         >
         <Box sx={style}>
-          <div style={{textAlign:'center', display:'flex'}}>
+          <div style={{textAlign:'center', display:'flex', height:'630px'}}>
             <div style={{ cursor:"pointer", marginTop:'50px', marginBottom:'50px' ,flex:'1' }}>
               {imgSrc != ''? <img
                 src={imgSrc}
@@ -103,12 +104,15 @@ const ItemGrid = () => {
                 style={{ width:300, height:400 }}/> : ''}
             </div>
             <div style={{paddingTop:'50px', paddingLeft:'50px', flex:'2'}}>
-              <Typography id="modal-modal-title" variant="h5" component="h3">
+              <Typography id="modal-modal-title" variant="h5" component="h3" sx={{wordWrap:'break-word'}}>
                 {modalTitle}
               </Typography>
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                 {modalContents}
               </Typography>
+            </div>
+            <div style={{position:'relative', transform:'translateY(0%)', textAlign:'center'}}>
+              <span onClick={() => {setOpen(false)}} style={{cursor:'pointer'}} className="material-symbols-outlined">close</span>
             </div>
           </div>
         </Box>
