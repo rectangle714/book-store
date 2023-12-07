@@ -13,7 +13,6 @@ const AdminItemRegister = () => {
     const titleInputRef = useRef<HTMLInputElement>(null);
     const contentsInputRef = useRef<HTMLInputElement>(null);
     const item = useRef<Item>({ title: '', contents: ''});
-    let navigate = useNavigate();
 
     const VisuallyHiddenInput = styled('input')({
       clip: 'rect(0 0 0 0)',

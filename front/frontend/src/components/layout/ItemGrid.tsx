@@ -46,7 +46,7 @@ const ItemGrid = () => {
       setModalTitle(result.payload.title);
       setModalContents(result.payload.contents);
       if(result.payload.fileList[0] != undefined) {
-        setImgSrc(result.payload.fileList[0].storedFileName);
+        setImgSrc(process.env.REACT_APP_FILE_URL + result.payload.fileList[0].storedFileName);
       }
     }
     setOpen(true);
@@ -74,7 +74,7 @@ const ItemGrid = () => {
                   onClick={(e) => {handleOpen(value.id, e)}}
                 >
                 {value.fileList[0] != undefined? <img 
-                  src={value.fileList[0].storedFileName}
+                  src={process.env.REACT_APP_FILE_URL + value.fileList[0].storedFileName}
                   alt='logo image' 
                   style={{ width:140, height:204, cursor:"pointer" }}
                   item-id={value.id}

@@ -19,9 +19,4 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedMethods("OPTIONS", "GET", "POST", "PUT", "DELETE");
     }
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/images/**")
-                .addResourceLocations("classpath:/static/images/").setCachePeriod(60 * 60 * 24 * 365);
-    }
 }

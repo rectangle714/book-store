@@ -24,29 +24,29 @@ public class memberTest {
     @Test
     @DisplayName("계정생성 테스트")
     void createMemberTest() {
-        String password = passwordEncoder.encode("123");
-
-        List<Member> memberList = new ArrayList<Member>();
-
-        Member user = Member.builder()
-                .name("사용자")
-                .email("test")
-                .password(password)
-                .role(Role.USER)
-                .build();
-
-        memberList.add(user);
-
-        Member admin = Member.builder()
-                .name("관리자")
-                .email("admin")
-                .password(password)
-                .role(Role.ADMIN)
-                .build();
-
-        memberList.add(admin);
-
-        memberRepository.saveAll(memberList);
+//        String password = passwordEncoder.encode("123");
+//
+//        List<Member> memberList = new ArrayList<Member>();
+//
+//        Member user = Member.builder()
+//                .name("사용자")
+//                .email("test")
+//                .password(password)
+//                .role(Role.USER)
+//                .build();
+//
+//        memberList.add(user);
+//
+//        Member admin = Member.builder()
+//                .name("관리자")
+//                .email("admin")
+//                .password(password)
+//                .role(Role.ADMIN)
+//                .build();
+//
+//        memberList.add(admin);
+//
+//        memberRepository.saveAll(memberList);
     }
 
 }

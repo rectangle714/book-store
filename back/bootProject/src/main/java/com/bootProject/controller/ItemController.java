@@ -5,12 +5,21 @@ import com.bootProject.entity.Item;
 import com.bootProject.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
@@ -74,6 +83,13 @@ public class ItemController {
                                                @RequestParam(value = "fileList[]", required = false)List<Long> fileList) {
         itemService.deleteItem(itemList, fileList);
         return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @GetMapping("/images/{filename}")
+    public Resource showImage(@PathVariable String filename) throws
+            MalformedURLException {
+        String path = "src/main/resources/images/";
+        return new UrlResource("file:" + path +filename);
     }
 
 }
