@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { Fragment } from 'react';
 import Header from './Header';
 import Footer from './Footer';
@@ -12,13 +11,15 @@ type Props = {
 const Layout: React.FC<Props> = (props) => {
 
     return (
-        <Fragment>
-            <Header />
-            <main className={Styles.main}>
-                {props.children}
-            </main>
-            <Footer />
-        </Fragment>
+        <>
+            <div style={{height:'100%'}}>
+                <Header />
+                <main className={Styles.main}>
+                    {props.children}
+                </main>
+                <Footer />
+            </div>
+        </>
     )
 }
 

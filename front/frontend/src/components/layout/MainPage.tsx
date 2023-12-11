@@ -10,11 +10,14 @@ const MainPage = () => {
       <>
         <Slider/>
         <Container fixed className={Styls.container}>
-          <Typography id="modal-modal-title" variant="h5" component="h3">최근 추가된 책</Typography>
-          <ItemGrid/>
-          <div style={{paddingTop:'60px'}}>
-            <Typography id="modal-modal-title" variant="h5" component="h3">게시판</Typography>
+          <div style={{borderBottom:'solid 3px black', height:'60px'}}>
+            <span style={{fontWeight: '500', fontSize: '24px', color: 'rgb(51, 51, 51)', lineHeight:'48px'}}>최근 추가된 책</span>
           </div>
+          <ItemGrid/>
+          <div style={{paddingTop:'60px', borderBottom:'solid 3px black', height:'60px'}}>
+            <span style={{fontWeight: '500', fontSize: '24px', color: 'rgb(51, 51, 51)', lineHeight:'48px'}}>게시판</span>
+          </div>
+          <ItemGrid/>
         </Container>
       </>
     )

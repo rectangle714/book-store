@@ -11,9 +11,10 @@ const Footer = () => {
     const [value, setValue] = React.useState(0);
 
     return (
+    <>
      <footer className={Styles.footer}>
       <Container maxWidth="sm" fixed>
-        <Box sx={{ width: 500 }}>
+        <Box sx={{ width: '500' }}>
           <BottomNavigation
             sx={{bgcolor:'white'}}
             showLabels
@@ -30,6 +31,7 @@ const Footer = () => {
         </Box>
       </Container>
     </footer>
+  </>
     );
 }
 

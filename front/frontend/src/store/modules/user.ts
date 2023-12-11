@@ -42,6 +42,7 @@ const userSlice = createSlice({
         builder.addCase(login.fulfilled, (state, action) => {
             if(action.payload != undefined) {
                 state.email = action.meta.arg.email;
+                state.nickname = action.meta.arg.nickname;
                 state.isLogin = true;
                 state.loading = 'success'; 
             }
@@ -57,11 +58,20 @@ const userSlice = createSlice({
             return state;
         });
 
-        /** 사용자 조회 **/
+        /** 사용자 조회 성공 **/
         builder.addCase(userInfo.fulfilled, (state, action) => {
             state.email = action.payload?.data.email;
             state.nickname = action.payload?.data.nickname;
             state.role = action.payload?.data.role;
+            return state;
+        });
+
+        /** 사용자 조회 실패 **/
+        builder.addCase(userInfo.rejected, (state, action) => {
+            state.email = '';
+            state.nickname = '';
+            state.role = '';
+            state.isLogin = false;
             return state;
         });
         

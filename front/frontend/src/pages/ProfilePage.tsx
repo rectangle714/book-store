@@ -6,17 +6,11 @@ import Profile from "../components/member/user/Profile";
 
 const ProfilePage = () => {
     return (
-        <Fragment>
-            <Container maxWidth="md" fixed 
-            style={{
-                height: '85vh',
-                justifyContent:'center',
-                alignItems:'center',
-                textAlign: 'center'
-            }}>
+        <>
+            <Container maxWidth="md">
                 <Profile></Profile>
             </Container>
-        </Fragment>
+        </>
     )
 }
 
