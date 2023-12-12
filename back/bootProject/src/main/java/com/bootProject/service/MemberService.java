@@ -18,6 +18,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.Duration;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -44,21 +45,12 @@ public class MemberService {
         return memberDTO;
     }
 
-    /*
-    *   사용자 닉네임 변경
-    */
+    /* 사용자 정보 변경 */
     @Transactional
-    public MemberDTO changeMemberNickname(String email, String nickname) {
-        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
-        member = Member.builder()
-                .id(member.getId())
-                .email(member.getEmail())
-                .password(member.getPassword())
-                .nickname(nickname)
-                .role(member.getRole())
-                .build();
-
-        return MemberDTO.of(memberRepository.save(member));
+    public void changeMemberInfo(MemberDTO memberDTO) {
+        Member member = memberRepository.findByEmail(memberDTO.getEmail()).orElseThrow(() -> {throw new RuntimeException();});
+        member.updateMember(passwordEncoder.encode(memberDTO.getPassword()), memberDTO.getPhone(), memberDTO.getNickname());
+        memberRepository.save(member);
     }
 
     /*

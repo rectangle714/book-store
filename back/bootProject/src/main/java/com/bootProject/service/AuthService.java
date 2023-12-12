@@ -79,7 +79,8 @@ public class AuthService {
     public MemberDTO signup(MemberDTO requestDto) throws BusinessException {
         MemberDTO memberDTO = new MemberDTO();
         if(!memberRepository.existsByEmail(requestDto.getEmail())) {
-            Member member = requestDto.toMember(passwordEncoder);
+            requestDto.setPassword(passwordEncoder.encode(requestDto.getPassword()));
+            Member member = requestDto.toMember();
             return memberDTO= MemberDTO.of(memberRepository.save(member));
         }else {
             log.debug("이미 가입되어 있는 유저입니다.");

@@ -17,14 +17,15 @@ declare global {
   }
 
 const LoginForm = () => {
+
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+
     const kakaoLoginUrl = process.env.REACT_APP_KAKAO_LOGIN_URL;
-    
     const emailInputRef = useRef<HTMLInputElement>(null);
     const passwordInputRef = useRef<HTMLInputElement>(null);
-    const user = useRef<User>({ email: '', password: '', nickname: '', loading: '', isLogin: false, role: '' });
-    const dispatch = useAppDispatch();
+    const user = useRef<User>({ email: '', password: '', nickname: '', phone: '', loading: '', isLogin: false, role: '' });
     const [loginText, setLoginText] = useState('');
-    const navigate = useNavigate();
 
 	const naverRef = useRef<any>(null);
 
@@ -69,7 +70,7 @@ const LoginForm = () => {
             return false;
         }
 
-        user.current = { email:enteredEmail, password:enteredPassword, nickname:'', loading:'', isLogin: false, role:'' };
+        user.current = { email:enteredEmail, password:enteredPassword, nickname:'', phone: '', loading:'', isLogin: false, role:'' };
 
         const result = await dispatch(login(user.current));
         if(result.payload != undefined) {

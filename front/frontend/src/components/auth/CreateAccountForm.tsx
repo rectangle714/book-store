@@ -8,22 +8,25 @@ import TextField from '@mui/material/TextField';
 import EmailIcon from '@mui/icons-material/Email';
 import KeyIcon from '@mui/icons-material/Key';
 import InputAdornment from '@mui/material/InputAdornment';
+import SmartphoneIcon from '@mui/icons-material/Smartphone';
 import Face5Icon from '@mui/icons-material/Face5';
 
 const CreateAccountForm = () => {
 
     const emailInputRef = useRef<HTMLInputElement>(null);
     const passwordInputRef = useRef<HTMLInputElement>(null);
+    const phoneInputRef = useRef<HTMLInputElement>(null);
     const nicknameInputRef = useRef<HTMLInputElement>(null);
     const [signupResultText, setSignupResultText] = useState('');
-    const user = useRef<User>({ email: '', password: '', nickname: '', loading:'', isLogin: false, role: ''});
-    let navigate = useNavigate();
+    const user = useRef<User>({ email: '', password: '', nickname: '', phone:'', loading:'', isLogin: false, role: ''});
+    const navigate = useNavigate();
 
     const submitHandler = async (event: React.FormEvent) => {
         event.preventDefault();
 
         const enteredEmail = emailInputRef.current!.value;
         const enteredPassword = passwordInputRef.current!.value;
+        const enteredPhone = phoneInputRef.current!.value;
         const enteredNickname = nicknameInputRef.current!.value;
 
         if(!!!enteredEmail) {
@@ -36,12 +39,22 @@ const CreateAccountForm = () => {
             return;
         }
 
+        if(!!!enteredPhone) {
+            setSignupResultText('휴대폰 번호를 입력해주세요.');
+            return;
+        }
+
+        if(!!!isCellPhone(enteredPhone)) {
+            setSignupResultText('휴대폰 번호가 정확한지 확인해 주세요.');
+            return;
+        }
+
         if(!!!enteredNickname) {
             setSignupResultText('닉네임을 입력해주세요.');
             return;
         }
 
-        user.current = { email: enteredEmail, password: enteredPassword, nickname: enteredNickname, isLogin: false, loading:'', role:''};
+        user.current = { email: enteredEmail, password: enteredPassword, nickname: enteredNickname, phone: enteredPhone, isLogin: false, loading:'', role:''};
         const result = await store.dispatch(signup(user.current));
         if(result.payload == '200') {
             alert('회원가입에 성공했습니다.');
@@ -51,6 +64,13 @@ const CreateAccountForm = () => {
             return;
         }
     
+    }
+
+    /* 휴대폰 validation 체크 */
+    const isCellPhone = (phoneNum:string) => {
+        phoneNum = phoneNum.split('-').join('');
+        const regPhone = /^((01[1|6|7|8|9])[1-9]+[0-9]{6,7})|(010[1-9][0-9]{7})$/;
+        return regPhone.test(phoneNum);
     }
 
     return (
@@ -89,6 +109,28 @@ const CreateAccountForm = () => {
                                 </InputAdornment>
                             ),
                         }}/>
+                </div>
+                <div>
+                    <TextField 
+                        label="휴대폰"
+                        variant="standard"
+                        id='phone'
+                        style={{width:'290px'}}
+                        placeholder="휴대폰 번호를 입력해주세요."
+                        inputRef={phoneInputRef}
+                        inputProps={{
+                            maxLength: 11
+                        }}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                <SmartphoneIcon />
+                                </InputAdornment>
+                            ),
+                        }}/>
+                </div>
+                <div>
+
                 </div>
                 <div>
                     <TextField 

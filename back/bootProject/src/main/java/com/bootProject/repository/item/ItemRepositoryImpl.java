@@ -20,6 +20,7 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom{
         return queryFactory
                 .selectFrom(item)
                 .leftJoin(item.fileList,file).fetchJoin()
+                .orderBy(item.registerDate.desc())
                 .fetch();
     }
 
@@ -39,12 +40,20 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom{
     public List<Item> findRecentRegisteredItem() {
         QItem item = QItem.item;
         QSaveFile file = QSaveFile.saveFile;
-        return queryFactory
-                .selectFrom(item)
-                .leftJoin(item.fileList,file).fetchJoin()
+
+        List<Long> itemIds = queryFactory
+                .select(item.id)
+                .from(item)
                 .orderBy(item.registerDate.desc())
+                .offset(0)
                 .limit(14)
                 .fetch();
 
+        return queryFactory
+                .selectFrom(item)
+                .leftJoin(item.fileList,file).fetchJoin()
+                .where(item.id.in(itemIds))
+                .orderBy(item.registerDate.desc())
+                .fetch();
     }
 }

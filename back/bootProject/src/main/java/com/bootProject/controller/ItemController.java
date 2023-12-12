@@ -62,7 +62,7 @@ public class ItemController {
      */
     @GetMapping("/findRecentRegisteredItem")
     public ResponseEntity<List<Item>> findRecentRegisteredItem() {
-        List<Item> result = itemService.getAllItem();
+        List<Item> result = itemService.getRecentRegisteredItem();
         return ResponseEntity.ok(result);
     }
 
@@ -86,8 +86,7 @@ public class ItemController {
     }
 
     @GetMapping("/images/{filename}")
-    public Resource showImage(@PathVariable String filename) throws
-            MalformedURLException {
+    public Resource showImage(@PathVariable String filename) throws MalformedURLException {
         String path = "src/main/resources/images/";
         return new UrlResource("file:" + path +filename);
     }

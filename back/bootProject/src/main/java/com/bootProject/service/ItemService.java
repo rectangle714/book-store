@@ -65,10 +65,10 @@ public class ItemService {
     public List<Item> getRecentRegisteredItem() {
         List<Item> itemList = new ArrayList<Item>();
         try {
-            itemList = itemRepository.findListAll();
+            itemList = itemRepository.findRecentRegisteredItem();
         } catch(Exception e) {
-            log.debug("전체 아이템 조회 에러 발생 ");
-            e.printStackTrace();
+            log.debug("최근 추가된 책 조회 에러 발생 ");
+            log.error(e.getMessage());
         }
         return itemList;
     }

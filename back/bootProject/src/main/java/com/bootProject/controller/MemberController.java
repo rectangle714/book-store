@@ -20,21 +20,18 @@ import java.util.List;
 public class MemberController {
     private final MemberService memberService;
 
-    /*
-    *   마이페이지
-    */
+    /* 마이페이지 */
     @GetMapping("/me")
     public ResponseEntity<MemberDTO> findMemberInfo() {
         MemberDTO myInfoBySecurity = memberService.getMyInfoBySecurity();
         return ResponseEntity.ok(myInfoBySecurity);
     }
 
-    /*
-    *   닉네임 변경
-    */
-    @PostMapping("/updateNickname")
-    public ResponseEntity<MemberDTO> setMemberNickname(@RequestBody MemberDTO request) {
-        return ResponseEntity.ok(memberService.changeMemberNickname(request.getEmail(),request.getNickname()));
+    /* 사용자 정보 변경 */
+    @PostMapping("/update")
+    public ResponseEntity<String> setMemberNickname(@RequestBody MemberDTO request) {
+        memberService.changeMemberInfo(request);
+        return ResponseEntity.ok("success");
     }
 
     @PostMapping("/password")
@@ -42,17 +39,13 @@ public class MemberController {
         return ResponseEntity.ok(memberService.changeMemberPassword(request.getExPassword(), request.getNewPassword()));
     }
 
-    /*
-    *   전체 사용자 조회
-    */
+    /* 전체 사용자 조회 */
     @GetMapping("/findAll")
     public ResponseEntity<List<Member>> findAll() {
         return ResponseEntity.ok(memberService.findAllMember());
     }
 
-    /*
-    *   이메일로 인증코드 전송
-    */
+    /* 이메일로 인증코드 전송 */
     @GetMapping("/emails/verification-requests")
     public ResponseEntity<HttpStatus> sendMessage(@RequestParam("email") String email) {
         try {
@@ -64,9 +57,7 @@ public class MemberController {
         }
     }
 
-    /*
-     *   이메일로 전송된 코드 체크
-     */
+    /* 이메일로 전송된 코드 체크  */
     @PostMapping("/emails/verifications")
     public ResponseEntity verificationEmail(@RequestParam("email") String email,
                                             @RequestParam("code") String authCode) {

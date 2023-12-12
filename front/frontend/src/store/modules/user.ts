@@ -10,6 +10,7 @@ export let logoutTimer:NodeJS.Timeout;
 const initialState = {
     email: '',
     password: '',
+    phone: '',
     nickname: '',
     loading: '',
     isLogin: false,
@@ -19,6 +20,7 @@ const initialState = {
 export interface User {
     email: string,
     password: string,
+    phone: string,
     nickname: string,
     loading: string,
     isLogin: boolean,
@@ -61,6 +63,7 @@ const userSlice = createSlice({
         /** 사용자 조회 성공 **/
         builder.addCase(userInfo.fulfilled, (state, action) => {
             state.email = action.payload?.data.email;
+            state.phone = action.payload?.data.phone;
             state.nickname = action.payload?.data.nickname;
             state.role = action.payload?.data.role;
             return state;
@@ -69,6 +72,7 @@ const userSlice = createSlice({
         /** 사용자 조회 실패 **/
         builder.addCase(userInfo.rejected, (state, action) => {
             state.email = '';
+            state.phone = '';
             state.nickname = '';
             state.role = '';
             state.isLogin = false;
@@ -77,7 +81,6 @@ const userSlice = createSlice({
         
         /** 네이버 로그인 **/
         builder.addCase(naverLogin.fulfilled, (state, action) => {
-            console.log('dd', action);
             if(action.payload != undefined) {
                 state.isLogin = true;
                 state.loading = 'success'; 
@@ -210,6 +213,18 @@ export const allUserInfo = createAsyncThunk('ALL_USER_INFO', async () => {
     } catch(error) {
         console.error('에러발생 :'+ error);
     }
+});
+
+/* 사용자 정보 수정 */
+export const userUpdate = createAsyncThunk('USER_UPDATE', async (user:User) => {
+    const URL = process.env.REACT_APP_API_URL + '/api/v1/member/update';
+
+    const response = await axios.post(URL, user);
+    if(response.status !== 200) {
+        console.log('response ',response);
+    }
+    return response.status;
+
 });
 
 /* 네이버 로그인 */

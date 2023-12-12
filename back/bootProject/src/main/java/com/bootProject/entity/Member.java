@@ -3,6 +3,7 @@ package com.bootProject.entity;
 import com.bootProject.oauth2.SocialType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 
 @Entity
 @Getter
@@ -28,6 +29,11 @@ public class Member extends Base{
     @Enumerated(EnumType.STRING)
     private SocialType socialType; // KAKAO, NAVER, GOOGLE
 
+    public void updateMember(String password, String phone , String nickname) {
+        this.password = password;
+        this.phone = phone;
+        this.nickname = nickname;
+    }
 }
 
 

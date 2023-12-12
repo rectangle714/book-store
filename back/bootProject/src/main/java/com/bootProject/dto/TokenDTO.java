@@ -1,20 +1,15 @@
 package com.bootProject.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class TokenDTO {
-
     private String grantType;
     private String accessToken;
     private String refreshToken;
     private Long accessTokenExpiresIn;
     private Long refreshTokenExpiresIn;
-
 }

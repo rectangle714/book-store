@@ -1,30 +1,63 @@
 import { useRef, useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import { Button, TextField, InputAdornment } from '@mui/material';
 import { useAppSelect } from "../../../store/configureStore";
-import { ClassNames } from '@emotion/react';
-import Container from '@mui/material/Container';
+import { User } from "../../../store/modules/user";
+import store from "../../../store/configureStore";
+import { userUpdate } from '../../../store/modules/user';
 
 const Profile = () => {
 
     const email = useAppSelect((state) => state.userReducer.email);
+    const phone = useAppSelect((state) => state.userReducer.phone);
     const nickname = useAppSelect((state) => state.userReducer.nickname);
+    const navigate = useNavigate();
 
     const passwordInputRef = useRef<HTMLInputElement>(null);
     const phoneInputRef = useRef<HTMLInputElement>(null);
     const nicknameInputRef = useRef<HTMLInputElement>(null);
+    const [validationText, setvalidationText] = useState('');
+    const user = useRef<User>({ email: '', password: '', nickname: '', phone:'', loading:'', isLogin: false, role: ''});
 
-    const onClickBtn = () => {
-        const password = passwordInputRef.current?.value;
-        const phone = phoneInputRef.current?.value;
-        const nickname = nicknameInputRef.current?.value;
+    const onClickBtn = async (event: React.MouseEvent) => {
+        event.preventDefault();
 
-        
+        const enteredPassword = passwordInputRef.current?.value;
+        const enteredPhone = phoneInputRef.current?.value;
+        const enteredNickname = nicknameInputRef.current?.value;
+
+        if(!!!enteredPassword) {
+            setvalidationText('');
+            return;
+        }
+
+        if(!!!enteredPhone) {
+            setvalidationText('');
+            return;
+        }
+
+        if(!!!enteredNickname) {
+            setvalidationText('');
+            return;
+        }
+
+        user.current = { email: email, password: enteredPassword, nickname: enteredNickname, phone:enteredPhone, isLogin: false, loading:'', role:''};;
+
+        const result = await store.dispatch(userUpdate(user.current));
+        if(result.payload == '200') {
+            alert('정보를 수정하였습니다.');
+            navigate('/', {replace:true});
+        } else {
+            alert('실패');
+            return;
+        }
+
     }
 
     return (
         <>
             <div style={{paddingTop: '80px', borderBottom: 'solid 3px black', height:'80px'}} >
-                <div>
+                <div style={{textAlign:'center'}}>
                     <span style={{fontWeight: '500', fontSize: '24px', color: 'rgb(51, 51, 51)', lineHeight:'48px'}}>마이페이지</span>
                 </div>
                 <div style={{textAlign:'center', borderBottom:'solid 3px black'}}>
@@ -41,7 +74,7 @@ const Profile = () => {
                                         variant='outlined'
                                         sx={{width:'100%', input: {textAlign: "center"}}}
                                         disabled
-                                        value={email}
+                                        defaultValue={ email }
                                         id='email'
                                     />
                                 </td>
@@ -55,7 +88,7 @@ const Profile = () => {
                                         sx={{width:'100%', input: {textAlign: "center"}}}
                                         placeholder="패스워드를 입력해주세요"
                                         id='password'
-                                        inputRef={passwordInputRef} 
+                                        inputRef={ passwordInputRef } 
                                     />
                                 </td>
                             </tr>
@@ -65,7 +98,8 @@ const Profile = () => {
                                     <TextField 
                                         variant='outlined'
                                         sx={{width:'100%', input: {textAlign: "center"}}}
-                                        inputRef={phoneInputRef} 
+                                        defaultValue={ phone }
+                                        inputRef={ phoneInputRef }
                                     />
                                 </td>
                             </tr>
@@ -75,8 +109,8 @@ const Profile = () => {
                                     <TextField 
                                         variant='outlined'
                                         sx={{width:'100%', input: {textAlign: "center"}}}
-                                        defaultValue = {nickname}
-                                        inputRef={nicknameInputRef}
+                                        defaultValue = { nickname }
+                                        inputRef={ nicknameInputRef }
                                     />
                                 </td>
                             </tr>
