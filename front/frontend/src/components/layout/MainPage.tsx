@@ -2,6 +2,7 @@ import Container from '@mui/material/Container';
 import ItemGrid from './ItemGrid';
 import Styls from'../../styles/layout/MainPage.module.css';
 import Slider from './Slider';
+import { DataGrid, GridColDef, GridColumnVisibilityModel } from '@mui/x-data-grid';
 import Typography from '@mui/material/Typography';
 
 const MainPage = () => {
@@ -17,7 +18,19 @@ const MainPage = () => {
           <div style={{paddingTop:'60px', borderBottom:'solid 3px black', height:'60px'}}>
             <span style={{fontWeight: '500', fontSize: '24px', color: 'rgb(51, 51, 51)', lineHeight:'48px'}}>게시판</span>
           </div>
-          <ItemGrid/>
+          <div style={{ height: 500, width: '100%', paddingTop:'20px'}}>
+            <DataGrid
+              slots={{columnHeaders: () => null}}
+              rows={[]}
+              columns={[]}
+              initialState={{
+                pagination: {
+                    paginationModel: { page: 0, pageSize: 5, },
+                },
+              }}
+              pageSizeOptions={[5, 10]}
+            />
+          </div>
         </Container>
       </>
     )

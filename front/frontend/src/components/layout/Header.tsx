@@ -11,7 +11,7 @@ const Header = () => {
     const nickname = useAppSelect((state) => state.userReducer.nickname);
     const role = useAppSelect((state) => state.userReducer.role);
     const { state } = useLocation();
-    let navigate = useNavigate();
+    const navigate = useNavigate();
 
     const navFunction = (e:any, path:string) => {
         if(path == 'main') {

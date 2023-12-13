@@ -1,5 +1,6 @@
 package com.bootProject.service;
 
+import com.bootProject.common.code.ErrorCode;
 import com.bootProject.common.exception.BusinessException;
 import com.bootProject.common.util.RedisUtil;
 import com.bootProject.common.util.SecurityUtil;
@@ -47,8 +48,10 @@ public class MemberService {
 
     /* 사용자 정보 변경 */
     @Transactional
-    public void changeMemberInfo(MemberDTO memberDTO) {
-        Member member = memberRepository.findByEmail(memberDTO.getEmail()).orElseThrow(() -> {throw new RuntimeException();});
+    public void changeMemberInfo(MemberDTO memberDTO) throws BusinessException{
+        Member member = memberRepository.findByEmail(memberDTO.getEmail()).orElseThrow(() ->
+            new BusinessException(ErrorCode.ACCOUNT_NOT_FOUND, ErrorCode.ACCOUNT_NOT_FOUND.getDescription())
+        );
         member.updateMember(passwordEncoder.encode(memberDTO.getPassword()), memberDTO.getPhone(), memberDTO.getNickname());
         memberRepository.save(member);
     }

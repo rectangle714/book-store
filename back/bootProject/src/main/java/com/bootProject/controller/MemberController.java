@@ -1,5 +1,6 @@
 package com.bootProject.controller;
 
+import com.bootProject.common.exception.BusinessException;
 import com.bootProject.dto.ChangePasswordRequestDto;
 import com.bootProject.dto.MemberDTO;
 import com.bootProject.entity.Member;
@@ -29,7 +30,7 @@ public class MemberController {
 
     /* 사용자 정보 변경 */
     @PostMapping("/update")
-    public ResponseEntity<String> setMemberNickname(@RequestBody MemberDTO request) {
+    public ResponseEntity<String> setMemberNickname(@RequestBody MemberDTO request) throws BusinessException {
         memberService.changeMemberInfo(request);
         return ResponseEntity.ok("success");
     }

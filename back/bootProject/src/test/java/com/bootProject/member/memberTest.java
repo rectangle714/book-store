@@ -5,6 +5,7 @@ import com.bootProject.common.exception.BusinessException;
 import com.bootProject.entity.Role;
 import com.bootProject.entity.Member;
 import com.bootProject.repository.member.MemberRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @SpringBootTest
 public class memberTest {
 
@@ -52,13 +54,13 @@ public class memberTest {
         memberRepository.saveAll(memberList);
     }
 
-//    @Test
-//    @DisplayName("사용자 정보 변경")
-//    void updateMember() {
-//        Optional<Member> admin = memberRepository.findByEmail("admin");
-//        admin.get
-//        admin.get().updateMember(passwordEncoder.encode("123"), "01011112222", "관리자123");
-//        memberRepository.save(admin.get());
-//    }
+    @Test
+    @DisplayName("사용자 정보 변경")
+    void updateMember() {
+        log.debug(passwordEncoder.encode("123"));
+        Optional<Member> admin = memberRepository.findByEmail("admin");
+        admin.get().updateMember(passwordEncoder.encode("123"), "01011112222", "관리자123");
+        memberRepository.save(admin.get());
+    }
 
 }

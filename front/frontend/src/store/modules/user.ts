@@ -62,10 +62,11 @@ const userSlice = createSlice({
 
         /** 사용자 조회 성공 **/
         builder.addCase(userInfo.fulfilled, (state, action) => {
-            state.email = action.payload?.data.email;
-            state.phone = action.payload?.data.phone;
-            state.nickname = action.payload?.data.nickname;
-            state.role = action.payload?.data.role;
+            console.log('action ',action);
+            state.email = action.payload.email;
+            state.phone = action.payload.phone;
+            state.nickname = action.payload.nickname;
+            state.role = action.payload.role;
             return state;
         });
 
@@ -76,6 +77,14 @@ const userSlice = createSlice({
             state.nickname = '';
             state.role = '';
             state.isLogin = false;
+            return state;
+        });
+
+        /** 사용자 값 변경 성공 **/
+        builder.addCase(userUpdate.fulfilled, (state, action) => {
+            state.phone = action.meta.arg.phone;
+            state.nickname = action.meta.arg.nickname;
+
             return state;
         });
         
@@ -188,7 +197,7 @@ export const userInfo = createAsyncThunk('USER_INFO', async () => {
         console.log('[사용자 조회 완료] : ', response);
     }
 
-    return response;
+    return response.data;
 
 });
 

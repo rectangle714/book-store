@@ -1,17 +1,17 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Button, TextField, InputAdornment } from '@mui/material';
 import { useAppSelect } from "../../../store/configureStore";
 import { User } from "../../../store/modules/user";
 import store from "../../../store/configureStore";
-import { userUpdate } from '../../../store/modules/user';
+import { userUpdate, userInfo } from '../../../store/modules/user';
 
 const Profile = () => {
 
+    const navigate = useNavigate();
     const email = useAppSelect((state) => state.userReducer.email);
     const phone = useAppSelect((state) => state.userReducer.phone);
     const nickname = useAppSelect((state) => state.userReducer.nickname);
-    const navigate = useNavigate();
 
     const passwordInputRef = useRef<HTMLInputElement>(null);
     const phoneInputRef = useRef<HTMLInputElement>(null);
@@ -46,12 +46,11 @@ const Profile = () => {
         const result = await store.dispatch(userUpdate(user.current));
         if(result.payload == '200') {
             alert('정보를 수정하였습니다.');
-            navigate('/', {replace:true});
+            window.location.replace('/');
         } else {
-            alert('실패');
+            alert('정보 수정을 실패했습니다.');
             return;
         }
-
     }
 
     return (
