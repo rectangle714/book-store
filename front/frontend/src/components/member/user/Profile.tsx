@@ -27,17 +27,23 @@ const Profile = () => {
         const enteredNickname = nicknameInputRef.current?.value;
 
         if(!!!enteredPassword) {
-            setvalidationText('');
+            setvalidationText('변경할 패스워드를 입력해주세요');
             return;
         }
 
         if(!!!enteredPhone) {
-            setvalidationText('');
+            setvalidationText('변경할 휴대폰 번호를 입력해주세요.');
             return;
         }
 
+        if(!!!isCellPhone(enteredPhone)) {
+            setvalidationText('휴대폰 번호가 정확한지 확인해 주세요.');
+            return;
+        }
+
+
         if(!!!enteredNickname) {
-            setvalidationText('');
+            setvalidationText('변경할 닉네임을 입력해주세요.');
             return;
         }
 
@@ -52,6 +58,14 @@ const Profile = () => {
             return;
         }
     }
+
+    /* 휴대폰 validation 체크 */
+    const isCellPhone = (phoneNum:string) => {
+        phoneNum = phoneNum.split('-').join('');
+        const regPhone = /^((01[1|6|7|8|9])[1-9]+[0-9]{6,7})|(010[1-9][0-9]{7})$/;
+        return regPhone.test(phoneNum);
+    }
+
 
     return (
         <>
@@ -114,8 +128,13 @@ const Profile = () => {
                                 </td>
                             </tr>
                             <tr>
+                                <td colSpan={2} style={{height:'30px'}}>
+                                    <span style={{color:'red'}}>{validationText}</span>
+                                </td>
+                            </tr>
+                            <tr>
                                 <td colSpan={2}>
-                                    <Button style={{width: '100%', height:'50px', marginTop:'28px'}} color='success' variant='contained' onClick={onClickBtn}>정보 수정</Button>
+                                    <Button style={{width: '50%', height:'50px', marginTop:'28px'}} color='success' variant='contained' onClick={onClickBtn}>정보 수정</Button>
                                 </td>
                             </tr>
                         </tbody>

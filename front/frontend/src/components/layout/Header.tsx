@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { IconButton, Button, AppBar, Box, Toolbar, Typography} from '@mui/material';
 import { useAppSelect, useAppDispatch } from "../../store/configureStore";
 import { logout, userInfo } from "../../store/modules/user";
-import Styles from "../../styles/layout/Header.module.css"
 
 const Header = () => {
     const dispatch = useAppDispatch();
@@ -47,22 +46,47 @@ const Header = () => {
     }, [isLogin]);
 
     return(
-        <header >
+        <header>
             <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" sx={{bgcolor: 'white'}}>
                 <div style={{backgroundColor:'white', textAlign:'right',display:'flex', justifyContent:'flex-end'}}>
-                    <div style={{width:'300px', display:'flex', justifyContent:'flex-start', marginTop:'10px'}}>
-                        {isLogin ? <span onClick={(e)=>navFunction(e,'mypage')} style={{fontSize:'12px', cursor:'pointer', color:'black'}}>장바구니</span> : ''}
-                        {isLogin ? <span style={{width:'1px', height:'15px', margin:'0px 12px', backgroundColor:'black'}}></span> : ''}
-                        {isLogin ? <span onClick={(e)=>navFunction(e,'mypage')} style={{fontSize:'12px', cursor:'pointer', color:'black'}}>마이페이지</span> : 
-                        <span onClick={(e)=>navFunction(e,'signup')} style={{fontSize:'12px', cursor:'pointer', color:'black'}}>회원가입</span>}
-                        <span style={{width:'1px', height:'15px', margin:'0px 12px', backgroundColor:'black'}}></span>
-                        {isLogin ? <span onClick={toggleLogoutHandler} style={{fontSize:'12px', cursor:'pointer', color:'black'}}>로그아웃</span> : 
-                        // <span className={'material-symbols-outlined'}>login</span>
-                        <span onClick={(e)=>navFunction(e,'login')} style={{fontSize:'12px', cursor:'pointer', color:'black'}}>로그인</span>}
+                    <div>
+                        {/* 사용자 */}
+                        {
+                            (isLogin && role == 'USER') &&
+                                <span style={{width:'300px', display:'flex', justifyContent:'flex-start', marginTop:'10px'}}>
+                                    <span onClick={(e)=>navFunction(e,'mypage')} style={{fontSize:'12px', cursor:'pointer', color:'black'}}>장바구니</span>
+                                    <span style={{width:'1px', height:'15px', margin:'0px 12px', backgroundColor:'black'}}></span>
+                                    <span onClick={(e)=>navFunction(e,'mypage')} style={{fontSize:'12px', cursor:'pointer', color:'black'}}>마이페이지</span>
+                                    <span style={{width:'1px', height:'15px', margin:'0px 12px', backgroundColor:'black'}}></span>
+                                    <span onClick={toggleLogoutHandler} style={{fontSize:'12px', cursor:'pointer', color:'black'}}>로그아웃</span>
+                                </span>
+                        }
+                        
+                        {/* 관리자 */}
+                        {
+                            (isLogin && role == 'ADMIN') &&
+                                <span style={{width:'300px', display:'flex', justifyContent:'flex-start', marginTop:'10px'}}>
+                                    <span onClick={(e)=>navFunction(e,'mypage')} style={{fontSize:'12px', cursor:'pointer', color:'black'}}>장바구니</span>
+                                    <span style={{width:'1px', height:'15px', margin:'0px 12px', backgroundColor:'black'}}></span>
+                                    <span onClick={(e)=>navFunction(e,'mypage')} style={{fontSize:'12px', cursor:'pointer', color:'black'}}>마이페이지</span>
+                                    <span style={{width:'1px', height:'15px', margin:'0px 12px', backgroundColor:'black'}}></span>
+                                    <span onClick={toggleLogoutHandler} style={{fontSize:'12px', cursor:'pointer', color:'black'}}>로그아웃</span>
+                                    <span style={{width:'1px', height:'15px', margin:'0px 12px', backgroundColor:'black'}}></span>
+                                    <span style={{fontSize:'12px', cursor:'pointer', color:'black'}} onClick={(e) => navFunction(e,'admin')}>관리자</span>)
+                                </span>
+                        }
 
-                        {(isLogin && role == 'ADMIN')  ? <span style={{width:'1px', height:'15px', margin:'0px 12px', backgroundColor:'black'}}></span> : ''}
-                        {(isLogin && role == 'ADMIN')  ? <span style={{fontSize:'12px', cursor:'pointer', color:'black'}} onClick={(e) => navFunction(e,'admin')}>관리자</span> : ''}
+                        {
+                            !isLogin &&
+                                (
+                                    <div style={{width:'300px', display:'flex', justifyContent:'flex-start', marginTop:'10px'}}>
+                                        <span onClick={(e)=>navFunction(e,'signup')} style={{fontSize:'12px', cursor:'pointer', color:'black'}}>회원가입</span>
+                                        <span style={{width:'1px', height:'15px', margin:'0px 12px', backgroundColor:'black'}}></span>
+                                        <span onClick={(e)=>navFunction(e,'login')} style={{fontSize:'12px', cursor:'pointer', color:'black'}}>로그인</span>
+                                    </div>
+                                )
+                        }
                     </div>
                 </div>
                 <Toolbar style={{minHeight:'60px'}}>

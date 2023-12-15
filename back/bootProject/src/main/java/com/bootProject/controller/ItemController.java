@@ -30,9 +30,7 @@ public class ItemController {
 
     private final ItemService itemService;
 
-    /*
-    *   상품 저장
-    */
+    /* 상품 저장 */
     @PostMapping(value = "/save")
     public ResponseEntity<Void> saveItem(@RequestPart(required = false) List<MultipartFile> file,
                                          @RequestParam(name = "title", required = false) String title,
@@ -47,9 +45,7 @@ public class ItemController {
         return ResponseEntity.ok().build();
     }
 
-    /*
-    *   상품 전체 찾기
-    */
+    /* 상품 전체 찾기 */
     @GetMapping("/findAll")
     public ResponseEntity<List<Item>> findAllItem() {
         List<Item> result = itemService.getAllItem();
@@ -57,27 +53,21 @@ public class ItemController {
         return ResponseEntity.ok(result);
     }
 
-    /*
-     *   최근 등록된 상품 조회
-     */
+    /* 최근 등록된 상품 조회  */
     @GetMapping("/findRecentRegisteredItem")
     public ResponseEntity<List<Item>> findRecentRegisteredItem() {
         List<Item> result = itemService.getRecentRegisteredItem();
         return ResponseEntity.ok(result);
     }
 
-    /*
-    *   상품 상세 정보 조회
-    */
+    /* 상품 상세 정보 조회 */
     @GetMapping("/detail")
     public ResponseEntity<Item> findItemDetail(@RequestParam(value = "itemId")long id) {
         Item result = itemService.findItemInfo(id);
         return ResponseEntity.ok(result);
     }
 
-    /*
-    *   상품 삭제
-    */
+    /* 상품 삭제 */
     @PostMapping("/delete")
     public ResponseEntity<HttpStatus> findItemDetail(@RequestParam(value = "itemList[]", required = false)List<Long> itemList,
                                                @RequestParam(value = "fileList[]", required = false)List<Long> fileList) {
@@ -85,6 +75,7 @@ public class ItemController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    /* 이미지 파일 조회 */
     @GetMapping("/images/{filename}")
     public Resource showImage(@PathVariable String filename) throws MalformedURLException {
         String path = "src/main/resources/images/";

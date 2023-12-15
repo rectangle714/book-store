@@ -9,12 +9,11 @@ import { useAppDispatch } from "../../store/configureStore";
 import { login, logout, User } from "../../store/modules/user";
 
 let logoutTimer:NodeJS.Timeout;
-
 declare global {
     interface Window {
-      naver: any;
+        naver: any;
     }
-  }
+}
 
 const LoginForm = () => {
 

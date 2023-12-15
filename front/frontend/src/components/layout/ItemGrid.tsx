@@ -6,7 +6,6 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
-import { Button } from "@mui/material";
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -14,7 +13,7 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 600,
-  height: 800,
+  height: 600,
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
@@ -58,9 +57,9 @@ const ItemGrid = () => {
 
   return (
     <>
-      <Grid sx={{ flexGrow: 2 }} container spacing={1}>
+      <Grid sx={{ flexGrow: 2, height: '512px'}} container spacing={1}>
         <Grid item xs={12}>
-          <Grid container justifyContent="center" spacing={spacing} style={{paddingTop:10, justifyContent:'left', paddingLeft:'70px'}}>
+          <Grid container justifyContent="center" spacing={spacing} style={{paddingTop:10, justifyContent:'left', paddingLeft:'70px', overflow: 'auto' }}>
             {rows.map((value, index) => (
               <Grid key={value.id} item >
                 <Paper
@@ -81,7 +80,7 @@ const ItemGrid = () => {
                 /> : ''}
                 </Paper>
                 <div style={{textAlign:'center', width:'140px'}}>
-                  <Typography  id="modal-modal-title" variant="body1" component="h3">{value.title}</Typography>
+                  <span style={{fontFamily: 'Noto Sans KR, sans-serif'}}>{value.title}</span>
                 </div>
               </Grid>
             ))}
@@ -97,7 +96,7 @@ const ItemGrid = () => {
         >
         <Box sx={style}>
           <div style={{textAlign:'center', display:'flex', height:'630px'}}>
-            <div style={{ cursor:"pointer", marginTop:'50px', marginBottom:'50px' ,flex:'1' }}>
+            <div style={{ marginTop:'50px', marginBottom:'50px' ,flex:'1' }}>
               {imgSrc != ''? <img
                 src={imgSrc}
                 alt='logo image'

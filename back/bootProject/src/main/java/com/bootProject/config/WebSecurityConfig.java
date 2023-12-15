@@ -44,7 +44,9 @@ public class WebSecurityConfig {
 
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/","/api/**", "/images/**").permitAll()
+                .requestMatchers("/","/api/v1/auth/**", "/api/v1/item/**").permitAll()
+                .requestMatchers("/api/v1/member/**").hasAnyAuthority("USER","ADMIN","GUEST")
+                .requestMatchers("/api/v1/admin/**").hasAnyAuthority("ADMIN")
                 .anyRequest().authenticated()
 
                 .and()

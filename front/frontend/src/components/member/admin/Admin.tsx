@@ -57,7 +57,7 @@ const Admin = () => {
             alignItems:'center',
             justifyContent:'center'
           }}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider', paddingTop: '160px'}}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider', paddingTop: '100px'}}>
                 <Tabs centered={true} value={value} onChange={handleChange} aria-label="basic tabs example">
                     <Tab label="회원정보" {...a11yProps(0)} />
                     <Tab label="상품등록" {...a11yProps(1)} />

@@ -26,7 +26,7 @@ const itemSlice = createSlice({
 export const registerItem = createAsyncThunk('REGISTER_ITEM', async(item:any) => { 
     try {
         console.log('[상품 등록 시작]');
-        const URL = process.env.REACT_APP_API_URL + '/api/v1/item/save';
+        const URL = process.env.REACT_APP_API_URL + '/item/save';
         const validResult = validToken();
         const response = await axios.post(
             URL,
@@ -50,7 +50,7 @@ export const registerItem = createAsyncThunk('REGISTER_ITEM', async(item:any) =>
 export const allItemInfo = createAsyncThunk('ALL_ITEM_INFO', async() => {
     try {
         console.log('[전체 상품 조회 시작]')
-        const URL = process.env.REACT_APP_API_URL + '/api/v1/item/findAll';
+        const URL = process.env.REACT_APP_API_URL + '/item/findAll';
 
         const response = await axios.get(URL);
         if(response.status == 200) {
@@ -68,7 +68,7 @@ export const allItemInfo = createAsyncThunk('ALL_ITEM_INFO', async() => {
 export const recentRegisteredItem = createAsyncThunk('RECENT_REGISTERED_ITEM', async() => {
     try {
         console.log('[최근 추가된 상품 조회 시작]')
-        const URL = process.env.REACT_APP_API_URL + '/api/v1/item/findRecentRegisteredItem';
+        const URL = process.env.REACT_APP_API_URL + '/item/findRecentRegisteredItem';
 
         const response = await axios.get(URL);
         if(response.status == 200) {
@@ -87,7 +87,7 @@ export const recentRegisteredItem = createAsyncThunk('RECENT_REGISTERED_ITEM', a
 export const itemDetailInfo = createAsyncThunk('ITEM_DETAIL_INFO', async(itemId:any) => {
     try {
         console.log('[상품 조회 시작]')
-        const URL = process.env.REACT_APP_API_URL + '/api/v1/item/detail?itemId='+itemId;
+        const URL = process.env.REACT_APP_API_URL + '/item/detail?itemId='+itemId;
 
         const response = await axios.get(URL);
         if(response.status == 200) {
@@ -104,7 +104,7 @@ export const itemDetailInfo = createAsyncThunk('ITEM_DETAIL_INFO', async(itemId:
 /* 상품 삭제 */
 export const deleteItem = createAsyncThunk('DELETE_ITEM', async(param:any) => {
     console.log('[상품 삭제 시작]');
-    const URL = process.env.REACT_APP_API_URL + '/api/v1/item/delete';
+    const URL = process.env.REACT_APP_API_URL + '/item/delete';
     const validResult = validToken();
 
     const response = await axios.post(URL, param,

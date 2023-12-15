@@ -56,7 +56,7 @@ const AdminItemList = () => {
                     return (
                       <>
                         <img 
-                        src={'../'+params.value[0].storedFileName}
+                        src={process.env.REACT_APP_FILE_URL + params.value[0].storedFileName}
                         style={{ width:40, height:40}}/>
                       </>
                     );

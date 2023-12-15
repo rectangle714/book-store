@@ -123,11 +123,11 @@ public class ItemService {
 
         // 프로젝트 디렉터리 내의 저장을 위한 절대 경로 설정
         // 경로 구분자 File.separator 사용
-        String absolutePath = new File("src/main/resources/images").getCanonicalPath(); //+ File.separator + File.separator;
+        String absolutePath = new File(uploadPath).getCanonicalPath(); //+ File.separator + File.separator;
         File newFile = new File(absolutePath);
         if (!newFile.exists()) {
             boolean wasSuccessful = newFile.mkdirs();
-            if (!wasSuccessful) log.error("file: was not successful");
+            if (!wasSuccessful) { log.error("file: was not successful"); }
         }
 
         // 다중 파일 처리
@@ -154,9 +154,9 @@ public class ItemService {
 
             SaveFile saveFile = SaveFile.builder()
                     .item(item)
-                    .originFileName(file.getOriginalFilename())
-                    .storedFileName( newFileName)
-                    .fileSize(file.getSize())
+                    .originFileName( file.getOriginalFilename() )
+                    .storedFileName( newFileName )
+                    .fileSize( file.getSize() )
                     .build();
 
             fileList.add(saveFile);

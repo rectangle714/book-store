@@ -110,7 +110,7 @@ const userSlice = createSlice({
 /* 회원가입 */
 export const signup = createAsyncThunk('SIGNUP', async (user:User) => {
     try{
-        const URL = process.env.REACT_APP_API_URL + "/api/v1/auth/signup";
+        const URL = process.env.REACT_APP_API_URL + "/auth/signup";
         const response = await axios.post(URL, user);
         
         return response.status;
@@ -124,7 +124,7 @@ export const signup = createAsyncThunk('SIGNUP', async (user:User) => {
 export const login = createAsyncThunk('LOGIN', async (user:User) => {
     try {
         console.log('[로그인 시작] : ',user);
-        const URL = process.env.REACT_APP_API_URL + '/api/v1/auth/login';
+        const URL = process.env.REACT_APP_API_URL + '/auth/login';
     
         const response = await axios.post(URL, user);
         if(response.status == 200) {
@@ -143,7 +143,7 @@ export const login = createAsyncThunk('LOGIN', async (user:User) => {
 export const logout = createAsyncThunk('LOGOUT', async () => {
     try {
         console.log('[로그아웃 시작]');
-        const URL = process.env.REACT_APP_API_URL + '/api/v1/auth/logout';
+        const URL = process.env.REACT_APP_API_URL + '/auth/logout';
         let accessToken = '';
         let refreshToken = '';
 
@@ -185,7 +185,7 @@ export const logout = createAsyncThunk('LOGOUT', async () => {
 /* 사용자 정보 조회 */
 export const userInfo = createAsyncThunk('USER_INFO', async () => {
     console.log('[사용자 조회]');
-    const URL = process.env.REACT_APP_API_URL + '/api/v1/member/me';
+    const URL = process.env.REACT_APP_API_URL + '/member/me';
     let accessToken = '';
     let refreshToken = '';
 
@@ -205,7 +205,7 @@ export const userInfo = createAsyncThunk('USER_INFO', async () => {
 export const allUserInfo = createAsyncThunk('ALL_USER_INFO', async () => {
     try {
          console.log('[전체 사용자 조회]');
-         const URL = process.env.REACT_APP_API_URL + '/api/v1/member/findAll';
+         const URL = process.env.REACT_APP_API_URL + '/member/findAll';
          let accessToken = '';
          let refreshToken = '';
 
@@ -226,7 +226,7 @@ export const allUserInfo = createAsyncThunk('ALL_USER_INFO', async () => {
 
 /* 사용자 정보 수정 */
 export const userUpdate = createAsyncThunk('USER_UPDATE', async (user:User) => {
-    const URL = process.env.REACT_APP_API_URL + '/api/v1/member/update';
+    const URL = process.env.REACT_APP_API_URL + '/member/update';
 
     const response = await axios.post(URL, user);
     if(response.status !== 200) {
@@ -238,7 +238,7 @@ export const userUpdate = createAsyncThunk('USER_UPDATE', async (user:User) => {
 
 /* 네이버 로그인 */
 export const naverLogin = createAsyncThunk('NAVER_LOGIN', async (token:string) => {
-    const URL = process.env.REACT_APP_API_URL + '/api/v1/auth/naverLogin?token='+token;
+    const URL = process.env.REACT_APP_API_URL + '/auth/naverLogin?token='+token;
 
     const response = await axios.post(URL);
     if(response.status == 200) {
@@ -251,7 +251,7 @@ export const naverLogin = createAsyncThunk('NAVER_LOGIN', async (token:string) =
 
 /* 카카오 로그인 */
 export const kakaoLogin = createAsyncThunk('KAKAO_LOGIN_GET_TOKEN', async (param:kakaoParam) => {
-    const URL = process.env.REACT_APP_API_URL + '/api/v1/auth/kakaoLogin';
+    const URL = process.env.REACT_APP_API_URL + '/auth/kakaoLogin';
 
     const response = await axios.post(URL, param);
     if(response.status == 200) {
