@@ -12,6 +12,7 @@ const TokenValidation = () => {
         if( undefined != accessToken && undefined != refreshToken ) {
           request.headers.Authorization = 'Bearer ' + accessToken;
           request.headers.RefreshToken = 'Bearer ' + refreshToken;
+          request.withCredentials = true;
           console.log('request ',request);
           console.log('요청 성공');
         }
