@@ -113,7 +113,7 @@ const AdminItemRegister = () => {
                     placeholder="상품 내용 입력"
                     multiline
                     inputRef={ contentsInputRef }
-                    sx={{ width: "100%"}}
+                    sx={{ width: "100%" }}
                     InputProps={{
                       style : { height:'120px' }
                     }}

@@ -27,18 +27,7 @@ export const registerItem = createAsyncThunk('REGISTER_ITEM', async(item:any) =>
     try {
         console.log('[상품 등록 시작]');
         const URL = process.env.REACT_APP_API_URL + '/item/save';
-        const validResult = validToken();
-        const response = await axios.post(
-            URL,
-            item,
-            { 
-                headers: {
-                'Content-Type': 'multipart/form-data',
-                'Authorization' : 'Bearer ' + validResult.accessToken,
-                'RefreshToken' : 'Bearer ' + validResult.refreshToken
-                } 
-            }
-        );
+        const response = await axios.post(URL, item);
         return response.status;
     } catch(error) {
         alert('상품 입력 에러가 발생했습니다.');

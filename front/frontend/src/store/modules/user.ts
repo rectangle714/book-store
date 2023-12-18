@@ -144,28 +144,16 @@ export const logout = createAsyncThunk('LOGOUT', async () => {
     try {
         console.log('[로그아웃 시작]');
         const URL = process.env.REACT_APP_API_URL + '/auth/logout';
-        let accessToken = '';
-        let refreshToken = '';
 
-        if(getCookie('accessToken') != undefined) { accessToken = getCookie('accessToken') } else { throw new Error('accessToken이 존재하지 않습니다.') };
-        if(getCookie('refreshToken') != undefined) { refreshToken = getCookie('refreshToken') } else { throw new Error('refreshToken이 존재하지 않습니다.') };
-
-        if(getCookie('accessToken') != undefined || getCookie('refreshToken') != undefined) {
-            accessToken = getCookie('accessToken');
-            refreshToken = getCookie('refreshToken');
-            
-            const response = await axios.post(URL, [], createTokenHeader(accessToken, refreshToken));
-            if(response.status == 200) {
-                console.log('[로그아웃 성공]');
-                removeCookie('accessToken');
-                removeCookie('refreshToken');
-                removeCookie('expirationTime');
-            }
-        
-            return response.data;
-        } else {
-            throw new Error('로그아웃 에러 발생');
+        const response = await axios.post(URL, []);
+        if(response.status == 200) {
+            console.log('[로그아웃 성공]');
+            removeCookie('accessToken');
+            removeCookie('refreshToken');
+            removeCookie('expirationTime');
         }
+        
+        return response.data;
 
     } catch(error) {
         console.error('로그아웃 에러발생 : '+error);
@@ -175,7 +163,6 @@ export const logout = createAsyncThunk('LOGOUT', async () => {
 
         if(logoutTimer != null && logoutTimer != undefined){
             clearTimeout(logoutTimer);
-            console.log(logoutTimer);
         }
 
         return undefined;
@@ -186,12 +173,8 @@ export const logout = createAsyncThunk('LOGOUT', async () => {
 export const userInfo = createAsyncThunk('USER_INFO', async () => {
     console.log('[사용자 조회]');
     const URL = process.env.REACT_APP_API_URL + '/member/me';
-    let accessToken = '';
-    let refreshToken = '';
 
-    if(getCookie('accessToken') != undefined) { accessToken = getCookie('accessToken') } else { throw new Error('accessToken이 존재하지 않습니다.') };
-    if(getCookie('refreshToken') != undefined) { refreshToken = getCookie('refreshToken') } else { throw new Error('refreshToken이 존재하지 않습니다.') };
-    const response = await axios.get(URL, createTokenHeader(accessToken, refreshToken));
+    const response = await axios.get(URL);
     if(response.status == 200) {
         reissue(response);
         console.log('[사용자 조회 완료] : ', response);
@@ -206,13 +189,8 @@ export const allUserInfo = createAsyncThunk('ALL_USER_INFO', async () => {
     try {
          console.log('[전체 사용자 조회]');
          const URL = process.env.REACT_APP_API_URL + '/member/findAll';
-         let accessToken = '';
-         let refreshToken = '';
 
-         if(getCookie('accessToken') != undefined) { accessToken = getCookie('accessToken') } else { throw new Error('accessToken이 존재하지 않습니다.') };
-         if(getCookie('refreshToken') != undefined) { refreshToken = getCookie('refreshToken') } else { throw new Error('refreshToken이 존재하지 않습니다.') };
-
-         const response = await axios.get(URL, createTokenHeader(accessToken, refreshToken));
+         const response = await axios.get(URL);
          if(response.status == 200) {
             reissue(response);
             console.log('전체 response = ',response);

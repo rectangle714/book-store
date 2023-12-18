@@ -11,6 +11,7 @@ import storage from 'redux-persist/es/storage/session';
 import user from "./store/modules/user";
 import thunk from 'redux-thunk';
 import App from './App';
+import TokenValidation from './store/TokenValidation';
 
 // config 작성
 const persistConfig = {
@@ -36,11 +37,12 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <BrowserRouter>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+      <TokenValidation/>
+        <BrowserRouter>
             <App />
-      </BrowserRouter>
-    </PersistGate>
-  </Provider>
+        </BrowserRouter>
+      </PersistGate>
+    </Provider>
 );

@@ -34,6 +34,11 @@ const CreateAccountForm = () => {
             return;
         }
 
+        if(!!!emailValidation(enteredEmail)) {
+            setSignupResultText('이메일을 정확하게 입력해주세요.');
+            return;
+        }
+
         if(!!!enteredPassword) {
             setSignupResultText('패스워드를 입력해주세요.');
             return;
@@ -64,6 +69,12 @@ const CreateAccountForm = () => {
             return;
         }
     
+    }
+
+    /* 이메일 validation 체크 */
+    const emailValidation = (email:string) => {
+        const regEmail = /^[a-zA-Z]+[!#$%&'*+-/=?^_`(){|}~]*[a-zA-Z0-9]*@[\w]+\.[a-zA-Z0-9-]+[.]*[a-zA-Z0-9]+$/;
+        return regEmail.test(email);
     }
 
     /* 휴대폰 validation 체크 */
