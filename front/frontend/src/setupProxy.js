@@ -17,4 +17,12 @@ module.exports = function(app) {
             changeOrigin: true
         })
     )
+
+    app.use(
+        createProxyMiddleware(['/api/v1'], {
+            target: 'http://54.178.130.1:30001',
+            changeOrigin: true
+        })
+    )
+    
 }
