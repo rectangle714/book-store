@@ -46,24 +46,4 @@ public class MemberController {
         return ResponseEntity.ok(memberService.findAllMember());
     }
 
-    /* 이메일로 인증코드 전송 */
-    @GetMapping("/emails/verification-requests")
-    public ResponseEntity<HttpStatus> sendMessage(@RequestParam("email") String email) {
-        try {
-            memberService.sendCodeToEmail(email);
-            return new ResponseEntity(HttpStatus.OK);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-    }
-
-    /* 이메일로 전송된 코드 체크  */
-    @PostMapping("/emails/verifications")
-    public ResponseEntity verificationEmail(@RequestParam("email") String email,
-                                            @RequestParam("code") String authCode) {
-        boolean result = memberService.verifiedCode(email, authCode);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
 }

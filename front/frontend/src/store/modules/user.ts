@@ -27,6 +27,11 @@ export interface User {
     role: string
 }
 
+export interface emailAuth {
+    email: string,
+    authCode: string
+}
+
 interface Token {
     grantType: string,
     accessToken: string,
@@ -181,7 +186,6 @@ export const userInfo = createAsyncThunk('USER_INFO', async () => {
     }
 
     return response.data;
-
 });
 
 /* 사용자 전체 정보 조회 */
@@ -211,7 +215,33 @@ export const userUpdate = createAsyncThunk('USER_UPDATE', async (user:User) => {
         console.log('response ',response);
     }
     return response.status;
+});
 
+/* 사용자 이메일 존재 확인 후 이메일로 인증코드 전송  */
+export const isExistEmail = createAsyncThunk('IS_EXIST_EMAIL', async (email:string) => {
+    const URL = process.env.REACT_APP_API_URL + '/auth/checkEmail?email='+email;
+
+    const response = await axios.get(URL);
+    if(!response.data) {    // 이메일 존재 시 response.data는 false
+        const URL = process.env.REACT_APP_API_URL + '/auth/verificationRequests?email='+email;
+        const response = await axios.get(URL);
+        if(response.status == 200) {
+            console.log(response)
+        }
+    }
+    return response.data;
+});
+
+/* 입력한 인증코드로 인증 */
+export const verifications = createAsyncThunk('VERIFICATIONS', async ({email, authCode}: emailAuth) => {
+    const URL = process.env.REACT_APP_API_URL + '/auth/verifications';
+    const response = await axios.post(URL, null, {params: {email:email, authCode:authCode}});
+    console.log('인증 후 ',response);
+    if(response.status == 200) {
+        
+    }
+
+    return response.data;
 });
 
 /* 네이버 로그인 */

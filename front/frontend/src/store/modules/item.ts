@@ -94,16 +94,8 @@ export const itemDetailInfo = createAsyncThunk('ITEM_DETAIL_INFO', async(itemId:
 export const deleteItem = createAsyncThunk('DELETE_ITEM', async(param:any) => {
     console.log('[상품 삭제 시작]');
     const URL = process.env.REACT_APP_API_URL + '/item/delete';
-    const validResult = validToken();
 
-    const response = await axios.post(URL, param,
-        { 
-            headers: {
-            'Content-Type': 'multipart/form-data',
-            'Authorization' : 'Bearer ' + validResult.accessToken,
-            'RefreshToken' : 'Bearer ' + validResult.refreshToken
-            } 
-        });
+    const response = await axios.post(URL, param);
     if(response.status == 200) {
         reissue(response);
     }

@@ -73,7 +73,20 @@ const Header = () => {
                                     <span style={{width:'1px', height:'15px', margin:'0px 12px', backgroundColor:'black'}}></span>
                                     <span onClick={toggleLogoutHandler} style={{fontSize:'12px', cursor:'pointer', color:'black'}}>로그아웃</span>
                                     <span style={{width:'1px', height:'15px', margin:'0px 12px', backgroundColor:'black'}}></span>
-                                    <span style={{fontSize:'12px', cursor:'pointer', color:'black'}} onClick={(e) => navFunction(e,'admin')}>관리자</span>)
+                                    <span style={{fontSize:'12px', cursor:'pointer', color:'black'}} onClick={(e) => navFunction(e,'admin')}>관리자</span>
+                                </span>
+                        }
+
+                        
+                        {/* Auth 로그인 */}
+                        {
+                            (isLogin && role == 'GUEST') &&
+                                <span style={{width:'300px', display:'flex', justifyContent:'flex-start', marginTop:'10px'}}>
+                                    <span onClick={(e)=>navFunction(e,'mypage')} style={{fontSize:'12px', cursor:'pointer', color:'black'}}>장바구니</span>
+                                    <span style={{width:'1px', height:'15px', margin:'0px 12px', backgroundColor:'black'}}></span>
+                                    <span onClick={(e)=>navFunction(e,'mypage')} style={{fontSize:'12px', cursor:'pointer', color:'black'}}>마이페이지</span>
+                                    <span style={{width:'1px', height:'15px', margin:'0px 12px', backgroundColor:'black'}}></span>
+                                    <span onClick={toggleLogoutHandler} style={{fontSize:'12px', cursor:'pointer', color:'black'}}>로그아웃</span>
                                 </span>
                         }
 

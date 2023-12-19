@@ -35,9 +35,6 @@ public class MemberService {
     private final RedisUtil redisUtil;
     private final PasswordEncoder passwordEncoder;
 
-    /*
-    *   로그인한 사용자 정보 조회
-    */
     public MemberDTO getMyInfoBySecurity() {
         String email = SecurityUtil.getCurrentMemberEmail();
         MemberDTO memberDTO = memberRepository.findByEmail(SecurityUtil.getCurrentMemberEmail())
@@ -46,7 +43,6 @@ public class MemberService {
         return memberDTO;
     }
 
-    /* 사용자 정보 변경 */
     @Transactional
     public void changeMemberInfo(MemberDTO memberDTO) throws BusinessException{
         Member member = memberRepository.findByEmail(memberDTO.getEmail()).orElseThrow(() ->
@@ -56,9 +52,6 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-    /*
-    *   사용자 패스워드 변경
-    */
     @Transactional
     public MemberDTO changeMemberPassword(String exPassword, String newPassword) {
         Member member = memberRepository.findByEmail(SecurityUtil.getCurrentMemberEmail()).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
@@ -76,11 +69,13 @@ public class MemberService {
         return MemberDTO.of(memberRepository.save(member));
     }
 
-    /*
-    *   전체 사용자 조회
-    */
     public List<Member> findAllMember() {
         return memberRepository.findAll();
+    }
+
+    public Member findByEmail(String email) {
+        Optional<Member> member = memberRepository.findByEmail(email);
+        return member.orElseGet(() -> null);
     }
 
     public void sendCodeToEmail(String toEmail) {
@@ -92,9 +87,7 @@ public class MemberService {
 
     }
 
-    /*
-    *   이메일 인증 코드 생성
-    */
+    /* 이메일 인증 코드 생성 */
     private String createCode() {
         int length = 6;
         try {
@@ -110,9 +103,7 @@ public class MemberService {
         }
     }
 
-    /*
-    *   이메일 코드 검증
-    */
+    /* 이메일 코드 검증  */
     public boolean verifiedCode(String email, String authCode) {
         String redisAuthCode = redisUtil.getData(AUTH_CODE_PREFIX + email);
         boolean authResult = null != redisAuthCode && redisAuthCode.equals(authCode);

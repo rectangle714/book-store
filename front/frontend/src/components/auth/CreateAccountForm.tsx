@@ -110,7 +110,7 @@ const CreateAccountForm = () => {
                         label="패스워드" 
                         type="password" 
                         variant="standard" 
-                        style={{width:'290px'}}
+                        style={{width:'290px', height: '60px'}}
                         placeholder="패스워드를 입력해주세요"
                         inputRef={passwordInputRef} 
                         InputProps={{
@@ -126,7 +126,7 @@ const CreateAccountForm = () => {
                         label="휴대폰"
                         variant="standard"
                         id='phone'
-                        style={{width:'290px'}}
+                        style={{width:'290px', height: '60px'}}
                         placeholder="휴대폰 번호를 입력해주세요."
                         inputRef={phoneInputRef}
                         inputProps={{
@@ -148,7 +148,7 @@ const CreateAccountForm = () => {
                         label="닉네임"
                         variant="standard"
                         id='nickname'
-                        style={{width:'290px'}}
+                        style={{width:'290px', height: '60px'}}
                         placeholder="닉네임을 입력해주세요"
                         inputRef={nicknameInputRef}
                         InputProps={{
