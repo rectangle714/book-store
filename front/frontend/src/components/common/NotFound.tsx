@@ -1,24 +1,77 @@
 export default function NotFound() {
     return (
       <>
-        <main className="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
-          <div className="text-center">
-            <p className="text-base font-semibold text-indigo-600">404</p>
-            <h1 className="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">Page not found</h1>
-            <p className="mt-6 text-base leading-7 text-gray-600">Sorry, we couldn’t find the page you’re looking for.</p>
-            <div className="mt-10 flex items-center justify-center gap-x-6">
-              <a
-                href="#"
-                className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Go back home
-              </a>
-              <a href="#" className="text-sm font-semibold text-gray-900">
-                Contact support <span aria-hidden="true">&rarr;</span>
-              </a>
-            </div>
-          </div>
-        </main>
+        <div className="container">
+          <div className="error-code">404</div>
+          <div className="error-message">Page Not Found</div>
+          <p>죄송합니다, 해당 페이지는 찾을 수 없습니다. </p>
+          <a href="/" className="back-link">
+            이전화면으로
+          </a>
+        </div>
+        <style>
+          {`
+          header {
+            display: none;
+          }
+
+          footer {
+            display: none;
+          }
+
+          main {
+            min-height: 0px !important; 
+          }
+
+          body {
+            font-family: 'Arial', sans-serif;
+            color: #ecf0f1;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            height: 100vh;
+            justify-content: center;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .error-code {
+            font-size: 120px;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+
+        .error-message {
+            font-size: 24px;
+            color: #e74c3c;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #bdc3c7;
+            margin-bottom: 30px;
+        }
+
+        .back-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: #ecf0f1;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+
+        .back-link:hover {
+            background-color: #2980b9;
+        }
+        `}</style>
       </>
     )
 }
