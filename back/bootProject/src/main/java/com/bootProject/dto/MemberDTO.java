@@ -18,6 +18,8 @@ public class MemberDTO {
     private String nickname;
     private String phone;
     private String role;
+    private String authCode;
+
 
     public Member toMember() {
         return Member.builder()

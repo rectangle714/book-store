@@ -237,9 +237,6 @@ export const verifications = createAsyncThunk('VERIFICATIONS', async ({email, au
     const URL = process.env.REACT_APP_API_URL + '/auth/verifications';
     const response = await axios.post(URL, null, {params: {email:email, authCode:authCode}});
     console.log('인증 후 ',response);
-    if(response.status == 200) {
-        
-    }
 
     return response.data;
 });

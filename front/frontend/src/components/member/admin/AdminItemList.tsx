@@ -81,6 +81,7 @@ const AdminItemList = () => {
             });
             param.itemList = itemIdList;
             param.fileList = fileIdList;
+            console.log('param ',param);
 
             const result:any = await dispatch(deleteItem(param));
             if(result != undefined && result.payload == 200){

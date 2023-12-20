@@ -10,6 +10,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -68,9 +69,9 @@ public class ItemController {
     }
 
     /* 상품 삭제 */
-    @PostMapping("/delete")
-    public ResponseEntity<HttpStatus> findItemDetail(@RequestParam(value = "itemList[]", required = false)List<Long> itemList,
-                                               @RequestParam(value = "fileList[]", required = false)List<Long> fileList) {
+    @PostMapping(value = "/delete")
+    public ResponseEntity<HttpStatus> findItemDetail(@RequestParam(value = "itemList[]")List<Long> itemList,
+                                               @RequestParam(value = "fileList[]")List<Long> fileList) {
         itemService.deleteItem(itemList, fileList);
         return ResponseEntity.ok(HttpStatus.OK);
     }

@@ -8,6 +8,7 @@ import com.bootProject.dto.MemberDTO;
 import com.bootProject.entity.Member;
 import com.bootProject.mail.MailService;
 import com.bootProject.repository.member.MemberRepository;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -78,7 +79,7 @@ public class MemberService {
         return member.orElseGet(() -> null);
     }
 
-    public void sendCodeToEmail(String toEmail) {
+    public void sendCodeToEmail(String toEmail) throws MessagingException {
         String title = "이메일 인증번호";
         String authCode = createCode();
         mailService.sendEmail(toEmail, title, authCode);
