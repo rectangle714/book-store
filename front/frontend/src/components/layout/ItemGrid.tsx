@@ -6,6 +6,37 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
+import styled from "@emotion/styled";
+
+const ModalBackdrop = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+`;
+
+const ModalContent = styled.div`
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative; 
+  transform: translateY(0%);
+`;
+
+const CloseButton = styled.span`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+`;
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -88,7 +119,22 @@ const ItemGrid = () => {
         </Grid>
       </Grid>
       <div>
-        <Modal
+        {open &&
+          <ModalBackdrop>
+            <ModalContent>
+              <CloseButton onClick={handleClose}><span className="material-symbols-outlined">close</span></CloseButton>
+              <div>
+                {imgSrc != ''? <img
+                  src={imgSrc}
+                  alt='logo image'
+                  style={{}}/> : ''}
+              </div>
+              <h2>{modalTitle}</h2>
+              <p>{modalContents}</p>
+            </ModalContent>
+        </ModalBackdrop>
+      }
+        {/* <Modal
           open={open}
           onClose={handleClose}
           aria-labelledby="modal-modal-title"
@@ -115,7 +161,7 @@ const ItemGrid = () => {
             </div>
           </div>
         </Box>
-        </Modal>
+      </Modal> */}
       </div>
     </>
   );

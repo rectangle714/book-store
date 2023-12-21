@@ -1,4 +1,4 @@
-import Admin  from '../components/member/admin/Admin';
+import Admin from 'components/member/admin/Admin';
 
 /* 관리자 화면 */
 const AdminPage = () => {

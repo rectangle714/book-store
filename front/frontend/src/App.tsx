@@ -4,11 +4,7 @@ import { useAppSelect } from "./store/configureStore";
 import HomePage from "./pages/HomePage";
 import CreateAccountPage from "./pages/CreateAccountPage";
 
-import LoginPage from "./pages/LoginPage";
-import ProfilePage from "./pages/ProfilePage";
-import AdminPage from "./pages/AdminPage";
-import FindEmailPage from "./pages/FindEmailPage";
-import FindPasswordPage from "./pages/FindPasswordPage";
+import {LoginPage, ProfilePage, AdminPage, FindEmailPage, FindPasswordPage} from "./pages";
 import OAuthLogin from "./components/auth/OAuthLogin";
 import NotFound from "./components/common/NotFound";
 import UpdatePassword from "./components/member/user/UpdatePassword";

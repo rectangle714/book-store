@@ -1,7 +1,7 @@
 import { DataGrid, GridColDef, GridColumnVisibilityModel } from '@mui/x-data-grid';
-import { useAppDispatch } from "../../../store/configureStore";
+import { useAppDispatch } from "store/configureStore";
 import { useState, useEffect } from 'react';
-import { allItemInfo, deleteItem } from '../../../store/modules/item';
+import { allItemInfo, deleteItem } from 'store/modules/item';
 import { Button } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 

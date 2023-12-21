@@ -21,7 +21,7 @@ public class MailService {
     /** 이메일 전송 **/
     public void sendEmail(String toEmail, String title, String text) throws MessagingException {
         MimeMessage message = getEmailForm(toEmail, title, text);
-//        SimpleMailMessage emailForm = getEmailForm(toEmail, title, text);
+
         try {
             javaMailSender.send(message);
         } catch (RuntimeException e) {

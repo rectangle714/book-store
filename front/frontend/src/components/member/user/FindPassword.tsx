@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, TextField, InputAdornment} from "@mui/material";
+import { Button, TextField, InputAdornment, Alert} from "@mui/material";
 import { Container } from "@mui/joy";
 import EmailIcon from "@mui/icons-material/Email";
 import { useAppDispatch } from "../../../store/configureStore";
@@ -49,6 +49,7 @@ const FindPassword = () => {
     if(result.payload == true) {
       setIsAuthCheck(true);
       setFindPasswordResultText('');
+      alert('인증이 완료되었습니다.');
     } else {
       setFindPasswordResultText('인증코드를 다시 확인해주세요.');
     }
@@ -58,7 +59,7 @@ const FindPassword = () => {
   const onSuccessButton = async () => {
     if(isAuthCheck) {
       setFindPasswordResultText('');
-      navigate('/UpdatePassword');
+      navigate('/UpdatePassword', {state: emailValue});
     } else {
       setFindPasswordResultText('인증을 먼저 완료해주세요.');
     }

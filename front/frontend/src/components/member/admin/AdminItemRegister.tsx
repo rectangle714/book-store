@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Button, TextField, InputAdornment } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import store from "../../../store/configureStore";
 import { registerItem } from "../../../store/modules/item";
