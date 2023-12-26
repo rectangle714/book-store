@@ -1,9 +1,9 @@
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { signup, User } from "../../store/modules/user";
-import store from "../../store/configureStore";
+import { signup, User, isExistEmail } from "store/modules/user";
+import store from "store/configureStore";
 import Button from '@mui/material/Button';
-import Styles from '../../styles/auth/CreateAccountForm.module.css';
+import Styles from 'styles/auth/CreateAccountForm.module.css';
 import TextField from '@mui/material/TextField';
 import EmailIcon from '@mui/icons-material/Email';
 import KeyIcon from '@mui/icons-material/Key';
@@ -36,6 +36,14 @@ const CreateAccountForm = () => {
 
         if(!!!emailValidation(enteredEmail)) {
             setSignupResultText('이메일을 정확하게 입력해주세요.');
+            return;
+        }
+
+        const email = enteredEmail;
+        const path= '';
+        const isExist = await store.dispatch(isExistEmail({email, path}));
+        if(!isExist.payload) {
+            setSignupResultText('이미 존재하는 이메일입니다.');
             return;
         }
 

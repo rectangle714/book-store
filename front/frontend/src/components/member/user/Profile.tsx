@@ -4,7 +4,7 @@ import { Button, TextField, InputAdornment } from '@mui/material';
 import { useAppSelect } from "../../../store/configureStore";
 import { User } from "../../../store/modules/user";
 import store from "../../../store/configureStore";
-import { userUpdate, userInfo } from '../../../store/modules/user';
+import { updateUserInfo, userInfo } from '../../../store/modules/user';
 
 const Profile = () => {
 
@@ -49,7 +49,7 @@ const Profile = () => {
 
         user.current = { email: email, password: enteredPassword, nickname: enteredNickname, phone:enteredPhone, isLogin: false, loading:'', role:''};;
 
-        const result = await store.dispatch(userUpdate(user.current));
+        const result = await store.dispatch(updateUserInfo(user.current));
         if(result.payload == '200') {
             alert('정보를 수정하였습니다.');
             window.location.replace('/');

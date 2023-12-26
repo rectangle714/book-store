@@ -4,7 +4,7 @@ import { Button, TextField, InputAdornment, Alert} from "@mui/material";
 import { Container } from "@mui/joy";
 import EmailIcon from "@mui/icons-material/Email";
 import { useAppDispatch } from "../../../store/configureStore";
-import { isExistEmail, verifications, emailAuth } from "../../../store/modules/user";
+import { isExistEmail, verifications, emailAuth, verificationRequests } from "../../../store/modules/user";
 
 const FindPassword = () => {
   const dispatch = useAppDispatch();
@@ -51,6 +51,7 @@ const FindPassword = () => {
       setFindPasswordResultText('');
       alert('인증이 완료되었습니다.');
     } else {
+      setIsAuthCheck(false);
       setFindPasswordResultText('인증코드를 다시 확인해주세요.');
     }
   }
@@ -73,7 +74,11 @@ const FindPassword = () => {
 
   /* 이메일로 전송된 코드 체크 */
   const existEmailCheck = async (email: string) => {  
-    const isExist = (await dispatch(isExistEmail(email))).payload;
+    const path = 'findpassword';
+    const isExist = (await dispatch(isExistEmail({email,path}))).payload;
+    if(!isExist) {
+      dispatch(verificationRequests(email));
+    }
     return isExist;
   };
 

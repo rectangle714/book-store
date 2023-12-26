@@ -32,11 +32,14 @@ public class CustomUserDetailsService implements UserDetailsService {
     private UserDetails createUserDetails(Member member) {
         GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(member.getRole().toString());
         User userDetails = null;
-        if(member.getPassword() != null) {
+        if(null != member.getPassword() && !"".equals(member.getPassword())) {
             userDetails =  new User(String.valueOf(member.getEmail()), member.getPassword(), Collections.singleton(grantedAuthority));
-        } else {
-            userDetails =  new User(String.valueOf(member.getEmail()), "", Collections.singleton(grantedAuthority));
         }
+
+        if(member.getSocialType() != null) {
+            throw new UsernameNotFoundException(member.getEmail() + "은 social 계정입니다.");
+        }
+
         return userDetails;
     }
 

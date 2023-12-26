@@ -23,4 +23,6 @@ public class Cart extends Base{
     @JoinColumn(name = "item_id")
     private Item item_id;
 
+    private String quantity;
+
 }

@@ -34,6 +34,10 @@ public class Member extends Base{
         this.phone = phone;
         this.nickname = nickname;
     }
+
+    public void updateMemberPassword(String password) {
+        this.password = password;
+    }
 }
 
 

@@ -119,7 +119,7 @@ const ItemGrid = () => {
         </Grid>
       </Grid>
       <div>
-        {open &&
+        {/* {open &&
           <ModalBackdrop>
             <ModalContent>
               <CloseButton onClick={handleClose}><span className="material-symbols-outlined">close</span></CloseButton>
@@ -133,8 +133,8 @@ const ItemGrid = () => {
               <p>{modalContents}</p>
             </ModalContent>
         </ModalBackdrop>
-      }
-        {/* <Modal
+      } */}
+        <Modal
           open={open}
           onClose={handleClose}
           aria-labelledby="modal-modal-title"
@@ -161,7 +161,7 @@ const ItemGrid = () => {
             </div>
           </div>
         </Box>
-      </Modal> */}
+      </Modal>
       </div>
     </>
   );

@@ -1,18 +1,19 @@
 import { useRef, useState } from "react";
-import { Button, TextField } from "@mui/material";
+import { Button, Select, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import store from "../../../store/configureStore";
-import { registerItem } from "../../../store/modules/item";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { Item } from "../../../store/modules/item";
-import LoadingBar from "../../common/LoadingBar";
+import store from "store/configureStore";
+import { Item, registerItem } from "store/modules/item";
+import LoadingBar from "components/common/LoadingBar";
+import { Textarea } from "@mui/joy";
+import MenuItem from '@mui/material/MenuItem';
 
 const AdminItemRegister = () => {
   const [imageSrc, setImageSrc]: any = useState(null);
   const [file, setFile] = useState<File>();
   const [isLoading, setIsLoading] = useState(false);
   const titleInputRef = useRef<HTMLInputElement>(null);
-  const contentsInputRef = useRef<HTMLInputElement>(null);
+  const [contents, setContents] = useState('');
   const item = useRef<Item>({ title: "", contents: "" });
 
   const VisuallyHiddenInput = styled("input")({
@@ -26,6 +27,13 @@ const AdminItemRegister = () => {
     whiteSpace: "nowrap",
     width: 1,
   });
+
+  const onChangePrice = (e: any) => {
+    const onlyNumber = e.target.value.replace(/[^0-9]/g, '');
+    const intValue = parseInt(onlyNumber.replace(/,/g, ''), 10);
+    const addComma = isNaN(intValue) ? 0 : intValue.toLocaleString();
+    e.target.value = addComma;
+  }
 
   const onSelectedFiles = async (e: any) => {
     let reader = new FileReader();
@@ -42,7 +50,7 @@ const AdminItemRegister = () => {
     event.stopPropagation();
 
     const enteredTitle = titleInputRef.current!.value;
-    const enteredContents = contentsInputRef.current!.value;
+    const enteredContents = contents;
 
     if (enteredTitle == "" || enteredTitle == undefined) {
       alert("제목을 입력해주세요");
@@ -61,10 +69,6 @@ const AdminItemRegister = () => {
     if (file !== undefined) {
       formData.append("file", file);
     }
-    for (const data of formData) {
-      console.log(data);
-    }
-
     setIsLoading(true);
     const result = await store.dispatch(registerItem(formData));
     console.log("payload: ", result.payload);
@@ -106,18 +110,43 @@ const AdminItemRegister = () => {
                 </td>
               </tr>
               <tr>
+                <td>가격</td>
+                <td colSpan={2} style={{textAlign:'left'}}>
+                  <TextField
+                    variant="outlined"
+                    defaultValue={0}
+                    onChange={onChangePrice}
+                    inputProps={{maxLength: 8}}
+                    sx={{ width: "50%" }}
+                    id='price'
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>분류</td>
+                <td colSpan={2} style={{textAlign:'left'}}>
+                  <Select
+                    variant="outlined"
+                    sx={{ width: "50%" }}
+                    id='category'
+                    defaultValue={'00'}
+                  >
+                    <MenuItem value={'00'}>선택</MenuItem>
+                    <MenuItem value={'01'}>소설</MenuItem>
+                    <MenuItem value={'02'}>자기계발</MenuItem>
+                    <MenuItem value={'03'}>에세이</MenuItem>
+                    <MenuItem value={'04'}>인문</MenuItem>
+                  </Select>
+                </td>
+              </tr>
+              <tr>
                 <td>내용</td>
                 <td colSpan={2}>
-                  <TextField
-                    placeholder="상품 내용 입력"
-                    multiline
-                    inputRef={ contentsInputRef }
+                  <Textarea
+                    onChange={(e) => setContents(e.target.value)}
                     sx={{ width: "100%" }}
-                    InputProps={{
-                      style : { height:'120px' }
-                    }}
-                    rows={2}
-                    maxRows={4}
+                    minRows={3}
+                    maxRows={5}
                     name='contents'
                   />
                 </td>

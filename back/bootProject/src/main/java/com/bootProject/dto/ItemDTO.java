@@ -10,6 +10,8 @@ import java.util.List;
 public class ItemDTO {
     private String title;
     private String contents;
+    private long price;
+    private String category;
     private List<String> itemList;
     private List<String> fileList;
 }

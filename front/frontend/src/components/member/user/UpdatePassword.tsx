@@ -1,27 +1,43 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button, TextField, InputAdornment} from "@mui/material";
 import { Container } from "@mui/joy";
 import EmailIcon from "@mui/icons-material/Email";
 import KeyIcon from "@mui/icons-material/Key";
 import { useAppDispatch } from "store/configureStore";
-import { isExistEmail, verifications, emailAuth } from "store/modules/user";
+import { updateUserPassword } from "store/modules/user";
 
 const UpdatePassword = () => {
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const [newPassword, setNewPassword] = useState('');
     const [checkPasswordResultText, setCheckPasswordResultText] = useState('');
+    const [isCheck, setIsCheck] = useState(false);
     const { state } = useLocation();
 
     const checkSamePassword = (checkPassword:string) => {
         if(newPassword != checkPassword) {
             setCheckPasswordResultText('패스워드가 일치하지 않습니다.');
         } else {
+            setIsCheck(true);
             setCheckPasswordResultText('');
         }
     }
 
-    const onUpdateButton = () => {
-        console.log('클릭');
+    const onUpdateButton = async () => {
+        const email = state;
+        const password = newPassword;
+        if(isCheck) {
+            const result = await dispatch(updateUserPassword({email, password}));
+            if(result.payload == 'success') {
+                alert('패스워드가 변경되었습니다.');
+                navigate('/', {replace:true});
+            } else {
+                alert('패스워드 변경이 실패했습니다.');
+            }
+        } else {
+            alert('패스워드를 다시 입력해주세요.');
+        }
     }
 
   return (

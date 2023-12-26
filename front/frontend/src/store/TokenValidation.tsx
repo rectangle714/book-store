@@ -1,14 +1,14 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { getCookie } from './cookie';
-import LoadingBar from '../components/common/LoadingBar';
+import LoadingBar from 'components/common/LoadingBar';
+import { reissue } from 'store/modules/auth';
 
 const TokenValidation = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   axios.interceptors.request.use(
     function (request) {
-      console.log('request ',request);
       setIsLoading(true);
       const accessToken = getCookie('accessToken');
       const refreshToken = getCookie('refreshToken');
@@ -31,6 +31,10 @@ const TokenValidation = () => {
 
   axios.interceptors.response.use(
     function (response) {
+      if(response.status == 200) {
+        reissue(response);
+        console.log('전체 response = ',response);
+      }
       setIsLoading(false);
       return response;
     },

@@ -5,6 +5,8 @@ import com.bootProject.entity.QItem;
 import com.bootProject.entity.QSaveFile;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import static com.bootProject.entity.QItem.item;
+import static com.bootProject.entity.QSaveFile.saveFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,32 +17,24 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom{
 
     @Override
     public List<Item> findListAll() {
-        QItem item = QItem.item;
-        QSaveFile file = QSaveFile.saveFile;
         return queryFactory
                 .selectFrom(item)
-                .leftJoin(item.fileList,file).fetchJoin()
+                .leftJoin(item.fileList, saveFile).fetchJoin()
                 .orderBy(item.registerDate.desc())
                 .fetch();
     }
 
     @Override
     public Item findItemById(long id) {
-        QItem item = QItem.item;
-        QSaveFile file = QSaveFile.saveFile;
-
         return queryFactory
                 .selectFrom(item)
-                .innerJoin(item.fileList, file).fetchJoin()
+                .innerJoin(item.fileList, saveFile).fetchJoin()
                 .where(item.id.eq(id))
                 .fetchOne();
     }
 
     @Override
     public List<Item> findRecentRegisteredItem() {
-        QItem item = QItem.item;
-        QSaveFile file = QSaveFile.saveFile;
-
         List<Long> itemIds = queryFactory
                 .select(item.id)
                 .from(item)
@@ -51,7 +45,7 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom{
 
         return queryFactory
                 .selectFrom(item)
-                .leftJoin(item.fileList,file).fetchJoin()
+                .leftJoin(item.fileList,saveFile).fetchJoin()
                 .where(item.id.in(itemIds))
                 .orderBy(item.registerDate.desc())
                 .fetch();

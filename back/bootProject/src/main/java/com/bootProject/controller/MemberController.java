@@ -35,9 +35,12 @@ public class MemberController {
         return ResponseEntity.ok("success");
     }
 
-    @PostMapping("/password")
-    public ResponseEntity<MemberDTO> setMemberPassword(@RequestBody ChangePasswordRequestDto request) {
-        return ResponseEntity.ok(memberService.changeMemberPassword(request.getExPassword(), request.getNewPassword()));
+    /* 패스워드 변경 */
+    @PostMapping("/updatePassword")
+    public ResponseEntity<String> updateMemberPassword(@RequestParam(value = "email") String email,
+                                                          @RequestParam(value = "password") String password) {
+        String resultMessage = memberService.changeMemberPassword(email, password);
+        return ResponseEntity.ok(resultMessage);
     }
 
     /* 전체 사용자 조회 */

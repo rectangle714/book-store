@@ -4,6 +4,7 @@ import com.bootProject.entity.Member;
 import com.bootProject.entity.QMember;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import static com.bootProject.entity.QMember.member;
 
 import java.util.List;
 
@@ -13,9 +14,9 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
 
     @Override
     public List<Member> findAllMember() {
-        QMember member = QMember.member;
         return queryFactory
                 .selectFrom(member)
                 .fetch();
     }
+
 }

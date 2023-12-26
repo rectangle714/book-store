@@ -8,6 +8,7 @@ import com.bootProject.dto.MemberDTO;
 import com.bootProject.entity.Member;
 import com.bootProject.mail.MailService;
 import com.bootProject.repository.member.MemberRepository;
+import com.bootProject.repository.member.MemberRepositoryCustom;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,29 +55,33 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberDTO changeMemberPassword(String exPassword, String newPassword) {
-        Member member = memberRepository.findByEmail(SecurityUtil.getCurrentMemberEmail()).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
-        if(!passwordEncoder.matches(exPassword, member.getPassword())) {
-            throw new RuntimeException("비밀번호가 맞지 않습니다.");
+    public String changeMemberPassword(String email, String password) {
+        String resultMessage = "";
+        try {
+            Member member = memberRepository.findByEmail(email).orElseThrow(() ->
+                new BusinessException(ErrorCode.ACCOUNT_NOT_FOUND, ErrorCode.ACCOUNT_NOT_FOUND.getDescription())
+            );
+            member.updateMemberPassword(passwordEncoder.encode(password));
+            return "success";
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return "fail";
         }
-        member = Member.builder()
-                .id(member.getId())
-                .email(member.getEmail())
-                .password(passwordEncoder.encode(newPassword))
-                .nickname(member.getNickname())
-                .role(member.getRole())
-                .build();
-
-        return MemberDTO.of(memberRepository.save(member));
     }
 
     public List<Member> findAllMember() {
         return memberRepository.findAll();
     }
 
-    public Member findByEmail(String email) {
-        Optional<Member> member = memberRepository.findByEmail(email);
-        return member.orElseGet(() -> null);
+    public Member findByEmail(String email, String path) {
+        Member member = memberRepository.findByEmail(email).orElseGet(() -> null);
+        // 패스워드 찾기에서 Email 체크 시 social 아이디인지 체크 필요함
+        if(null != path) {
+            if(null != member && null != member.getSocialType()) {
+                return null;
+            }
+        }
+        return member;
     }
 
     public void sendCodeToEmail(String toEmail) throws MessagingException {
