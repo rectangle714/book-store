@@ -33,7 +33,6 @@ const TokenValidation = () => {
     function (response) {
       if(response.status == 200) {
         reissue(response);
-        console.log('전체 response = ',response);
       }
       setIsLoading(false);
       return response;

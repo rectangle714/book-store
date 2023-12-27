@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAppDispatch } from "../../store/configureStore";
-import { naverLogin, kakaoLogin, logout } from "../../store/modules/user";
+import { useAppDispatch } from "store/configureStore";
+import { naverLogin, kakaoLogin, logout } from "store/modules/user";
 
 let logoutTimer:NodeJS.Timeout;
 
@@ -32,7 +32,7 @@ const OAuthLogin = (props:any) => {
               const remainingDuration = adjExpirationTime - currentTime;
               logoutTimer = setTimeout(() =>{
                   dispatch(logout());
-                  navigate('/');
+                  navigate('/', {replace: true});
               }, remainingDuration);
   
               navigate('/', {replace:true, state:logoutTimer});
@@ -60,7 +60,7 @@ const OAuthLogin = (props:any) => {
           const remainingDuration = adjExpirationTime - currentTime;
           logoutTimer = setTimeout(() =>{
               dispatch(logout());
-              navigate('/');
+              navigate('/', {replace: true});
           }, remainingDuration);
 
           navigate('/', {replace:true, state:logoutTimer});

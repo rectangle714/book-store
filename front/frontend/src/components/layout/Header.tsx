@@ -1,13 +1,12 @@
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { IconButton, Button, AppBar, Box, Toolbar, Typography} from '@mui/material';
-import { useAppSelect, useAppDispatch } from "../../store/configureStore";
-import { logout, userInfo } from "../../store/modules/user";
+import { useAppSelect, useAppDispatch } from "store/configureStore";
+import { userInfo, logout } from "store/modules/user";
 
 const Header = () => {
     const dispatch = useAppDispatch();
     const isLogin = useAppSelect((state) => state.userReducer.isLogin);
-    const nickname = useAppSelect((state) => state.userReducer.nickname);
     const role = useAppSelect((state) => state.userReducer.role);
     const { state } = useLocation();
     const navigate = useNavigate();

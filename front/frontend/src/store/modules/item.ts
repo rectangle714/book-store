@@ -10,6 +10,8 @@ const initialState = {
 export interface Item {
     title: string,
     contents: string
+    price: number,
+    category: string
 }
 
 const itemSlice = createSlice({

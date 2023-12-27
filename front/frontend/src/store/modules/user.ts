@@ -1,11 +1,8 @@
+import axios from 'axios';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { removeCookie, getCookie } from '../cookie';
 import { createTokenHeader, LoginTokenHandler, reissue  } from './auth'
 import { kakaoParam } from "../../components/auth/OAuthLogin";
-
-import axios from 'axios';
-
-export let logoutTimer:NodeJS.Timeout;
 
 const initialState = {
     email: '',
@@ -16,6 +13,14 @@ const initialState = {
     isLogin: false,
     role: ''
 };
+
+interface Token {
+    grantType: string,
+    accessToken: string,
+    refreshToken: string,
+    accessTokenExpiresIn: number,
+    refreshTokenExpiresIn: number
+}
 
 export interface User {
     email: string,
@@ -77,7 +82,6 @@ const userSlice = createSlice({
 
         /** 사용자 조회 성공 **/
         builder.addCase(userInfo.fulfilled, (state, action) => {
-            console.log('action ',action);
             state.email = action.payload.email;
             state.phone = action.payload.phone;
             state.nickname = action.payload.nickname;
@@ -207,7 +211,6 @@ export const allUserInfo = createAsyncThunk('ALL_USER_INFO', async () => {
          const response = await axios.get(URL);
          if(response.status == 200) {
             reissue(response);
-            console.log('전체 response = ',response);
          }
          return response.data;
 
@@ -290,4 +293,5 @@ export const kakaoLogin = createAsyncThunk('KAKAO_LOGIN_GET_TOKEN', async (param
     return response.data;
 });
 
+export let logoutTimer:NodeJS.Timeout;
 export default userSlice.reducer;

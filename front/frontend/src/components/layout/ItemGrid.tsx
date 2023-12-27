@@ -1,66 +1,32 @@
-import { useAppDispatch } from "../../store/configureStore";
+import { useAppDispatch } from "store/configureStore";
 import { useState, useEffect } from 'react';
-import { allItemInfo, itemDetailInfo, recentRegisteredItem } from '../../store/modules/item';
+import { itemDetailInfo, recentRegisteredItem } from 'store/modules/item';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
-import styled from "@emotion/styled";
+import { Button } from "@mui/joy";
+import ItemModal from "./ItemModal";
 
-const ModalBackdrop = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-`;
-
-const ModalContent = styled.div`
-  background-color: white;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  position: relative; 
-  transform: translateY(0%);
-`;
-
-const CloseButton = styled.span`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 20px;
-  cursor: pointer;
-`;
-
-const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 600,
-  height: 600,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
+interface modalValue {
+  title: string,
+  contents: string,
+  price: number,
+  category: string
+}
 
 const ItemGrid = () => {
   const dispatch = useAppDispatch();
   const [spacing, setSpacing] = useState(2);
   const [rows, setRows] = useState<any[]>([]);
   const [open, setOpen] = useState(false);
-  const handleClose = () => setOpen(false);
+  const modalClose = () => setOpen(false);
 
-  const [modalTitle, setModalTitle] = useState('');
-  const [modalContents, setModalContents] = useState('');
   const [imgSrc, setImgSrc] = useState('');
+  const [modalValue, setModalValue] = useState<modalValue>(
+    {title: '', contents: '', price: 0, category: ''}
+  );
   
 
   const getItemList = async () => {
@@ -71,15 +37,16 @@ const ItemGrid = () => {
   }
 
   const handleOpen = async (arg:any, e:any) => {
+    e.stopPropagation();
     const result = await dispatch(itemDetailInfo(arg));
     if(result.payload != undefined) {
-      setModalTitle(result.payload.title);
-      setModalContents(result.payload.contents);
-      if(result.payload.fileList[0] != undefined) {
-        setImgSrc(process.env.REACT_APP_FILE_URL + result.payload.fileList[0].storedFileName);
+      setModalValue({title:result.payload.title, contents:result.payload.contents,
+        price:result.payload.price, category:result.payload.category});
+      if(result.payload.saveFileList[0] != undefined) {
+        setImgSrc(process.env.REACT_APP_FILE_URL + result.payload.saveFileList[0].storedFileName);
       }
     }
-    setOpen(true);
+    setOpen(() => true);
   }
 
   useEffect(() => {
@@ -119,49 +86,7 @@ const ItemGrid = () => {
         </Grid>
       </Grid>
       <div>
-        {/* {open &&
-          <ModalBackdrop>
-            <ModalContent>
-              <CloseButton onClick={handleClose}><span className="material-symbols-outlined">close</span></CloseButton>
-              <div>
-                {imgSrc != ''? <img
-                  src={imgSrc}
-                  alt='logo image'
-                  style={{}}/> : ''}
-              </div>
-              <h2>{modalTitle}</h2>
-              <p>{modalContents}</p>
-            </ModalContent>
-        </ModalBackdrop>
-      } */}
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-        <Box sx={style}>
-          <div style={{textAlign:'center', display:'flex', height:'630px'}}>
-            <div style={{ marginTop:'50px', marginBottom:'50px' ,flex:'1' }}>
-              {imgSrc != ''? <img
-                src={imgSrc}
-                alt='logo image'
-                style={{ width:300, height:400 }}/> : ''}
-            </div>
-            <div style={{paddingTop:'50px', paddingLeft:'50px', flex:'2'}}>
-              <Typography id="modal-modal-title" variant="h5" component="h3" sx={{wordWrap:'break-word'}}>
-                {modalTitle}
-              </Typography>
-              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                {modalContents}
-              </Typography>
-            </div>
-            <div style={{position:'relative', transform:'translateY(0%)', textAlign:'center'}}>
-              <span onClick={() => {setOpen(false)}} style={{cursor:'pointer'}} className="material-symbols-outlined">close</span>
-            </div>
-          </div>
-        </Box>
-      </Modal>
+        <ItemModal modalValue={modalValue} imgSrc={imgSrc} open={open} handleOpen={handleOpen} handleClose={modalClose} ></ItemModal>
       </div>
     </>
   );

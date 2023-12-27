@@ -1,5 +1,6 @@
 package com.bootProject.repository.item;
 
+import com.bootProject.dto.ItemDTO;
 import com.bootProject.entity.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,7 +14,7 @@ public interface ItemRepository extends JpaRepository<Item, Long>,  ItemReposito
     @Override
     public List<Item> findListAll();
     @Override
-    public Item findItemById(long id);
+    public ItemDTO findItemById(long id);
     @Override
     public  List<Item> findRecentRegisteredItem();
 }

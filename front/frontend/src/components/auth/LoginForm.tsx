@@ -5,8 +5,8 @@ import Styles from '../../styles/auth/LoginForm.module.css';
 import EmailIcon from '@mui/icons-material/Email';
 import KeyIcon from '@mui/icons-material/Key';
 import { Container } from "@mui/joy";
-import { useAppDispatch } from "../../store/configureStore";
-import { login, logout, User } from "../../store/modules/user";
+import { useAppDispatch } from "store/configureStore";
+import { User, login, logout } from "store/modules/user";
 
 let logoutTimer:NodeJS.Timeout;
 declare global {
@@ -80,7 +80,7 @@ const LoginForm = () => {
             const remainingDuration = adjExpirationTime - currentTime;
             logoutTimer = setTimeout(() =>{
                 dispatch(logout());
-                navigate('/');
+                navigate('/', {replace: true});
             }, remainingDuration);
 
             navigate('/', {replace:true, state:logoutTimer});

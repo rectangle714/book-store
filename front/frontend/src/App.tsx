@@ -1,13 +1,13 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import Layout from "./components/layout/Layout";
-import { useAppSelect } from "./store/configureStore";
-import HomePage from "./pages/HomePage";
-import CreateAccountPage from "./pages/CreateAccountPage";
+import Layout from "components/layout/Layout";
+import { useAppSelect } from "store/configureStore";
+import HomePage from "pages/HomePage";
+import CreateAccountPage from "pages/CreateAccountPage";
 
 import {LoginPage, ProfilePage, AdminPage, FindEmailPage, FindPasswordPage} from "./pages";
-import OAuthLogin from "./components/auth/OAuthLogin";
-import NotFound from "./components/common/NotFound";
-import UpdatePassword from "./components/member/user/UpdatePassword";
+import OAuthLogin from "components/auth/OAuthLogin";
+import NotFound from "components/common/NotFound";
+import UpdatePassword from "components/member/user/UpdatePassword";
 
 
 function App() {

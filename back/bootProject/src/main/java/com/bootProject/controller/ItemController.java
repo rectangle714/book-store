@@ -33,15 +33,15 @@ public class ItemController {
 
     /* 상품 저장 */
     @PostMapping(value = "/save")
-    public ResponseEntity<Void> saveItem(@RequestPart(required = false) List<MultipartFile> file,
-                                         @RequestParam(name = "title", required = false) String title,
-                                         @RequestParam(name = "contents", required = false) String contents) throws Exception {
-        if(!"".equals(title) && !"".equals(contents)) {
+    public ResponseEntity<Void> saveItem(ItemDTO itemDTO) throws Exception {
+        if(!"".equals(itemDTO.getTitle()) && !"".equals(itemDTO.getContents())) {
             Item item = Item.builder()
-                    .title(title)
-                    .contents(contents)
+                    .title(itemDTO.getTitle())
+                    .contents(itemDTO.getContents())
+                    .price(itemDTO.getPrice())
+                    .category(itemDTO.getCategory())
                     .build();
-            itemService.saveItem(file, item);
+            itemService.saveItem(itemDTO.getFile(), item);
         }
         return ResponseEntity.ok().build();
     }
@@ -63,13 +63,13 @@ public class ItemController {
 
     /* 상품 상세 정보 조회 */
     @GetMapping("/detail")
-    public ResponseEntity<Item> findItemDetail(@RequestParam(value = "itemId")long id) {
-        Item result = itemService.findItemInfo(id);
+    public ResponseEntity<ItemDTO> findItemDetail(@RequestParam(value = "itemId")long id) {
+        ItemDTO result = itemService.findItemInfo(id);
         return ResponseEntity.ok(result);
     }
 
     /* 상품 삭제 */
-    @PostMapping(value = "/delete")
+    @PostMapping(value = "/delete", produces = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ResponseEntity<HttpStatus> findItemDetail(@RequestParam(value = "itemList[]")List<Long> itemList,
                                                @RequestParam(value = "fileList[]")List<Long> fileList) {
         itemService.deleteItem(itemList, fileList);

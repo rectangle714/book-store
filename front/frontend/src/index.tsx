@@ -8,7 +8,7 @@ import { persistReducer } from 'redux-persist';
 import { persistStore } from "redux-persist";
 import { PersistGate } from 'redux-persist/integration/react';
 import storage from 'redux-persist/es/storage/session';
-import user from "./store/modules/user";
+import user from "store/modules/user";
 import thunk from 'redux-thunk';
 import App from './App';
 import TokenValidation from './store/TokenValidation';

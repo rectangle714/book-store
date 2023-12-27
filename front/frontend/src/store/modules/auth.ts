@@ -1,4 +1,4 @@
-import { setCookie, getCookie } from '../cookie';
+import { setCookie, getCookie, removeCookie } from '../cookie';
 
 /* 토큰 생성 */
 export const createTokenHeader = (accessToken:string, refreshToken:string) => {

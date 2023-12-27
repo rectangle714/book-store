@@ -2,6 +2,7 @@ package com.bootProject.service;
 
 import com.bootProject.common.code.ErrorCode;
 import com.bootProject.common.exception.BusinessException;
+import com.bootProject.dto.ItemDTO;
 import com.bootProject.entity.Item;
 import com.bootProject.entity.SaveFile;
 import com.bootProject.repository.File.FileRepository;
@@ -74,8 +75,8 @@ public class ItemService {
     }
 
     /* 아이템 상세 정보 */
-    public Item findItemInfo(long id) {
-        Item itemById = itemRepository.findItemById(id);
+    public ItemDTO findItemInfo(long id) {
+        ItemDTO itemById = itemRepository.findItemById(id);
         return itemById;
     }
 

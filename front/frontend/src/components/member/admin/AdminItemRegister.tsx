@@ -1,20 +1,24 @@
-import { useRef, useState } from "react";
+import axios from 'axios';
+import { useEffect, useRef, useState } from "react";
 import { Button, Select, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { Textarea } from "@mui/joy";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import MenuItem from '@mui/material/MenuItem';
 import store from "store/configureStore";
 import { Item, registerItem } from "store/modules/item";
 import LoadingBar from "components/common/LoadingBar";
-import { Textarea } from "@mui/joy";
-import MenuItem from '@mui/material/MenuItem';
 
 const AdminItemRegister = () => {
+  const item = useRef<Item>({ title: "", contents: "", price: 0, category: "" });
+  const [isLoading, setIsLoading] = useState(false);
   const [imageSrc, setImageSrc]: any = useState(null);
   const [file, setFile] = useState<File>();
-  const [isLoading, setIsLoading] = useState(false);
   const titleInputRef = useRef<HTMLInputElement>(null);
   const [contents, setContents] = useState('');
-  const item = useRef<Item>({ title: "", contents: "" });
+  const [priceValue, setPriceValue] = useState(0);
+  const [categoryValue, setCategoryValue] = useState('');
+  const [categories, setCategories] = useState<any>([]);
 
   const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
@@ -33,6 +37,7 @@ const AdminItemRegister = () => {
     const intValue = parseInt(onlyNumber.replace(/,/g, ''), 10);
     const addComma = isNaN(intValue) ? 0 : intValue.toLocaleString();
     e.target.value = addComma;
+    setPriceValue(intValue);
   }
 
   const onSelectedFiles = async (e: any) => {
@@ -63,21 +68,31 @@ const AdminItemRegister = () => {
     }
 
     const formData = new FormData();
-    item.current = { title: enteredTitle, contents: enteredContents };
-    formData.append("title", item.current.title);
-    formData.append("contents", item.current.contents);
+    formData.append("title", enteredTitle);
+    formData.append("contents", enteredContents);
+    formData.append("price", priceValue.toString());
+    formData.append("category", categoryValue);
     if (file !== undefined) {
       formData.append("file", file);
     }
     setIsLoading(true);
     const result = await store.dispatch(registerItem(formData));
-    console.log("payload: ", result.payload);
     if (result.payload == "200") {
       alert("상품을 등록했습니다.");
       setIsLoading(false);
       window.location.reload();
     }
   };
+
+  useEffect(() => {
+    axios.get(process.env.REACT_APP_API_URL + '/common/category')
+      .then(response => {
+        setCategories(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  }, [])
 
   return (
     <>
@@ -130,12 +145,14 @@ const AdminItemRegister = () => {
                     sx={{ width: "50%" }}
                     id='category'
                     defaultValue={'00'}
+                    onChange={e => setCategoryValue(e.target.value)}
                   >
                     <MenuItem value={'00'}>선택</MenuItem>
-                    <MenuItem value={'01'}>소설</MenuItem>
-                    <MenuItem value={'02'}>자기계발</MenuItem>
-                    <MenuItem value={'03'}>에세이</MenuItem>
-                    <MenuItem value={'04'}>인문</MenuItem>
+                    {
+                      categories.map((category:any) => (
+                        <MenuItem value={category.code}>{category.title}</MenuItem>
+                      ))
+                    }
                   </Select>
                 </td>
               </tr>

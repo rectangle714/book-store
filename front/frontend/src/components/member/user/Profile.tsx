@@ -1,10 +1,10 @@
 import { useRef, useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Button, TextField, InputAdornment } from '@mui/material';
-import { useAppSelect } from "../../../store/configureStore";
-import { User } from "../../../store/modules/user";
-import store from "../../../store/configureStore";
-import { updateUserInfo, userInfo } from '../../../store/modules/user';
+import { useAppSelect } from "store/configureStore";
+import { User } from "store/modules/user";
+import store from "store/configureStore";
+import { updateUserInfo, userInfo } from 'store/modules/user';
 
 const Profile = () => {
 
