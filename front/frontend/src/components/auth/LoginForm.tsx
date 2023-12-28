@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, TextField, ButtonGroup, InputAdornment, Alert } from '@mui/material';
+import { Button, TextField, InputAdornment } from '@mui/material';
 import Styles from '../../styles/auth/LoginForm.module.css';
 import EmailIcon from '@mui/icons-material/Email';
 import KeyIcon from '@mui/icons-material/Key';
@@ -23,7 +23,10 @@ const LoginForm = () => {
     const kakaoLoginUrl = process.env.REACT_APP_KAKAO_LOGIN_URL;
     const emailInputRef = useRef<HTMLInputElement>(null);
     const passwordInputRef = useRef<HTMLInputElement>(null);
-    const user = useRef<User>({ email: '', password: '', nickname: '', phone: '', loading: '', isLogin: false, role: '' });
+    const user = useRef<User>({ 
+        email: '', password: '', nickname: '', phone: '', loading: '', 
+        isLogin: false, role: '', zipNo:'', address: '', addressDetail:'' 
+    });
     const [loginText, setLoginText] = useState('');
 
 	const naverRef = useRef<any>(null);
@@ -69,7 +72,10 @@ const LoginForm = () => {
             return false;
         }
 
-        user.current = { email:enteredEmail, password:enteredPassword, nickname:'', phone: '', loading:'', isLogin: false, role:'' };
+        user.current = { 
+            email:enteredEmail, password:enteredPassword, nickname:'', phone: '', loading:'', 
+            isLogin: false, role:'', zipNo:'', address: '', addressDetail:'' 
+        };
 
         const result = await dispatch(login(user.current));
         if(result.payload != undefined) {
@@ -100,7 +106,7 @@ const LoginForm = () => {
                             <div>
                                 <TextField 
                                     label='이메일'
-                                    variant='standard'
+                                    variant='outlined'
                                     autoComplete='true'
                                     style={{width:'290px', height: '60px'}}
                                     placeholder="이메일을 입력해주세요"
@@ -115,11 +121,11 @@ const LoginForm = () => {
                                     }}
                                     />
                             </div>
-                            <div>
+                            <div style={{paddingTop:'10px'}}>
                                 <TextField 
                                     label='패스워드'
                                     type='password'
-                                    variant='standard'
+                                    variant='outlined'
                                     style={{width:'290px'}}
                                     placeholder="패스워드를 입력해주세요"
                                     id='password' 
@@ -143,7 +149,7 @@ const LoginForm = () => {
                                     }}></span>
                                     <a onClick={() => {navigate('/findPassword')}} style={{cursor:'pointer'}}> 패스워드 찾기</a>
                             </div>
-                            <div style={{ paddingTop: '10px' }}>
+                            <div>
                             <Button style={{width: '100%', height:'50px', marginTop:'28px'}} color='success' variant='contained' type='submit'>로그인</Button>
                             <Button style={{width: '100%', height:'50px', marginTop:'10px'}} color='success' variant='outlined' onClick={() => {navigate('/signup')}}>회원가입</Button>
                             </div>
@@ -161,7 +167,7 @@ const LoginForm = () => {
                                 color: 'red',
                                 textAlign: 'center',
                                 paddingLeft: 30
-                            }}>
+                        }}>
                             {loginText}
                         </div>
                 </section>

@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { removeCookie, getCookie } from '../cookie';
-import { createTokenHeader, LoginTokenHandler, reissue  } from './auth'
-import { kakaoParam } from "../../components/auth/OAuthLogin";
+import { removeCookie } from 'store/cookie';
+import { LoginTokenHandler } from 'store/modules/auth'
+import { kakaoParam } from "components/auth/OAuthLogin";
 
 const initialState = {
     email: '',
@@ -11,7 +11,10 @@ const initialState = {
     nickname: '',
     loading: '',
     isLogin: false,
-    role: ''
+    role: '',
+    zipNo: '',
+    address: '',
+    addressDetail: ''
 };
 
 interface Token {
@@ -29,7 +32,10 @@ export interface User {
     nickname: string,
     loading: string,
     isLogin: boolean,
-    role: string
+    role: string,
+    zipNo: string,
+    address: string,
+    addressDetail: string
 }
 
 export interface emailAuth {
@@ -77,6 +83,7 @@ const userSlice = createSlice({
             state.nickname = '';
             state.isLogin = false;
             state.role = '';
+            
             return state;
         });
 
@@ -86,6 +93,10 @@ const userSlice = createSlice({
             state.phone = action.payload.phone;
             state.nickname = action.payload.nickname;
             state.role = action.payload.role;
+            state.zipNo = action.payload.zipNo;
+            state.address = action.payload.address;
+            state.addressDetail = action.payload.addressDetail;
+
             return state;
         });
 
@@ -96,6 +107,10 @@ const userSlice = createSlice({
             state.nickname = '';
             state.role = '';
             state.isLogin = false;
+            state.zipNo = '';
+            state.address = '';
+            state.addressDetail = '';
+
             return state;
         });
 
@@ -103,6 +118,9 @@ const userSlice = createSlice({
         builder.addCase(updateUserInfo.fulfilled, (state, action) => {
             state.phone = action.meta.arg.phone;
             state.nickname = action.meta.arg.nickname;
+            state.zipNo = action.meta.arg.zipNo;
+            state.address = action.meta.arg.address;
+            state.addressDetail = action.meta.arg.addressDetail;
 
             return state;
         });
@@ -142,9 +160,7 @@ export const signup = createAsyncThunk('SIGNUP', async (user:User) => {
 /* 로그인 */
 export const login = createAsyncThunk('LOGIN', async (user:User) => {
     try {
-        console.log('[로그인 시작] : ',user);
         const URL = process.env.REACT_APP_API_URL + '/auth/login';
-    
         const response = await axios.post(URL, user);
         if(response.status == 200) {
             const token:Token = response.data;
@@ -161,9 +177,7 @@ export const login = createAsyncThunk('LOGIN', async (user:User) => {
 /* 로그아웃 */
 export const logout = createAsyncThunk('LOGOUT', async () => {
     try {
-        console.log('[로그아웃 시작]');
         const URL = process.env.REACT_APP_API_URL + '/auth/logout';
-
         const response = await axios.post(URL, []);
         if(response.status == 200) {
             console.log('[로그아웃 성공]');
@@ -173,7 +187,6 @@ export const logout = createAsyncThunk('LOGOUT', async () => {
         }
         
         return response.data;
-
     } catch(error) {
         console.error('로그아웃 에러발생 : '+error);
         removeCookie('accessToken');
@@ -190,28 +203,16 @@ export const logout = createAsyncThunk('LOGOUT', async () => {
 
 /* 사용자 정보 조회 */
 export const userInfo = createAsyncThunk('USER_INFO', async () => {
-    console.log('[사용자 조회]');
     const URL = process.env.REACT_APP_API_URL + '/member/me';
-
     const response = await axios.get(URL);
-    if(response.status == 200) {
-        reissue(response);
-        console.log('[사용자 조회 완료] : ', response);
-    }
-
     return response.data;
 });
 
 /* 사용자 전체 정보 조회 */
 export const allUserInfo = createAsyncThunk('ALL_USER_INFO', async () => {
     try {
-         console.log('[전체 사용자 조회]');
          const URL = process.env.REACT_APP_API_URL + '/member/findAll';
-
          const response = await axios.get(URL);
-         if(response.status == 200) {
-            reissue(response);
-         }
          return response.data;
 
     } catch(error) {
@@ -222,18 +223,13 @@ export const allUserInfo = createAsyncThunk('ALL_USER_INFO', async () => {
 /* 사용자 정보 수정 */
 export const updateUserInfo = createAsyncThunk('UPDATE_USER_INFO', async (user:User) => {
     const URL = process.env.REACT_APP_API_URL + '/member/update';
-
     const response = await axios.post(URL, user);
-    if(response.status !== 200) {
-        console.log('response ',response);
-    }
     return response.status;
 });
 
 /* 사용자 패스워드 변경 */
 export const updateUserPassword = createAsyncThunk('UPDATE_USER_PASSWORD', async ({email, password}:updatePassword) => {
     const URL = process.env.REACT_APP_API_URL + '/member/updatePassword';
-
     const response = await axios.post(URL, null, {params: {email:email, password:password}});
     return response.data;
 });
@@ -247,7 +243,6 @@ export const isExistEmail = createAsyncThunk('IS_EXIST_EMAIL', async ({email, pa
         URL = process.env.REACT_APP_API_URL + '/auth/checkEmail?email='+email+'&path='+path;
     }
     const response = await axios.get(URL);
-    console.log(response.data);
     return response.data;
 });
 
@@ -262,7 +257,6 @@ export const verificationRequests = createAsyncThunk('VERIFICATION_REQUESTS', as
 export const verifications = createAsyncThunk('VERIFICATIONS', async ({email, authCode}: emailAuth) => {
     const URL = process.env.REACT_APP_API_URL + '/auth/verifications';
     const response = await axios.post(URL, null, {params: {email:email, authCode:authCode}});
-    console.log('인증 후 ',response);
 
     return response.data;
 });

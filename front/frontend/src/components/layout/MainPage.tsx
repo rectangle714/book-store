@@ -18,7 +18,7 @@ const MainPage = () => {
             <span style={{fontWeight: '500', fontSize: '24px', color: 'rgb(51, 51, 51)', lineHeight:'48px'}}>게시판</span>
           </div>
           <div style={{ height: 500, width: '80%', paddingTop:'20px', marginLeft:'auto', marginRight:'auto'}}>
-            <DataGrid
+            {/* <DataGrid
               slots={{columnHeaders: () => null}}
               rows={[]}
               columns={[]}
@@ -28,7 +28,7 @@ const MainPage = () => {
                 },
               }}
               pageSizeOptions={[5, 10]}
-            />
+            /> */}
           </div>
         </Container>
       </>

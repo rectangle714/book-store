@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { IconButton, Button, AppBar, Box, Toolbar, Typography} from '@mui/material';
 import { useAppSelect, useAppDispatch } from "store/configureStore";
 import { userInfo, logout } from "store/modules/user";
+import { IconButton, AppBar, Box, Toolbar, Typography} from '@mui/material';
+import HeaderMenu from "./HeaderMenu";
 
 const Header = () => {
     const dispatch = useAppDispatch();
@@ -21,7 +22,9 @@ const Header = () => {
         } else if(path == 'mypage') {
             navigate('/profile');
         } else if(path == 'admin') {
-            navigate('/admin/info')
+            navigate('/admin/info');
+        } else if(path == 'cart') {
+            navigate('/cart');
         }
     }
     
@@ -54,7 +57,7 @@ const Header = () => {
                         {
                             (isLogin && role == 'USER') &&
                                 <span style={{width:'300px', display:'flex', justifyContent:'flex-start', marginTop:'10px'}}>
-                                    <span onClick={(e)=>navFunction(e,'mypage')} style={{fontSize:'12px', cursor:'pointer', color:'black'}}>장바구니</span>
+                                    <span onClick={(e)=>navFunction(e,'cart')} style={{fontSize:'12px', cursor:'pointer', color:'black'}}>장바구니</span>
                                     <span style={{width:'1px', height:'15px', margin:'0px 12px', backgroundColor:'black'}}></span>
                                     <span onClick={(e)=>navFunction(e,'mypage')} style={{fontSize:'12px', cursor:'pointer', color:'black'}}>마이페이지</span>
                                     <span style={{width:'1px', height:'15px', margin:'0px 12px', backgroundColor:'black'}}></span>
@@ -66,7 +69,7 @@ const Header = () => {
                         {
                             (isLogin && role == 'ADMIN') &&
                                 <span style={{width:'300px', display:'flex', justifyContent:'flex-start', marginTop:'10px'}}>
-                                    <span onClick={(e)=>navFunction(e,'mypage')} style={{fontSize:'12px', cursor:'pointer', color:'black'}}>장바구니</span>
+                                    <span onClick={(e)=>navFunction(e,'cart')} style={{fontSize:'12px', cursor:'pointer', color:'black'}}>장바구니</span>
                                     <span style={{width:'1px', height:'15px', margin:'0px 12px', backgroundColor:'black'}}></span>
                                     <span onClick={(e)=>navFunction(e,'mypage')} style={{fontSize:'12px', cursor:'pointer', color:'black'}}>마이페이지</span>
                                     <span style={{width:'1px', height:'15px', margin:'0px 12px', backgroundColor:'black'}}></span>
@@ -81,7 +84,7 @@ const Header = () => {
                         {
                             (isLogin && role == 'GUEST') &&
                                 <span style={{width:'300px', display:'flex', justifyContent:'flex-start', marginTop:'10px'}}>
-                                    <span onClick={(e)=>navFunction(e,'mypage')} style={{fontSize:'12px', cursor:'pointer', color:'black'}}>장바구니</span>
+                                    <span onClick={(e)=>navFunction(e,'cart')} style={{fontSize:'12px', cursor:'pointer', color:'black'}}>장바구니</span>
                                     <span style={{width:'1px', height:'15px', margin:'0px 12px', backgroundColor:'black'}}></span>
                                     <span onClick={(e)=>navFunction(e,'mypage')} style={{fontSize:'12px', cursor:'pointer', color:'black'}}>마이페이지</span>
                                     <span style={{width:'1px', height:'15px', margin:'0px 12px', backgroundColor:'black'}}></span>
@@ -114,7 +117,7 @@ const Header = () => {
                         <div style={{color:'black'}} ><span onClick={(e)=>navFunction(e,'main')} style={{cursor:'pointer'}}>Ｃｏｌｌｉｅ</span></div>
                     </Typography>
                 </Toolbar>
-                {/* <HeaderMenu></HeaderMenu> */}
+                <HeaderMenu></HeaderMenu>
             </AppBar>
             </Box>
         </header>

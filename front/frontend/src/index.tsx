@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import './index.css';
+import 'index.css';
 import { Provider } from "react-redux";
 import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from "redux";
@@ -10,8 +10,8 @@ import { PersistGate } from 'redux-persist/integration/react';
 import storage from 'redux-persist/es/storage/session';
 import user from "store/modules/user";
 import thunk from 'redux-thunk';
-import App from './App';
-import TokenValidation from './store/TokenValidation';
+import App from 'App';
+import TokenValidation from 'store/TokenValidation';
 
 // config 작성
 const persistConfig = {

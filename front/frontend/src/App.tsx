@@ -8,6 +8,7 @@ import {LoginPage, ProfilePage, AdminPage, FindEmailPage, FindPasswordPage} from
 import OAuthLogin from "components/auth/OAuthLogin";
 import NotFound from "components/common/NotFound";
 import UpdatePassword from "components/member/user/UpdatePassword";
+import CartPage from "pages/CartPage";
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         <Route path="/findPassword/*" element={<FindPasswordPage/>}></Route>
         <Route path="/updatePassword/*" element={<UpdatePassword/>}></Route>
         <Route path="/findEmail/*" element={<FindEmailPage/>}></Route>
+        <Route path="/cart/*" element={<CartPage/>}></Route>
         <Route path="/auth/naver-login" element={<OAuthLogin oauthType='NAVER'/>}></Route>
         <Route path="/auth/kakao-login" element={<OAuthLogin oauthType='KAKAO'/>}></Route>
         <Route path="/*" element={<NotFound />} />

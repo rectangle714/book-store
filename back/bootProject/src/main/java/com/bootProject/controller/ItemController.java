@@ -69,7 +69,7 @@ public class ItemController {
     }
 
     /* 상품 삭제 */
-    @PostMapping(value = "/delete", produces = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PostMapping(value = "/delete")
     public ResponseEntity<HttpStatus> findItemDetail(@RequestParam(value = "itemList[]")List<Long> itemList,
                                                @RequestParam(value = "fileList[]")List<Long> fileList) {
         itemService.deleteItem(itemList, fileList);

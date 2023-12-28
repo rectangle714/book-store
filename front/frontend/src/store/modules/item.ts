@@ -1,6 +1,5 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { createTokenHeader, validToken, reissue } from "./auth"
 import axios from 'axios';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
     title: '',
@@ -27,7 +26,6 @@ const itemSlice = createSlice({
 /* 상품 등록 */
 export const registerItem = createAsyncThunk('REGISTER_ITEM', async(item:any) => { 
     try {
-        console.log('[상품 등록 시작]');
         const URL = process.env.REACT_APP_API_URL + '/item/save';
         const response = await axios.post(URL, item);
         return response.status;
@@ -40,14 +38,9 @@ export const registerItem = createAsyncThunk('REGISTER_ITEM', async(item:any) =>
 /* 전체 상품 조회 */
 export const allItemInfo = createAsyncThunk('ALL_ITEM_INFO', async() => {
     try {
-        console.log('[전체 상품 조회 시작]')
         const URL = process.env.REACT_APP_API_URL + '/item/findAll';
 
         const response = await axios.get(URL);
-        if(response.status == 200) {
-            reissue(response);
-            console.log('전체 상품 response = ',response);
-         }
          return response.data;
     } catch(error) {
         alert('상품 조회 에러가 발생했습니다.');
@@ -58,14 +51,9 @@ export const allItemInfo = createAsyncThunk('ALL_ITEM_INFO', async() => {
 /* 최근 추가된 책 조회 */
 export const recentRegisteredItem = createAsyncThunk('RECENT_REGISTERED_ITEM', async() => {
     try {
-        console.log('[최근 추가된 상품 조회 시작]')
         const URL = process.env.REACT_APP_API_URL + '/item/findRecentRegisteredItem';
 
         const response = await axios.get(URL);
-        if(response.status == 200) {
-            reissue(response);
-            console.log('최근 추가된 상품 response = ',response);
-         }
          return response.data;
     } catch(error) {
         alert('상품 조회 에러가 발생했습니다.');
@@ -77,14 +65,9 @@ export const recentRegisteredItem = createAsyncThunk('RECENT_REGISTERED_ITEM', a
 /* 상품 상세 조회 */
 export const itemDetailInfo = createAsyncThunk('ITEM_DETAIL_INFO', async(itemId:any) => {
     try {
-        console.log('[상품 조회 시작]')
         const URL = process.env.REACT_APP_API_URL + '/item/detail?itemId='+itemId;
 
         const response = await axios.get(URL);
-        if(response.status == 200) {
-            reissue(response);
-            console.log('상품 response = ',response);
-         }
          return response.data;
     } catch(error) {
         alert('상품 조회 에러가 발생했습니다.');
@@ -98,9 +81,6 @@ export const deleteItem = createAsyncThunk('DELETE_ITEM', async(param:any) => {
     const URL = process.env.REACT_APP_API_URL + '/item/delete';
 
     const response = await axios.post(URL, param);
-    if(response.status == 200) {
-        reissue(response);
-    }
     return response.status;
 })
 

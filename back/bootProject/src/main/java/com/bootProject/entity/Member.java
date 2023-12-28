@@ -17,10 +17,17 @@ public class Member extends Base{
     private Long id;
 
     private String name;
+
     private String email;
     private String password;
     private String phone;
     private String nickname;
+
+    private String zipNo;
+
+    private String address;
+
+    private String addressDetail;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -29,10 +36,14 @@ public class Member extends Base{
     @Enumerated(EnumType.STRING)
     private SocialType socialType; // KAKAO, NAVER, GOOGLE
 
-    public void updateMember(String password, String phone , String nickname) {
+
+    public void updateMember(String password, String phone , String nickname, String zipNo, String address, String addressDetail) {
         this.password = password;
         this.phone = phone;
         this.nickname = nickname;
+        this.zipNo = zipNo;
+        this.address = address;
+        this.addressDetail = addressDetail;
     }
 
     public void updateMemberPassword(String password) {

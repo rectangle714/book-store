@@ -1,6 +1,7 @@
-import { useRef, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { User, isExistEmail, signup } from "store/modules/user";
+import AddressButton from "components/common/AddressButton";
 import store from "store/configureStore";
 import Button from '@mui/material/Button';
 import Styles from 'styles/auth/CreateAccountForm.module.css';
@@ -13,13 +14,29 @@ import Face5Icon from '@mui/icons-material/Face5';
 
 const CreateAccountForm = () => {
 
+    const navigate = useNavigate();
     const emailInputRef = useRef<HTMLInputElement>(null);
     const passwordInputRef = useRef<HTMLInputElement>(null);
     const phoneInputRef = useRef<HTMLInputElement>(null);
     const nicknameInputRef = useRef<HTMLInputElement>(null);
     const [signupResultText, setSignupResultText] = useState('');
-    const user = useRef<User>({ email: '', password: '', nickname: '', phone:'', loading:'', isLogin: false, role: ''});
-    const navigate = useNavigate();
+    const user = useRef<User>({ 
+        email: '', password: '', nickname: '', phone:'', loading:'', isLogin: false, 
+        role: '', zipNo:'', address: '', addressDetail:''
+    });
+
+    const [zipNoValue, setZipNoValue] = useState(''); // 우편번호
+    const [addrValue, setAddrValue] = useState(''); // 도로명주소
+    const [addrDetailValue, setAddrDetailValue] = useState(''); // 상세주소
+    const handleAddrDetail = (event: ChangeEvent<HTMLInputElement>) => {
+        setAddrDetailValue(event.target.value);
+    };
+
+    const addressHandler = (newAddr:string, newZipNo:string, newAddrDetail:string) => {
+        setAddrValue(newAddr);
+        setZipNoValue(newZipNo);
+        setAddrDetailValue(newAddrDetail);
+    }
 
     const submitHandler = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -67,7 +84,15 @@ const CreateAccountForm = () => {
             return;
         }
 
-        user.current = { email: enteredEmail, password: enteredPassword, nickname: enteredNickname, phone: enteredPhone, isLogin: false, loading:'', role:''};
+        if(!!!addrValue || !!!zipNoValue) {
+            setSignupResultText('주소를 입력해주세요.');
+            return;
+        }
+
+        user.current = { 
+            email: enteredEmail, password: enteredPassword, nickname: enteredNickname, phone: enteredPhone, isLogin: false, 
+            loading:'', role:'', zipNo:zipNoValue, address: addrValue, addressDetail:addrDetailValue
+        };
         const result = await store.dispatch(signup(user.current));
         if(result.payload == '200') {
             alert('회원가입에 성공했습니다.');
@@ -95,14 +120,14 @@ const CreateAccountForm = () => {
     return (
         <section className={Styles.AccountSection}>
             <div style={{fontWeight:800, fontSize:'20px', lineHeight:'20px', textAlign:'center'}}>회원가입</div>
-            <form style={{marginTop:'20px'}} onSubmit={submitHandler}>
+            <form style={{marginTop:'30px'}} onSubmit={submitHandler}>
                 <div>
                    <TextField 
                         label="이메일"
-                        variant="standard"
-                        id='email'
+                        variant="outlined"
+                        id='outlined-password-input'
                         autoComplete='true'
-                        style={{width:'290px', height: '60px'}}
+                        style={{width:'364px', height: '60px'}}
                         placeholder="이메일을 입력해주세요"
                         inputRef={emailInputRef}
                         InputProps={{
@@ -111,14 +136,15 @@ const CreateAccountForm = () => {
                                 <EmailIcon />
                                 </InputAdornment>
                             ),
-                        }}/>
+                        }}
+                    />
                 </div>
-                <div>
+                <div style={{marginTop:'10px'}}>
                     <TextField 
                         label="패스워드" 
                         type="password" 
-                        variant="standard" 
-                        style={{width:'290px', height: '60px'}}
+                        variant="outlined" 
+                        style={{width:'364px', height: '60px'}}
                         placeholder="패스워드를 입력해주세요"
                         inputRef={passwordInputRef} 
                         InputProps={{
@@ -127,14 +153,15 @@ const CreateAccountForm = () => {
                                 <KeyIcon />
                                 </InputAdornment>
                             ),
-                        }}/>
+                        }}
+                    />
                 </div>
-                <div>
+                <div style={{marginTop:'10px'}}>
                     <TextField 
                         label="휴대폰"
-                        variant="standard"
+                        variant="outlined"
                         id='phone'
-                        style={{width:'290px', height: '60px'}}
+                        style={{width:'364px', height: '60px'}}
                         placeholder="휴대폰 번호를 입력해주세요."
                         inputRef={phoneInputRef}
                         inputProps={{
@@ -146,17 +173,15 @@ const CreateAccountForm = () => {
                                 <SmartphoneIcon />
                                 </InputAdornment>
                             ),
-                        }}/>
+                        }}
+                    />
                 </div>
-                <div>
-
-                </div>
-                <div>
+                <div style={{marginTop:'10px'}}>
                     <TextField 
                         label="닉네임"
-                        variant="standard"
+                        variant="outlined"
                         id='nickname'
-                        style={{width:'290px', height: '60px'}}
+                        style={{width:'364px', height: '60px'}}
                         placeholder="닉네임을 입력해주세요"
                         inputRef={nicknameInputRef}
                         InputProps={{
@@ -165,10 +190,43 @@ const CreateAccountForm = () => {
                                 <Face5Icon />
                                 </InputAdornment>
                             ),
-                        }}/>
+                        }}
+                    />
+                </div>
+                <div style={{marginTop:'10px'}}>
+                    <TextField 
+                        label="우편번호"
+                        variant="outlined"
+                        id='ZipNo'
+                        placeholder='우편번호'
+                        style={{width:'270px', height: '60px', paddingRight:'5px'}}
+                        value={zipNoValue}
+                        disabled
+                    />
+                    <AddressButton addressHandler={addressHandler}/>
+                </div>
+                <div style={{marginTop:'10px'}}>
+                    <TextField
+                        label="도로명주소"
+                        variant="outlined"
+                        id='address'
+                        placeholder='도로명주소'
+                        style={{width:'364px', height: '60px'}}
+                        disabled
+                        value={addrValue}
+                    />
+                </div>
+                <div style={{marginTop:'10px'}}>
+                    <TextField 
+                        label="상세주소"
+                        variant="outlined"
+                        id='addressDetail'
+                        style={{width:'364px', height: '60px'}}
+                        onChange={handleAddrDetail}
+                    />
                 </div>
                 <div style={{
-                    paddingTop: 10,
+                    paddingTop: 20,
                     fontSize: 12, 
                     color: 'red',
                     textAlign: "center"

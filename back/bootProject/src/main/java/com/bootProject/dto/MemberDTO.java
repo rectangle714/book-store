@@ -19,6 +19,9 @@ public class MemberDTO {
     private String phone;
     private String role;
     private String authCode;
+    private String zipNo;
+    private String address;
+    private String addressDetail;
 
 
     public Member toMember() {
@@ -28,6 +31,9 @@ public class MemberDTO {
                 .nickname(nickname)
                 .phone(phone)
                 .role(Role.USER)
+                .zipNo(zipNo)
+                .address(address)
+                .addressDetail(addressDetail)
                 .build();
     }
     public static MemberDTO of(Member member) {
@@ -36,6 +42,9 @@ public class MemberDTO {
                 .phone(member.getPhone())
                 .nickname(member.getNickname())
                 .role(member.getRole().toString())
+                .zipNo(member.getZipNo())
+                .address(member.getAddress())
+                .addressDetail(member.getAddressDetail())
                 .build();
     }
 

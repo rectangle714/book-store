@@ -13,8 +13,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @SpringBootTest
@@ -59,7 +61,7 @@ public class memberTest {
     void updateMember() {
         log.debug(passwordEncoder.encode("123"));
         Optional<Member> admin = memberRepository.findByEmail("admin");
-        admin.get().updateMember(passwordEncoder.encode("123"), "01011112222", "관리자123");
+        admin.get().updateMember(passwordEncoder.encode("123"), "01011112222", "관리자123", "", "", "");
         memberRepository.save(admin.get());
     }
 

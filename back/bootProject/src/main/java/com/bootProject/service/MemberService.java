@@ -50,7 +50,10 @@ public class MemberService {
         Member member = memberRepository.findByEmail(memberDTO.getEmail()).orElseThrow(() ->
             new BusinessException(ErrorCode.ACCOUNT_NOT_FOUND, ErrorCode.ACCOUNT_NOT_FOUND.getDescription())
         );
-        member.updateMember(passwordEncoder.encode(memberDTO.getPassword()), memberDTO.getPhone(), memberDTO.getNickname());
+        member.updateMember(
+                passwordEncoder.encode(memberDTO.getPassword()), memberDTO.getPhone(),
+                memberDTO.getNickname(), memberDTO.getZipNo(), memberDTO.getAddress(), memberDTO.getAddressDetail()
+        );
         memberRepository.save(member);
     }
 

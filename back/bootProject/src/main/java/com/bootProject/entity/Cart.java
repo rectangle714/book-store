@@ -17,12 +17,12 @@ public class Cart extends Base{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private Member member_id;
+    private Member memberId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
-    private Item item_id;
+    private Item itemId;
 
-    private String quantity;
+    private long quantity;
 
 }

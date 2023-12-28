@@ -5,28 +5,23 @@ import com.bootProject.common.exception.BusinessException;
 import com.bootProject.dto.ItemDTO;
 import com.bootProject.entity.Item;
 import com.bootProject.entity.SaveFile;
-import com.bootProject.repository.File.FileRepository;
+import com.bootProject.repository.file.FileRepository;
 import com.bootProject.repository.item.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -57,7 +52,7 @@ public class ItemService {
             itemList = itemRepository.findListAll();
         } catch(Exception e) {
             log.debug("전체 아이템 조회 에러 발생 ");
-            e.printStackTrace();
+            log.debug(e.getMessage());
         }
         return itemList;
     }

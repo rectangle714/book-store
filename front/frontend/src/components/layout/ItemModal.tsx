@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
-import { Button } from "@mui/joy";
+import axios from 'axios';
 
 const ItemModal = ({ modalValue, imgSrc, open, handleOpen, handleClose }:any) => {
   const style = {
@@ -19,6 +18,11 @@ const ItemModal = ({ modalValue, imgSrc, open, handleOpen, handleClose }:any) =>
     p: 4,
   };
 
+  const onClickButton = () => {
+    const URL = process.env.REACT_APP_API_URL + '/api/v1/cart/';
+    // const result = axios.post(URL, {});
+  }
+
   return (
     <>
         <Modal
@@ -28,33 +32,41 @@ const ItemModal = ({ modalValue, imgSrc, open, handleOpen, handleClose }:any) =>
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            <div style={{textAlign:'center', display:'flex', height:'580px'}}>
-              <div style={{ marginTop:'50px', marginBottom:'50px' ,flex:'1' }}>
+            <div style={{position:'relative', transform:'translateY(0%)', textAlign:'right'}}>
+              <span onClick={handleOpen} style={{cursor:'pointer'}} className="material-symbols-outlined">close</span>
+            </div>
+            <div>
+              <div style={{borderBottom:'3px solid #eaeaea', padding:'10px', textAlign:'center'}}>
+                <Typography id="modal-modal-title" variant="h5" component="h3" sx={{wordWrap:'break-word', fontWeight:'800'}}>
+                  {modalValue.title}
+                </Typography>
+              </div>
+            </div>
+            <div style={{textAlign:'center', display:'flex', height:'500px'}}>
+              <div style={{paddingTop:'5px', marginBottom:'50px' ,flex:'1' }}>
                 {imgSrc != '' && imgSrc != undefined ? <img
                   src={imgSrc}
                   alt='logo image'
                   style={{ width:300, height:400 }}/> : ''}
               </div>
-              <div style={{paddingTop:'50px', paddingLeft:'50px', flex:'2'}}>
-                <Typography id="modal-modal-title" variant="h5" component="h3" sx={{wordWrap:'break-word'}}>
-                  {modalValue.title}
-                </Typography>
-                <Typography id="modal-modal-description" sx={{ mt: 2, textAlign:'right' }}>
-                  가격 : {modalValue.price}
-                </Typography>
-                <Typography id="modal-modal-description" sx={{ mt: 2, textAlign:'right' }}>
-                  분류 : {modalValue.category}
-                </Typography>
-                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                  {modalValue.contents}
-                </Typography>
-              </div>
-              <div style={{position:'relative', transform:'translateY(0%)', textAlign:'center'}}>
-                <span onClick={handleOpen} style={{cursor:'pointer'}} className="material-symbols-outlined">close</span>
+              <div style={{ paddingLeft:'50px', flex:'2'}}>
+                <div style={{borderBottom:'3px solid #eaeaea', padding:'5px'}}>
+                  <Typography id="modal-modal-description" sx={{ mt: 1, textAlign:'left' }}> 가격 </Typography>
+                  <Typography sx={{ mt: 1, textAlign:'right', fontWeight:'600' }}>{modalValue.price.toLocaleString()} 원</Typography>
+                </div>
+                <div style={{borderBottom:'3px solid #eaeaea', padding:'5px'}}>
+                  <Typography id="modal-modal-description" sx={{ mt: 1, textAlign:'left' }}>분류 </Typography>
+                  <Typography id="modal-modal-description" sx={{ mt: 1, textAlign:'right', fontWeight:'600' }}>{modalValue.category}</Typography>
+                </div>
+                <div style={{padding:'5px'}}>
+                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                    {modalValue.contents}
+                  </Typography>
+                </div>
               </div>
             </div>
             <div style={{textAlign:'center'}}>
-              {/* <Button>장바구니 담기</Button><Button>장바구니 담기</Button> */}
+              <Button style={{width: '50%'}} color='success' variant='outlined' type='submit' onClick={onClickButton}>장바구니 담기</Button>
             </div>
           </Box>
         </Modal>
