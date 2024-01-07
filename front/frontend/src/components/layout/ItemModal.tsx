@@ -19,7 +19,7 @@ const ItemModal = ({ modalValue, imgSrc, open, handleOpen, handleClose }:any) =>
   };
 
   const onClickButton = () => {
-    const URL = process.env.REACT_APP_API_URL + '/api/v1/cart/';
+    const URL = process.env.REACT_APP_API_URL + '/api/v1/cart/insert';
     // const result = axios.post(URL, {});
   }
 

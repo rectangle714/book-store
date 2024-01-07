@@ -8,12 +8,5 @@ import static com.bootProject.entity.QSaveFile.saveFile;
 public class FileRepositoryImpl implements FileRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
-    @Override
-    public long saveAllFile() {
-        return  queryFactory
-                    .insert(saveFile)
-                    .columns()
-                    .values()
-                    .execute();
-    }
+
 }

@@ -12,11 +12,5 @@ import java.util.List;
 public class MemberRepositoryImpl implements MemberRepositoryCustom{
     private final JPAQueryFactory queryFactory;
 
-    @Override
-    public List<Member> findAllMember() {
-        return queryFactory
-                .selectFrom(member)
-                .fetch();
-    }
 
 }

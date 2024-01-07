@@ -1,17 +1,30 @@
 package com.bootProject.dto;
 
+import com.bootProject.entity.Cart;
+import com.bootProject.entity.Item;
+import com.bootProject.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class CartDTO {
-    private String memberId;
-    private String itemId;
-    private long quantity;
+    //Cart
+    private long cartId;
+    private long cartQuantity;
+
+    //Item
+    private String itemTitle;
+    private String itemContents;
+    private long itemPrice;
+    private String itemCategory;
+
+    //Member
+    private String email;
 
 }

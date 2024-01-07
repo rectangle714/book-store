@@ -15,17 +15,16 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class ItemDTO {
+    private long itemId;
     private String title;
     private String contents;
     private long price;
     private String category;
-    private List<String> itemList;
-    private List<String> fileList;
     private List<SaveFile> saveFileList;
-    private List<MultipartFile> file;
 
     public static ItemDTO of(Item item) {
         return ItemDTO.builder()
+                .itemId(item.getId())
                 .title(item.getTitle())
                 .contents(item.getContents())
                 .price(item.getPrice())

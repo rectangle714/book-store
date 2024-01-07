@@ -83,6 +83,13 @@ dependencies {
 	implementation 'javax.mail:javax.mail-api:1.6.2'
 	// javax.mail:javax.mail-api 라이브러리는 구현체가 포함되어 있지 않아서 구현체 라이브러리 추가
 	implementation group: 'com.sun.mail', name: 'imap', version: '2.0.1'
+
+	// mapstruct 추가
+	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+	implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+
+	annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 }
 
 /** QueryDsl 설정 **/

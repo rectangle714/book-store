@@ -150,7 +150,7 @@ const AdminItemRegister = () => {
                     <MenuItem value={'00'}>선택</MenuItem>
                     {
                       categories.map((category:any) => (
-                        <MenuItem value={category.code}>{category.title}</MenuItem>
+                        <MenuItem key={category.code} value={category.code}>{category.title}</MenuItem>
                       ))
                     }
                   </Select>

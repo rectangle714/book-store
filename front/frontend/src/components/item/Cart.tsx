@@ -1,4 +1,5 @@
 // CartPage.tsx
+import axios from 'axios';
 import React, { useState } from 'react';
 import { List, Typography } from '@mui/material';
 import Styles from 'styles/item/Cart.module.css'
@@ -8,6 +9,11 @@ export interface Book {
   id: number;
   title: string;
   price: number;
+}
+
+const getCartList = () => {
+    // const URL = process.env.REACT_APP_API_URL + '/api/v1/cart/getCartList';
+    // const result = axios.get(URL);
 }
 
 const Cart: React.FC = () => {
@@ -31,9 +37,11 @@ const Cart: React.FC = () => {
 
   return (
     <>
-        <section style={{paddingTop: '120px', borderBottom: 'solid 3px black', verticalAlign:'center', minHeight:'100%'}}>
+        <section style={{paddingTop: '100px', borderBottom: 'solid 3px black', verticalAlign:'center', minHeight:'100%'}}>
             <div style={{textAlign:'center'}}>
-                <Typography variant='h4' style={{padding:'30px'}}>장바구니</Typography>
+                <div style={{paddingBottom:'50px'}}>
+                    <span style={{fontWeight: '500', fontSize: '24px', color: 'rgb(51, 51, 51)', lineHeight:'48px', paddingBottom:'50px'}}>장바구니</span>
+                </div>
                 <div style={{borderTop: 'solid 3px black'}}>
                     {cartItems.length > 0 ? (
                         <List>
