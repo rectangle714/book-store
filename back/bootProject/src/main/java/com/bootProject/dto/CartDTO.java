@@ -16,7 +16,7 @@ import org.hibernate.annotations.Comment;
 public class CartDTO {
     //Cart
     private long cartId;
-    private long cartQuantity;
+    private long quantity;
 
     //Item
     private String itemTitle;
@@ -26,5 +26,6 @@ public class CartDTO {
 
     //Member
     private String email;
+    private long memberId;
 
 }
