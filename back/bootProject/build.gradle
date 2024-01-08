@@ -85,20 +85,19 @@ dependencies {
 	implementation group: 'com.sun.mail', name: 'imap', version: '2.0.1'
 
 	// mapstruct 추가
-	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+	implementation 'org.mapstruct:mapstruct:1.5.2.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
 	implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
-
 	annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
-	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 }
 
 /** QueryDsl 설정 **/
 // gradle build 시 QClass 소스도 함께 build 하기 위해서 sourceSets에 해당 위치를 추가.
-def querydslSrcDir = 'src/main/generated/querydsl'
+def generated = 'src/main/generated'
 sourceSets {
 	main {
 		java {
-			srcDirs += [ querydslSrcDir ]
+			srcDirs += [ 'src/main/java', generated ]
 		}
 	}
 }
@@ -110,11 +109,11 @@ compileJava {
 
 // src/main/generated에 annotation processors가 만든 QClass들을 저장
 tasks.withType(JavaCompile) {
-	options.annotationProcessorGeneratedSourcesDirectory  = file(querydslSrcDir)
+	options.annotationProcessorGeneratedSourcesDirectory  = file(generated)
 }
 // clean 실행 시 생성된 QClass 삭제
 clean {
-	delete file(querydslSrcDir)
+	delete file(generated)
 }
 /****/
 

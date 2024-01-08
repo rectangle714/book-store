@@ -7,6 +7,7 @@ import com.bootProject.entity.Item;
 import com.bootProject.entity.QItem;
 import com.bootProject.entity.QSaveFile;
 import com.bootProject.entity.SaveFile;
+import com.bootProject.mapper.item.ItemMapper;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +43,7 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom{
                 .where(item.id.eq(id))
                 .fetchOne();
 
-        ItemDTO itemDTO = ItemDTO.of(resultItem);
+        ItemDTO itemDTO = ItemMapper.INSTANCE.toDTO(resultItem);
         if(null != itemDTO.getCategory()) {
             CategoryType categoryType = Arrays.stream(CategoryType.values())
                     .filter(category -> category.getCode().equals(itemDTO.getCategory()))

@@ -11,12 +11,17 @@ import org.mapstruct.factory.Mappers;
 import java.util.List;
 
 
+
 @Mapper
 public interface ItemMapper {
     ItemMapper INSTANCE = Mappers.getMapper(ItemMapper.class);
 
     @Mapping(target="itemId", source = "id")
     @Mapping(target="saveFileList", source = "fileList")
+    @Mapping(target="fileList", ignore = true)
+    @Mapping(target="itemList", ignore = true)
+    @Mapping(target="file", ignore = true)
     public ItemDTO toDTO(Item item);
+
 
 }

@@ -28,6 +28,7 @@ public class Item extends Base{
     @Comment("00 - 선택, 01 - 소설, 02 - 자기계발, 03 - 에세이, 04 - 인문")
     private String category;
 
+    @Builder.Default
     @JsonManagedReference
     @OneToMany(mappedBy = "item")
     private List<SaveFile> fileList = new ArrayList<>();

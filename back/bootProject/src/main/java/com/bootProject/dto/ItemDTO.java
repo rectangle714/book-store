@@ -20,7 +20,10 @@ public class ItemDTO {
     private String contents;
     private long price;
     private String category;
+    private List<String> itemList;
+    private List<String> fileList;
     private List<SaveFile> saveFileList;
+    private List<MultipartFile> file;
 
     public static ItemDTO of(Item item) {
         return ItemDTO.builder()
