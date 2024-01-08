@@ -2,6 +2,7 @@ package com.bootProject.controller;
 
 import com.bootProject.dto.ItemDTO;
 import com.bootProject.entity.Item;
+import com.bootProject.mapper.ItemMapper;
 import com.bootProject.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,12 +36,7 @@ public class ItemController {
     @PostMapping(value = "/save")
     public ResponseEntity<Void> saveItem(ItemDTO itemDTO) throws Exception {
         if(!"".equals(itemDTO.getTitle()) && !"".equals(itemDTO.getContents())) {
-            Item item = Item.builder()
-                    .title(itemDTO.getTitle())
-                    .contents(itemDTO.getContents())
-                    .price(itemDTO.getPrice())
-                    .category(itemDTO.getCategory())
-                    .build();
+            Item item = ItemMapper.INSTANCE.toItem(itemDTO);
             itemService.saveItem(itemDTO.getFile(), item);
         }
         return ResponseEntity.ok().build();

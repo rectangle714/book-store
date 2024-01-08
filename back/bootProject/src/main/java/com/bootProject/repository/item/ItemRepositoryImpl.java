@@ -1,25 +1,17 @@
 package com.bootProject.repository.item;
 
 import com.bootProject.common.code.CategoryType;
-import com.bootProject.common.code.EnumMapper;
 import com.bootProject.dto.ItemDTO;
 import com.bootProject.entity.Item;
-import com.bootProject.entity.QItem;
-import com.bootProject.entity.QSaveFile;
-import com.bootProject.entity.SaveFile;
-import com.bootProject.mapper.item.ItemMapper;
-import com.querydsl.core.types.Projections;
+import com.bootProject.mapper.ItemMapper;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.expression.spel.ast.Projection;
 
 import static com.bootProject.entity.QItem.item;
 import static com.bootProject.entity.QSaveFile.saveFile;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class ItemRepositoryImpl implements ItemRepositoryCustom{

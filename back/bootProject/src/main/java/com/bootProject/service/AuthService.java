@@ -1,6 +1,7 @@
 package com.bootProject.service;
 
 import com.bootProject.dto.NaverLoginDTO;
+import com.bootProject.mapper.MemberMapper;
 import com.bootProject.oauth2.ServerAPIs;
 import com.bootProject.common.util.CookieUtil;
 import com.bootProject.common.util.RedisUtil;
@@ -19,7 +20,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -31,11 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Date;
 import java.util.Map;
 
@@ -76,12 +72,13 @@ public class AuthService {
     private String kakaoRedirectUri;
 
     @Transactional
-    public MemberDTO signup(MemberDTO requestDto) throws BusinessException {
+    public String signup(MemberDTO requestDto) throws BusinessException {
         MemberDTO memberDTO = new MemberDTO();
         if(!memberRepository.existsByEmail(requestDto.getEmail())) {
             requestDto.setPassword(passwordEncoder.encode(requestDto.getPassword()));
-            Member member = requestDto.toMember();
-            return memberDTO= MemberDTO.of(memberRepository.save(member));
+            Member member = MemberMapper.INSTANCE.toMember(requestDto);
+            memberRepository.save(member);
+            return "success";
         }else {
             log.debug("이미 가입되어 있는 유저입니다.");
             throw new BusinessException(ErrorCode.DUPLICATE_LOGIN_ID, ErrorCode.DUPLICATE_LOGIN_ID.getDescription());

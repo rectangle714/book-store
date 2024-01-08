@@ -150,7 +150,7 @@ export const signup = createAsyncThunk('SIGNUP', async (user:User) => {
         const URL = process.env.REACT_APP_API_URL + "/auth/signup";
         const response = await axios.post(URL, user);
         
-        return response.status;
+        return response.data;
     } catch(error) {
         console.log('회원가입 에러발생 : ' + error);
         return undefined;

@@ -1,15 +1,10 @@
-package com.bootProject.mapper.item;
+package com.bootProject.mapper;
 
 import com.bootProject.dto.ItemDTO;
 import com.bootProject.entity.Item;
-import com.bootProject.entity.SaveFile;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
-
-import java.util.List;
-
 
 
 @Mapper
@@ -23,5 +18,9 @@ public interface ItemMapper {
     @Mapping(target="file", ignore = true)
     public ItemDTO toDTO(Item item);
 
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target="fileList", ignore = true)
+    public Item toItem(ItemDTO itemDTO);
 
 }

@@ -7,8 +7,8 @@ import com.bootProject.common.util.SecurityUtil;
 import com.bootProject.dto.MemberDTO;
 import com.bootProject.entity.Member;
 import com.bootProject.mail.MailService;
+import com.bootProject.mapper.MemberMapper;
 import com.bootProject.repository.member.MemberRepository;
-import com.bootProject.repository.member.MemberRepositoryCustom;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.Duration;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -40,7 +39,7 @@ public class MemberService {
     public MemberDTO getMyInfoBySecurity() {
         String email = SecurityUtil.getCurrentMemberEmail();
         MemberDTO memberDTO = memberRepository.findByEmail(SecurityUtil.getCurrentMemberEmail())
-                .map(MemberDTO::of)
+                .map(MemberMapper.INSTANCE::toDTO)
                 .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
         return memberDTO;
     }

@@ -36,17 +36,6 @@ public class MemberDTO {
                 .addressDetail(addressDetail)
                 .build();
     }
-    public static MemberDTO of(Member member) {
-        return MemberDTO.builder()
-                .email(member.getEmail())
-                .phone(member.getPhone())
-                .nickname(member.getNickname())
-                .role(member.getRole().toString())
-                .zipNo(member.getZipNo())
-                .address(member.getAddress())
-                .addressDetail(member.getAddressDetail())
-                .build();
-    }
 
     public UsernamePasswordAuthenticationToken toAuthentication() {
         return new UsernamePasswordAuthenticationToken(email, password);

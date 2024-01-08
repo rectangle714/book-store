@@ -94,11 +94,12 @@ const CreateAccountForm = () => {
             loading:'', role:'', zipNo:zipNoValue, address: addrValue, addressDetail:addrDetailValue
         };
         const result = await store.dispatch(signup(user.current));
-        if(result.payload == '200') {
+        console.log('dd', result.payload);
+        if(result.payload == 'success') {
             alert('회원가입에 성공했습니다.');
             navigate('/', {replace:true});
         } else {
-            setSignupResultText('이미 등록되어있는 이메일 입니다.');
+            alert('회원가입에 실패했습니다.');
             return;
         }
     

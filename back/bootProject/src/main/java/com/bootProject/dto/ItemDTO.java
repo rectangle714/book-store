@@ -25,15 +25,4 @@ public class ItemDTO {
     private List<SaveFile> saveFileList;
     private List<MultipartFile> file;
 
-    public static ItemDTO of(Item item) {
-        return ItemDTO.builder()
-                .itemId(item.getId())
-                .title(item.getTitle())
-                .contents(item.getContents())
-                .price(item.getPrice())
-                .category(item.getCategory())
-                .saveFileList(item.getFileList())
-                .build();
-    }
-
 }
