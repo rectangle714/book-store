@@ -13,7 +13,7 @@ const TokenValidation = () => {
       const accessToken = getCookie('accessToken');
       const refreshToken = getCookie('refreshToken');
       if( undefined != accessToken && undefined != refreshToken ) {
-        if(request.url == '/api/v1/item/delete' || request.url == '/api/v1/item/save') {
+        if(request.url == process.env.REACT_APP_API_URL +'/item/delete' || request.url == process.env.REACT_APP_API_URL +'/item/save') {
           request.headers['Content-Type'] = "application/x-www-form-urlencoded; charset=UTF-8";
         } else {
           request.headers['Content-Type'] = "application/json";
