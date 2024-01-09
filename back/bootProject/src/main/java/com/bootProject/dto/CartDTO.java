@@ -3,29 +3,51 @@ package com.bootProject.dto;
 import com.bootProject.entity.Cart;
 import com.bootProject.entity.Item;
 import com.bootProject.entity.Member;
+import com.bootProject.entity.SaveFile;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class CartDTO {
     //Cart
     private long cartId;
     private long quantity;
 
     //Item
-    private String itemTitle;
-    private String itemContents;
-    private long itemPrice;
-    private String itemCategory;
+    private long itemId;
+    private Item item;
 
     //Member
     private String email;
-    private long memberId;
+    private Member member;
 
+    //QueryProjection field
+    private String title;
+    private String contents;
+    private Long price;
+    private String category;
+    private String storedFileName;
+    @QueryProjection
+    public CartDTO(Long id, Long quantity, String title, String contents,
+                        Long price, String category, String storedFileName) {
+        this.cartId = id;
+        this.quantity = quantity;
+        this.title = title;
+        this.contents = contents;
+        this.price = price;
+        this.category = category;
+        this.storedFileName = storedFileName;
+    }
 }

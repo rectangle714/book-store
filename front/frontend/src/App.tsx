@@ -16,18 +16,22 @@ function App() {
   const isLogin = useAppSelect((state) => state.userReducer.isLogin);
   const role = useAppSelect((state) => state.userReducer.role);
 
+  if(!isLogin) {
+    
+  }
+
   return (
     <Layout>
       <Routes>
         <Route path="/" element={<HomePage/>}></Route>
         <Route path="/signup" element={isLogin ? <Navigate to='/' /> : <CreateAccountPage />}></Route>
         <Route path="/login/*" element={isLogin ? <Navigate to='/' /> :  <LoginPage/>}></Route>
-        <Route path="/admin/*" element={(isLogin && role != 'ADMIN') ? <Navigate to='/' /> : <AdminPage/>}></Route>
+        <Route path="/admin/*" element={(!isLogin) || (isLogin && role != 'ADMIN') ? <Navigate to='/' /> : <AdminPage/>}></Route>
         <Route path="/profile/*" element={isLogin ? <ProfilePage/> : <Navigate to='/' />}></Route>
         <Route path="/findPassword/*" element={<FindPasswordPage/>}></Route>
         <Route path="/updatePassword/*" element={<UpdatePassword/>}></Route>
         <Route path="/findEmail/*" element={<FindEmailPage/>}></Route>
-        <Route path="/cart/*" element={<CartPage/>}></Route>
+        <Route path="/cart/*" element={!isLogin ? <Navigate to='/' /> : <CartPage/>}></Route>
         <Route path="/auth/naver-login" element={<OAuthLogin oauthType='NAVER'/>}></Route>
         <Route path="/auth/kakao-login" element={<OAuthLogin oauthType='KAKAO'/>}></Route>
         <Route path="/*" element={<NotFound />} />

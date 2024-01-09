@@ -1,58 +1,88 @@
-// CartPage.tsx
 import axios from 'axios';
-import React, { useState } from 'react';
-import { List, Typography } from '@mui/material';
-import Styles from 'styles/item/Cart.module.css'
+import React, { useState, useEffect } from 'react';
+import { List, Table, Typography } from '@mui/material';
+import { useAppSelect} from "store/configureStore";
 import CartItem from './CartItem';
 
-export interface Book {
-  id: number;
-  title: string;
-  price: number;
-}
-
-const getCartList = () => {
-    // const URL = process.env.REACT_APP_API_URL + '/api/v1/cart/getCartList';
-    // const result = axios.get(URL);
+export interface Cart {
+  cartId: number;
+  category?: string;
+  contents?: string;
+  title?: string;
+  price?: number;
+  quantity?: number;
+  storedFileName?: string;
 }
 
 const Cart: React.FC = () => {
-  const [cartItems, setCartItems] = useState<Book[]>([
-    { id: 1, title: 'Book 1', price: 20 },
-    { id: 2, title: 'Book 2', price: 30 },
-    { id: 3, title: 'Book 3', price: 25 },
-    { id: 4, title: 'Book 4', price: 20 },
-    { id: 5, title: 'Book 5', price: 30 },
-    { id: 6, title: 'Book 6', price: 25 },
-    { id: 7, title: 'Book 7', price: 20 },
-    { id: 8, title: 'Book 8', price: 30 },
-    { id: 9, title: 'Book 9', price: 25 },
-    { id: 10, title: 'Book 10', price: 25 }
-  ]);
+  const email = useAppSelect((state) => state.userReducer.email);
 
-  const handleRemoveItem = (itemId: number) => {
-    const updatedCart = cartItems.filter(item => item.id !== itemId);
-    setCartItems(updatedCart);
+
+  const getCartList = async () => {
+    if(email != '') {
+      const URL = process.env.REACT_APP_API_URL + '/cart/selectList?email='+email;
+      const result = await axios.get(URL);
+      if(result.data != null) {
+        setCartItems(result.data);
+        console.log(result.data);
+      }
+    }
+}
+
+  const [cartItems, setCartItems] = useState<Cart[]>([]);
+
+  const handleRemoveItem = async (cartId: number) => {
+    const URL = process.env.REACT_APP_API_URL + '/cart/delete';
+    const result = await axios.post(URL, cartId);
+    if(result.data == 'success') {
+      alert('해당 상품이 삭제 되었습니다.');
+      window.location.reload();
+    } else {
+      alert('삭제 작업 중 문제가 발생했습니다.');
+    }
   };
+
+  useEffect(() => {
+    getCartList();
+  }, []);
 
   return (
     <>
-        <section style={{paddingTop: '100px', borderBottom: 'solid 3px black', verticalAlign:'center', minHeight:'100%'}}>
+        <div style={{paddingBottom:'50px', paddingTop: '50px', textAlign:'center'}}>
+          <span style={{fontWeight: '500', fontSize: '24px', color: 'rgb(51, 51, 51)', lineHeight:'48px'}}>장바구니</span>
+        </div>
+        <section style={{verticalAlign:'center', minHeight:'100%', width:'100%', display:'flex'}}>
             <div style={{textAlign:'center'}}>
-                <div style={{paddingBottom:'50px'}}>
-                    <span style={{fontWeight: '500', fontSize: '24px', color: 'rgb(51, 51, 51)', lineHeight:'48px', paddingBottom:'50px'}}>장바구니</span>
-                </div>
-                <div style={{borderTop: 'solid 3px black'}}>
+                <div style={{borderTop: 'solid 3px black',borderBottom: 'solid 3px black'}}>
                     {cartItems.length > 0 ? (
-                        <List>
+                        <Table>
                             {cartItems.map(item => (
-                                <CartItem key={item.id} book={item} onRemove={handleRemoveItem} />
+                                <CartItem key={item.cartId} book={item} onRemove={handleRemoveItem} />
                             ))}
-                        </List>
+                        </Table>
                     ) : (
-                        <Typography variant="body1">장바구니가 비어 있습니다.</Typography>
+                      <Table>
+                        <tr style={{borderBottom:'1px solid black'}}>
+                          <td style={{width:'720px', height:'150px'}}>
+                            <Typography variant="body1">장바구니가 비어 있습니다.</Typography>
+                          </td>
+                        </tr>
+                      </Table>
                     )}
                 </div>
+            </div>
+            <div style={{width:'30%', padding:'20px', height:'300px'}}>
+              <div style={{border:'3px solid grey', borderRadius:'10px', height:'100%'}}>
+                <div style={{margin:'20px', height:'65%', textAlign:'center'}}>
+                  <div style={{margin:'20px'}}>
+                    <span style={{float:'left'}}>상품금액 : </span><span style={{float:'right'}}>35000원</span>
+                  </div>
+                </div>
+                <div style={{border:'3px solid grey', margin:'20px', borderRadius:'10px', 
+                  height:'15%', textAlign:'center', paddingTop:'8px'}}>
+                  <div style={{verticalAlign:'middle', height:'100%'}}>결재버튼</div>
+                </div>
+              </div>
             </div>
         </section>
     </>

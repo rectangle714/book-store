@@ -22,6 +22,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -34,19 +35,17 @@ public class ItemController {
 
     /* 상품 저장 */
     @PostMapping(value = "/save")
-    public ResponseEntity<Void> saveItem(ItemDTO itemDTO) throws Exception {
-        if(!"".equals(itemDTO.getTitle()) && !"".equals(itemDTO.getContents())) {
-            Item item = ItemMapper.INSTANCE.toItem(itemDTO);
-            itemService.saveItem(itemDTO.getFile(), item);
-        }
-        return ResponseEntity.ok().build();
+    public ResponseEntity<String> saveItem(ItemDTO itemDTO) throws Exception {
+        Item item = ItemMapper.INSTANCE.toEntity(itemDTO);
+        itemService.saveItem(itemDTO.getFile(), item);
+        return ResponseEntity.ok("success");
     }
 
     /* 상품 전체 찾기 */
     @GetMapping("/findAll")
     public ResponseEntity<List<Item>> findAllItem() {
-        List<Item> result = itemService.getAllItem();
-
+        List<Item> result = new ArrayList<Item>();
+        result = itemService.getAllItem();
         return ResponseEntity.ok(result);
     }
 
@@ -66,10 +65,10 @@ public class ItemController {
 
     /* 상품 삭제 */
     @PostMapping(value = "/delete")
-    public ResponseEntity<HttpStatus> findItemDetail(@RequestParam(value = "itemList[]")List<Long> itemList,
+    public ResponseEntity<String> findItemDetail(@RequestParam(value = "itemList[]")List<Long> itemList,
                                                @RequestParam(value = "fileList[]")List<Long> fileList) {
         itemService.deleteItem(itemList, fileList);
-        return ResponseEntity.ok(HttpStatus.OK);
+        return ResponseEntity.ok("success");
     }
 
     /* 이미지 파일 조회 */

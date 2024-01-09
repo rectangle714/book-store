@@ -2,9 +2,19 @@ import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
+import { useAppSelect} from "store/configureStore";
 import axios from 'axios';
 
+type Cart = {
+  itemId? : Object,
+  email? : Object,
+  quantity? : Object
+}
+
 const ItemModal = ({ modalValue, imgSrc, open, handleOpen, handleClose }:any) => {
+  const email = useAppSelect((state) => state.userReducer.email);
+  const isLogin = useAppSelect((state) => state.userReducer.isLogin);
+
   const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
@@ -18,9 +28,19 @@ const ItemModal = ({ modalValue, imgSrc, open, handleOpen, handleClose }:any) =>
     p: 4,
   };
 
-  const onClickButton = () => {
-    const URL = process.env.REACT_APP_API_URL + '/api/v1/cart/insert';
-    // const result = axios.post(URL, {});
+  const onClickButton = async () => {
+    const URL = process.env.REACT_APP_API_URL + '/cart/save';
+    let param:Cart = {};
+    param.itemId = modalValue.itemId;
+    param.email = email;
+    param.quantity = 1;
+    const result = await axios.post(URL, param);
+    if(result.data === 'success') {
+      alert('장바구니에 담겼습니다.');
+    } else {
+      alert('장바구니 담기 실패했습니다.');
+    }
+    handleClose();
   }
 
   return (
@@ -66,7 +86,9 @@ const ItemModal = ({ modalValue, imgSrc, open, handleOpen, handleClose }:any) =>
               </div>
             </div>
             <div style={{textAlign:'center'}}>
-              <Button style={{width: '50%'}} color='success' variant='outlined' type='submit' onClick={onClickButton}>장바구니 담기</Button>
+              {
+                isLogin ? <Button style={{width: '50%'}} color='success' variant='outlined' type='submit' onClick={onClickButton}>장바구니 담기</Button> : ''
+              }
             </div>
           </Box>
         </Modal>

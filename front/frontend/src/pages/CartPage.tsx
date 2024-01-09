@@ -4,7 +4,7 @@ import Cart from "components/item/Cart";
 const CartPage = () => {
     return(
         <>
-            <Container maxWidth="md">
+            <Container maxWidth="lg" sx={{position:'relative'}}>
                 <Cart></Cart>
             </Container>
         </>

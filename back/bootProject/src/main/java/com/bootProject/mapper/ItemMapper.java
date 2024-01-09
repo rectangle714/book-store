@@ -4,6 +4,7 @@ import com.bootProject.dto.ItemDTO;
 import com.bootProject.entity.Item;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.factory.Mappers;
 
 
@@ -19,8 +20,8 @@ public interface ItemMapper {
     public ItemDTO toDTO(Item item);
 
 
-    @Mapping(target = "id", ignore = true)
+    @Mapping(target="id", source = "itemId", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target="fileList", ignore = true)
-    public Item toItem(ItemDTO itemDTO);
+    public Item toEntity(ItemDTO itemDTO);
 
 }

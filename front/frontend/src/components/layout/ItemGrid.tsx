@@ -6,6 +6,7 @@ import Paper from '@mui/material/Paper';
 import ItemModal from "./ItemModal";
 
 interface modalValue {
+  itemId: string,
   title: string,
   contents: string,
   price: number,
@@ -21,7 +22,7 @@ const ItemGrid = () => {
 
   const [imgSrc, setImgSrc] = useState('');
   const [modalValue, setModalValue] = useState<modalValue>(
-    {title: '', contents: '', price: 0, category: ''}
+    {itemId: '', title: '', contents: '', price: 0, category: ''}
   );
   
 
@@ -36,7 +37,7 @@ const ItemGrid = () => {
     e.stopPropagation();
     const result = await dispatch(itemDetailInfo(arg));
     if(result.payload != undefined) {
-      setModalValue({title:result.payload.title, contents:result.payload.contents,
+      setModalValue({itemId:result.payload.itemId, title:result.payload.title, contents:result.payload.contents,
         price:result.payload.price, category:result.payload.category});
       if(result.payload.saveFileList[0] != undefined) {
         setImgSrc(process.env.REACT_APP_FILE_URL + result.payload.saveFileList[0].storedFileName);

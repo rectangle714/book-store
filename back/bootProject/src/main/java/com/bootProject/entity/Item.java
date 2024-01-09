@@ -30,7 +30,7 @@ public class Item extends Base{
 
     @Builder.Default
     @JsonManagedReference
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<SaveFile> fileList = new ArrayList<>();
 
 }

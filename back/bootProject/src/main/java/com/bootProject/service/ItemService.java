@@ -37,7 +37,7 @@ public class ItemService {
 
 
     @Transactional
-    public void saveItem(List<MultipartFile> multipartFile, Item item) throws Exception {
+    public void saveItem(List<MultipartFile> multipartFile, Item item) throws Exception{
         item = itemRepository.save(item);
         if(null != multipartFile) {
             List<SaveFile> fileList = uploadFile(multipartFile, item);
@@ -47,14 +47,7 @@ public class ItemService {
 
     /* 전체 아이템 정보 */
     public List<Item> getAllItem() {
-        List<Item> itemList = new ArrayList<Item>();
-        try {
-            itemList = itemRepository.findListAll();
-        } catch(Exception e) {
-            log.debug("전체 아이템 조회 에러 발생 ");
-            log.debug(e.getMessage());
-        }
-        return itemList;
+        return itemRepository.findListAll();
     }
 
     /* 최근 추가된 책 조회 */
@@ -88,10 +81,8 @@ public class ItemService {
                         if(!result) { throw new BusinessException(ErrorCode.FILE_DELETE_ERROR, "파일 삭제 실패"); }
                     } catch (UnsupportedEncodingException e) {
                         log.error("파일명 decode 에러 발생");
-                        log.error(e.getMessage());
                     } catch (BusinessException e) {
                         log.error("파일 삭제 실패");
-                        log.error(e.getMessage());
                     }
                 });
                 fileRepository.deleteAllByIdInBatch(fileList);
@@ -102,7 +93,6 @@ public class ItemService {
             }
         } catch(Exception e) {
             log.error("상품 삭제 중 에러 발생");
-            log.error(e.getMessage());
         }
     }
 

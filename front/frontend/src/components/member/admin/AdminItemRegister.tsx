@@ -77,10 +77,12 @@ const AdminItemRegister = () => {
     }
     setIsLoading(true);
     const result = await store.dispatch(registerItem(formData));
-    if (result.payload == "200") {
+    if (result.payload === "success") {
       alert("상품을 등록했습니다.");
       setIsLoading(false);
       window.location.reload();
+    } else {
+      alert('상품 입력 에러가 발생했습니다.');
     }
   };
 
