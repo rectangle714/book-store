@@ -6,14 +6,20 @@ import { reissue } from 'store/modules/auth';
 
 const TokenValidation = () => {
 
+  const itemDeleteURL = process.env.REACT_APP_API_URL +'/item/delete';
+  const itemSaveURL = process.env.REACT_APP_API_URL +'/item/save';
+  const countQuantityURL = process.env.REACT_APP_API_URL +'/cart/countQuantity';
+
   const [isLoading, setIsLoading] = useState(false);
   axios.interceptors.request.use(
     function (request) {
-      setIsLoading(true);
+      if(request.url != countQuantityURL) {
+        setIsLoading(true);
+      }
       const accessToken = getCookie('accessToken');
       const refreshToken = getCookie('refreshToken');
       if( undefined != accessToken && undefined != refreshToken ) {
-        if(request.url == process.env.REACT_APP_API_URL +'/item/delete' || request.url == process.env.REACT_APP_API_URL +'/item/save') {
+        if(request.url == itemDeleteURL || request.url == itemSaveURL) {
           request.headers['Content-Type'] = "application/x-www-form-urlencoded; charset=UTF-8";
         } else {
           request.headers['Content-Type'] = "application/json";

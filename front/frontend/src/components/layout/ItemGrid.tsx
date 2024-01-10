@@ -25,7 +25,6 @@ const ItemGrid = () => {
     {itemId: '', title: '', contents: '', price: 0, category: ''}
   );
   
-
   const getItemList = async () => {
       const result = await dispatch(recentRegisteredItem());
       if(result.payload != undefined) {

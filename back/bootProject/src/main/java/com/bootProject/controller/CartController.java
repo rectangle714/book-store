@@ -6,6 +6,9 @@ import com.bootProject.entity.Item;
 import com.bootProject.service.CartService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -29,14 +32,22 @@ public class CartController {
     }
 
     @GetMapping("/selectList")
-    public ResponseEntity<List<CartDTO>> getCartList(@RequestParam String email) throws Exception {
+    public ResponseEntity<Page<CartDTO>> getCartList(@PageableDefault(page = 0, size = 5) Pageable pageable,
+                                                        @RequestParam String email) throws Exception {
         List<CartDTO> result = cartService.selectCartList(email);
-        return ResponseEntity.ok(result);
+        Page<CartDTO> cartPage = cartService.selectCartPage(pageable, email);
+        return ResponseEntity.ok(cartPage);
     }
 
     @PostMapping("/delete")
     public ResponseEntity<String> deleteCart(@RequestBody Long cartId) {
         cartService.deleteCart(cartId);
+        return ResponseEntity.ok("success");
+    }
+
+    @PostMapping("/countQuantity")
+    public ResponseEntity<String> countQuantity(@RequestParam String flag, @RequestParam Long cartId) {
+        cartService.modifyCartQuantity(flag, cartId);
         return ResponseEntity.ok("success");
     }
 

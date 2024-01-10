@@ -25,4 +25,12 @@ public class Cart extends Base{
 
     private long quantity;
 
+    public void updateQuantity(String flag, int quantity) {
+        if("increse".equals(flag)) {
+            this.quantity = this.quantity + quantity;
+        } else {
+            this.quantity = this.quantity - quantity;
+        }
+    }
+
 }
