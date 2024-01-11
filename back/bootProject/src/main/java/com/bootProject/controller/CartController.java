@@ -34,7 +34,6 @@ public class CartController {
     @GetMapping("/selectList")
     public ResponseEntity<Page<CartDTO>> getCartList(@PageableDefault(page = 0, size = 5) Pageable pageable,
                                                         @RequestParam String email) throws Exception {
-        List<CartDTO> result = cartService.selectCartList(email);
         Page<CartDTO> cartPage = cartService.selectCartPage(pageable, email);
         return ResponseEntity.ok(cartPage);
     }

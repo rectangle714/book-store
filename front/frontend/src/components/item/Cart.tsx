@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { Table, Typography } from '@mui/material';
 import { useAppSelect} from "store/configureStore";
 import CartItem from './CartItem';
@@ -15,22 +15,29 @@ export interface Book {
   storedFileName?: string;
 }
 
+export interface Page {
+  totalDataCount: number;
+  totalPageCount: number;
+}
+
 const Cart: React.FC = () => {
   const isLogin = useAppSelect((state) => state.userReducer.isLogin);
   const email = useAppSelect((state) => state.userReducer.email);
 
   const [cartItems, setCartItems] = useState<Book[]>([]);
   const [totalItemPrice, setTotalItemPrice] = useState(0);
+  const [pageData, setPageData] = useState<Page>(Object);
 
   const getCartList = async () => {
     const URL = process.env.REACT_APP_API_URL + '/cart/selectList?email='+email;
     await axios.get(URL)
     .then(function(response) {
-      console.log('data ',response.data);
+      console.log(response);
       response.data.content.forEach((data:any) => {
         const itemPrice = data.price * data.quantity;
         setTotalItemPrice((value) => {return value + itemPrice});
       });
+      setPageData({totalDataCount:response.data.totalElements, totalPageCount:response.data.totalPages});
       setCartItems(response.data.content);
     });
   }
@@ -46,13 +53,15 @@ const Cart: React.FC = () => {
   const handleRemoveItem = async (cartId: number) => {
     if(window.confirm('해당 상품을 삭제 하시겠습니까?')) {
       const URL = process.env.REACT_APP_API_URL + '/cart/delete';
-      const result = await axios.post(URL, cartId);
-      if(result.data == 'success') {
-        alert('해당 상품이 삭제 되었습니다.');
-        window.location.reload();
-      } else {
+      await axios.post(URL, cartId)
+      .then(function(response) {
+        if(response.data == 'success') {
+          alert('해당 상품이 삭제 되었습니다.');
+          window.location.reload();
+        }
+      }).catch(function(error) {
         alert('삭제 작업 중 문제가 발생했습니다.');
-      }
+      });
     }
   };
 
@@ -95,7 +104,7 @@ const Cart: React.FC = () => {
               <div style={{border:'3px solid grey', borderRadius:'10px', height:'100%'}}>
                 <div style={{margin:'20px', height:'65%', textAlign:'center'}}>
                   <div style={{margin:'20px'}}>
-                    <span style={{float:'left'}}>상품금액 : </span><span style={{float:'right'}}>{totalItemPrice.toLocaleString()}</span>
+                    <span style={{float:'left'}}>상품금액 : </span><span style={{float:'right', fontWeight:'600'}}>{totalItemPrice.toLocaleString()}</span>
                   </div>
                 </div>
                 <div onClick={onOrder} style={{border:'3px solid grey', margin:'20px', borderRadius:'10px',
@@ -105,8 +114,8 @@ const Cart: React.FC = () => {
               </div>
             </div>
         </section>
-        <div>
-          <PaginationForm />
+        <div style={{width:'65%'}}>
+          {pageData.totalPageCount != undefined ? <PaginationForm pageData={pageData}/> : ''}
         </div>
 
     </>
