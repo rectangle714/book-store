@@ -3,7 +3,9 @@ package com.bootProject.repository.cart;
 import com.bootProject.dto.CartDTO;
 import com.bootProject.entity.Cart;
 import com.bootProject.entity.Member;
+import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -62,7 +64,14 @@ public class CartRepositoryImpl implements CartRepositoryCustom{
                         Projections.constructor(
                                 CartDTO.class, cart.id, cart.quantity,
                                 item.title,item.contents, item.price, item.category,
-                                saveFile.storedFileName
+                                saveFile.storedFileName,
+                                ExpressionUtils.as(
+                                        JPAExpressions.select(item.price.multiply(cart.quantity).sum().as("totalBookPrice"))
+                                                .from(cart)
+                                                .innerJoin(cart.memberId, member)
+                                                .innerJoin(cart.itemId, item)
+                                                .where(member.email.eq(email)), "totalBookPrice"
+                                )
                         )
                 )
                 .from(cart)
@@ -71,8 +80,8 @@ public class CartRepositoryImpl implements CartRepositoryCustom{
                 .innerJoin(item.fileList, saveFile)
                 .where(member.email.eq(email))
                 .orderBy(cart.id.desc())
-                .limit(pageable.getPageSize())
-                .offset(pageable.getOffset())
+                .offset(pageable.getOffset())       //페이지 번호
+                .limit(pageable.getPageSize())      // 페이지 사이즈
                 .fetch();
 
         JPAQuery<Long> count = queryFactory

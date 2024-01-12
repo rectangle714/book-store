@@ -28,15 +28,12 @@ const Cart: React.FC = () => {
   const [totalItemPrice, setTotalItemPrice] = useState(0);
   const [pageData, setPageData] = useState<Page>(Object);
 
-  const getCartList = async () => {
-    const URL = process.env.REACT_APP_API_URL + '/cart/selectList?email='+email;
+  const getCartList = async (currentPage:number) => {
+    const URL = process.env.REACT_APP_API_URL + '/cart/selectList?email='+email+'&page='+currentPage;
     await axios.get(URL)
     .then(function(response) {
-      console.log(response);
-      response.data.content.forEach((data:any) => {
-        const itemPrice = data.price * data.quantity;
-        setTotalItemPrice((value) => {return value + itemPrice});
-      });
+      console.log('response ',response);
+      setTotalItemPrice(response.data.content[0].totalBookPrice);
       setPageData({totalDataCount:response.data.totalElements, totalPageCount:response.data.totalPages});
       setCartItems(response.data.content);
     });
@@ -71,7 +68,7 @@ const Cart: React.FC = () => {
 
   useEffect(() => {
     if(isLogin) {
-      getCartList();
+      getCartList(0);
     }
   }, []);
 
@@ -115,7 +112,7 @@ const Cart: React.FC = () => {
             </div>
         </section>
         <div style={{width:'65%'}}>
-          {pageData.totalPageCount != undefined ? <PaginationForm pageData={pageData}/> : ''}
+          {pageData.totalPageCount != undefined ? <PaginationForm pageData={pageData} getCartList={getCartList}/> : ''}
         </div>
 
     </>

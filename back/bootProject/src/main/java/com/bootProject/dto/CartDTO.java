@@ -39,9 +39,10 @@ public class CartDTO {
     private Long price;
     private String category;
     private String storedFileName;
+    private Long totalBookPrice;
     @QueryProjection
     public CartDTO(Long id, Long quantity, String title, String contents,
-                        Long price, String category, String storedFileName) {
+                        Long price, String category, String storedFileName, Long totalBookPrice) {
         this.cartId = id;
         this.quantity = quantity;
         this.title = title;
@@ -49,5 +50,6 @@ public class CartDTO {
         this.price = price;
         this.category = category;
         this.storedFileName = storedFileName;
+        this.totalBookPrice = totalBookPrice;
     }
 }
