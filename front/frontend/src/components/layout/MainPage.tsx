@@ -1,5 +1,5 @@
 import Container from '@mui/material/Container';
-import ItemGrid from './ItemGrid';
+import ItemGrid from '../item/ItemGrid';
 import Styls from'../../styles/layout/MainPage.module.css';
 import Slider from './Slider';
 import { DataGrid } from '@mui/x-data-grid';

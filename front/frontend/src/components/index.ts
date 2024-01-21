@@ -13,7 +13,7 @@ import Preview from "./common/Preview";
 import Footer from "./layout/Footer";
 import Header from "./layout/Header";
 import HeaderMenu from "./layout/HeaderMenu";
-import ItemGrid from "./layout/ItemGrid";
+import ItemGrid from "./item/ItemGrid";
 import Layout from "./layout/Layout";
 import MainPage from "./layout/MainPage";
 import Slider from "./layout/Slider";

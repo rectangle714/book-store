@@ -46,7 +46,7 @@ const CurrentMap = () => {
 
   return (
     <>
-    <BottomNavigationAction onClick={handleOpen} label="위치" icon={<LocationOnIcon />} />
+    <BottomNavigationAction onClick={handleOpen} label="Map" icon={<LocationOnIcon />}  showLabel />
       <Modal
         open={open}
         onClose={handleClose}

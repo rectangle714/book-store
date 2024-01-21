@@ -1,4 +1,4 @@
-import CreateAccountForm from "../components/auth/CreateAccountForm";
+import CreateAccountForm from "../../components/auth/CreateAccountForm";
 
 /* 회원가입 화면 */
 const CreateAccountPage = () => {

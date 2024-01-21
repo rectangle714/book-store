@@ -1,5 +1,5 @@
 import { Container } from "@mui/material";
-import Cart from "components/item/Cart";
+import Cart from "components/cart/Cart";
 
 const CartPage = () => {
     return(

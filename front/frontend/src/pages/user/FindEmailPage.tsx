@@ -1,4 +1,4 @@
-import FindEmail from "../components/member/user/FindEmail";
+import FindEmail from "../../components/member/user/FindEmail";
 
 /* 이메일 찾기 화면 */
 const FindEmailPage = () => {

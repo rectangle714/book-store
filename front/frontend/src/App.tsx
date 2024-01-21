@@ -2,13 +2,14 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Layout from "components/layout/Layout";
 import { useAppSelect } from "store/configureStore";
 import HomePage from "pages/HomePage";
-import CreateAccountPage from "pages/CreateAccountPage";
+import CreateAccountPage from "pages/user/CreateAccountPage";
 
 import {LoginPage, ProfilePage, AdminPage, FindEmailPage, FindPasswordPage} from "./pages";
 import OAuthLogin from "components/auth/OAuthLogin";
 import NotFound from "components/common/NotFound";
 import UpdatePassword from "components/member/user/UpdatePassword";
-import CartPage from "pages/CartPage";
+import CartPage from "pages/cart/CartPage";
+import ItemList from "pages/item/ItemList";
 
 
 function App() {
@@ -16,24 +17,27 @@ function App() {
   const isLogin = useAppSelect((state) => state.userReducer.isLogin);
   const role = useAppSelect((state) => state.userReducer.role);
 
-  if(!isLogin) {
-    
-  }
-
   return (
     <Layout>
       <Routes>
         <Route path="/" element={<HomePage/>}></Route>
-        <Route path="/signup" element={isLogin ? <Navigate to='/' /> : <CreateAccountPage />}></Route>
+        {/* User */}
         <Route path="/login/*" element={isLogin ? <Navigate to='/' /> :  <LoginPage/>}></Route>
-        <Route path="/admin/*" element={(!isLogin) || (isLogin && role != 'ADMIN') ? <Navigate to='/' /> : <AdminPage/>}></Route>
+        <Route path="/signup" element={isLogin ? <Navigate to='/' /> : <CreateAccountPage />}></Route>
         <Route path="/profile/*" element={isLogin ? <ProfilePage/> : <Navigate to='/' />}></Route>
         <Route path="/findPassword/*" element={<FindPasswordPage/>}></Route>
         <Route path="/updatePassword/*" element={<UpdatePassword/>}></Route>
         <Route path="/findEmail/*" element={<FindEmailPage/>}></Route>
+        {/* Item */}
+        <Route path="/itemList" element={<ItemList/>}></Route>
+        {/* Cart */}
         <Route path="/cart/*" element={!isLogin ? <Navigate to='/' /> : <CartPage/>}></Route>
+        {/* Admin */}
+        <Route path="/admin/*" element={(!isLogin) || (isLogin && role != 'ADMIN') ? <Navigate to='/' /> : <AdminPage/>}></Route>
+        { /* Auth */ }
         <Route path="/auth/naver-login" element={<OAuthLogin oauthType='NAVER'/>}></Route>
         <Route path="/auth/kakao-login" element={<OAuthLogin oauthType='KAKAO'/>}></Route>
+        {/* NotFound */}
         <Route path="/*" element={<NotFound />} />
       </Routes>
     </Layout>
