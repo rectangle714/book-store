@@ -17,16 +17,12 @@ public class Member extends Base{
     private Long id;
 
     private String name;
-
     private String email;
     private String password;
     private String phone;
     private String nickname;
-
     private String zipNo;
-
     private String address;
-
     private String addressDetail;
 
     @Enumerated(EnumType.STRING)

@@ -3,9 +3,9 @@ import Container from '@mui/material/Container';
 import { Tabs, Tab, Box } from '@mui/material';
 import Styls from'../../../styles/member/admin/Admin.module.css';
 import { useAppDispatch } from "../../../store/configureStore";
-import AdminMemberInfo from '../admin/AdminMemberInfo';
-import AdminItemRegister from '../admin/AdminItemRegister';
-import AdminItemList from '../admin/AdminItemList';
+import AdminMemberInfo from './AdminMemberInfo';
+import AdminItemList from './AdminItemList';
+import AdminItemRegister from './AdminItemRegister'; 
 
 interface TabPanelProps {
     children?: React.ReactNode;
