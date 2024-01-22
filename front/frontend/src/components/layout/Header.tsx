@@ -48,7 +48,7 @@ const Header = () => {
     }, [isLogin]);
 
     return(
-        <header>
+        <header style={{width:'100%'}}>
             <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" sx={{bgcolor: 'white'}}>
                 <div style={{backgroundColor:'white', textAlign:'right',display:'flex', justifyContent:'flex-end'}}>

@@ -1,73 +1,102 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from "react-router";
+import 'styles/layout/sideBar.css';
+import BookIcon from '@mui/icons-material/Book';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Navigation } from 'react-minimal-side-navigation';
 
-type Item = {
-  item: string;
-  title: string;
-}
-
 const Bar = styled.div`
-  position: sticky;
-  top: 200px;
-  width: 10.5rem;
+  top: 250px;
+  width: 12.5rem;
   height: 100%;
-  /* position: fixed;
-  left: 19rem;
-  top: 12rem;
-  transform: translate(1em, 12rem); */
+  left: 5.5rem;
+  // position: fixed;
+  padding-top: 15rem;
+  // transform: translate(1em, 12rem);
 `;
 
-const SideBar = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const setArr = [];
+const SideBar = ({setTitleValue}:any) => {
+  const {state} = useLocation();
+  const [active, setActive] = useState('');
 
   return (
     <>
       <Bar>
         <Navigation
-              // you can use your own router's api to get pathname
-              activeItemId="/management/members"
+              activeItemId={state}
               onSelect={({itemId}) => {
-                // maybe push to the route
+                setTitleValue(itemId);
+                console.log(itemId);
               }}
               items={[
                 {
-                  title: 'Dashboard',
-                  itemId: '/dashboard',
-                  // you can use your own custom Icon component as well
-                  // icon is optional
-                  //elemBefore: () => <Icon name="inbox" />,
+                  title: '베스트',
+                  itemId: '/best',
+                  subNav : [],
+                  elemBefore: () => <BookIcon name="inbox" style={{ fontSize: '1.2rem' }}/>,
                 },
                 {
-                  title: 'Management',
-                  itemId: '/management',
-                  //elemBefore: () => <Icon name="users" />,
+                  title: '소설',
+                  itemId: '/novel',
                   subNav: [
                     {
-                      title: 'Projects',
-                      itemId: '/management/projects',
+                      title: '국내소설',
+                      itemId: '/novel/korea',
                     },
                     {
-                      title: 'Members',
-                      itemId: '/management/members',
+                      title: '외국소설',
+                      itemId: '/novel/other',
                     },
                   ],
+                  elemBefore: () => <BookIcon name="inbox" style={{ fontSize: '1.2rem' }}/>,
                 },
                 {
-                  title: 'Another Item',
-                  itemId: '/another',
+                  title: '자기계발',
+                  itemId: '/selfImprovement',
                   subNav: [
                     {
-                      title: 'Teams',
-                      itemId: '/management/teams',
+                      title: '성공/처세',
+                      itemId: '/selfImprovement/successCircumstances',
+                    },
+                    {
+                      title: '자기능력계발',
+                      itemId: '/selfImprovement/selfImprovement',
                     },
                   ],
+                  elemBefore: () => <BookIcon name="inbox" style={{ fontSize: '1.2rem' }}/>,
                 },
+                {
+                  title: '인문',
+                  itemId: '/humanities',
+                  subNav: [
+                    {
+                      title: '인문학일반',
+                      itemId: '/humanities/11',
+                    },
+                    {
+                      title: '심리학',
+                      itemId: '/humanities/22',
+                    },
+                  ],
+                  elemBefore: () => <BookIcon name="inbox" style={{ fontSize: '1.2rem' }}/>,
+                },
+                {
+                  title: '시/에세이',
+                  itemId: '/essay',
+                  subNav: [
+                    {
+                      title: '한국시',
+                      itemId: '/essay/korea',
+                    },
+                    {
+                      title: '해외시',
+                      itemId: '/essay/other',
+                    },
+                  ],
+                  elemBefore: () => <BookIcon name="inbox" style={{ fontSize: '1.2rem' }}/>,
+                }
               ]}
             />
       </Bar>
