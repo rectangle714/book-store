@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useLocation } from "react-router";
 import 'styles/layout/sideBar.css';
 import BookIcon from '@mui/icons-material/Book';
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { Navigation } from 'react-minimal-side-navigation';
 
 const Bar = styled.div`
@@ -18,17 +16,20 @@ const Bar = styled.div`
 `;
 
 const SideBar = ({setTitleValue}:any) => {
-  const {state} = useLocation();
-  const [active, setActive] = useState('');
+  let {state} = useLocation();
+  setTitleValue(state.title);
+
+  useEffect(()=> {
+
+  }, [state])
 
   return (
     <>
       <Bar>
         <Navigation
-              activeItemId={state}
-              onSelect={({itemId}) => {
-                setTitleValue(itemId);
-                console.log(itemId);
+              activeItemId={state.itemId}
+              onSelect={(itemId) => {
+                state.itemId = itemId;
               }}
               items={[
                 {

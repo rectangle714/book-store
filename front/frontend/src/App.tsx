@@ -9,7 +9,7 @@ import OAuthLogin from "components/auth/OAuthLogin";
 import NotFound from "components/common/NotFound";
 import UpdatePassword from "components/member/user/UpdatePassword";
 import CartPage from "pages/cart/CartPage";
-import ItemList from "pages/item/ItemList";
+import ItemListPage from "pages/item/ItemListPage";
 
 
 function App() {
@@ -29,7 +29,7 @@ function App() {
         <Route path="/updatePassword/*" element={<UpdatePassword/>}></Route>
         <Route path="/findEmail/*" element={<FindEmailPage/>}></Route>
         {/* Item */}
-        <Route path="/itemList" element={<ItemList/>}></Route>
+        <Route path="/itemList" element={<ItemListPage/>}></Route>
         {/* Cart */}
         <Route path="/cart/*" element={!isLogin ? <Navigate to='/' /> : <CartPage/>}></Route>
         {/* Admin */}

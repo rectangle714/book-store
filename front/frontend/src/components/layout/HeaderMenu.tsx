@@ -1,36 +1,51 @@
 import { useNavigate, useLocation } from "react-router-dom";
+import 'styles/layout/HeaderMenu.css'
 
 const HeaderMenu = () => {
     const navigate = useNavigate();
 
+    const onClickMenuItem = (itemIdVal:string, titleVal:string) => {
+        navigate('/itemList',{state : {itemId:itemIdVal, title:titleVal}});
+    }
+
     return (
         <>
-            <div style={{height:'80px' , backgroundColor:'white', display:"flex", justifyContent:'center'}}>
-                <div style={{ width:'80%', backgroundColor:'white', display:"flex", justifyContent:'center' }}>
-                    <div style={{ width:'20%', backgroundColor:'white', color:'black', display:"flex", justifyContent:'center'}}> 
-                        <div style={{ display:'flex', alignItems:'center' }}>
-                            <div style={{cursor:'pointer'}} onClick={() =>navigate('/itemList',{state : '/best'})}>베스트</div>
+            <div className="header-menu-wrap">
+                <div className="header-menu-contents">
+                    <div className="header-menu-item"> 
+                        <div>
+                            <div style={{cursor:'pointer'}} 
+                                onClick={() => onClickMenuItem('/best', '베스트')}>베스트
+                            </div>
                             {/* <img src="/images/puppy.png" style={{width: '50px', height: '50px', cursor:'pointer'}}/> */}
                         </div>
                     </div>
-                    <div style={{ width:'20%', backgroundColor:'white', color:'black', display:"flex", justifyContent:'center' }}>
-                        <div style={{ display:'flex', alignItems:'center' }}>
-                            <div style={{cursor:'pointer'}} onClick={() =>navigate('/itemList',{state : '/novel'})}>소설</div>
+                    <div className="header-menu-item">
+                        <div>
+                            <div style={{cursor:'pointer'}}
+                                onClick={() => onClickMenuItem('/novel', '소설')}>소설
+                            </div>
                         </div>
                     </div>
-                    <div style={{ width:'20%', backgroundColor:'white', color:'black', display:"flex", justifyContent:'center' }}>
-                        <div style={{ display:'flex', alignItems:'center' }}>
-                            <div style={{cursor:'pointer'}} onClick={() =>navigate('/itemList',{state : '/selfImprovement'})}>자기계발</div>
+                    <div className="header-menu-item">
+                        <div>
+                            <div style={{cursor:'pointer'}} 
+                                onClick={() => onClickMenuItem('/selfImprovement', '자기계발')}>자기계발
+                            </div>
                         </div>
                     </div>
-                    <div style={{ width:'20%', backgroundColor:'white', color:'black', display:"flex", justifyContent:'center' }}>
-                        <div style={{ display:'flex', alignItems:'center' }}>
-                            <div style={{cursor:'pointer'}} onClick={() =>navigate('/itemList',{state : '/humanities'})}>인문</div>
+                    <div className="header-menu-item">
+                        <div>
+                            <div style={{cursor:'pointer'}} 
+                                onClick={() => onClickMenuItem('/itemList', '인문')}>인문
+                            </div>
                         </div>
                     </div>
-                    <div style={{ width:'20%', backgroundColor:'white', color:'black', display:"flex", justifyContent:'center' }}>
-                        <div style={{ display:'flex', alignItems:'center' }}>
-                            <div style={{cursor:'pointer'}} onClick={() =>navigate('/itemList',{state : '/essay'})}>에세이</div>
+                    <div className="header-menu-item">
+                        <div>
+                            <div style={{cursor:'pointer'}} 
+                                onClick={() => onClickMenuItem('/essay', '시/에세이')}>시/에세이
+                            </div>
                         </div>
                     </div>
                 </div>
