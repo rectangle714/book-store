@@ -103,12 +103,12 @@ const Profile = () => {
 
     return (
         <>
-            <div style={{paddingTop: '80px', borderBottom: 'solid 3px black', height:'80px'}} >
+            <div style={{height:'100%', margin:'50px'}} >
                 <div style={{textAlign:'center'}}>
                     <span style={{fontWeight: '500', fontSize: '24px', color: 'rgb(51, 51, 51)', lineHeight:'48px'}}>마이페이지</span>
                 </div>
-                <div style={{textAlign:'center', borderBottom:'solid 3px black'}}>
-                    <table style={{width: '490px', marginLeft: 'auto', marginRight: 'auto', borderCollapse: 'separate', borderSpacing: '10px 20px', paddingTop:'50px'}}>
+                <div style={{textAlign:'center'}}>
+                    <table style={{width: '490px', marginLeft: 'auto', marginRight: 'auto', borderCollapse: 'separate', borderSpacing: '10px 20px'}}>
                         <colgroup>
                                 <col width={'30%'} />
                                 <col width={'70%'}/>
@@ -205,7 +205,7 @@ const Profile = () => {
                             </tr>
                             <tr>
                                 <td colSpan={2}>
-                                    <Button style={{width: '50%', height:'50px', marginTop:'28px'}} color='success' variant='contained' onClick={onClickBtn}>정보 수정</Button>
+                                    <Button style={{width: '50%', height:'50px'}} color='success' variant='contained' onClick={onClickBtn}>정보 수정</Button>
                                 </td>
                             </tr>
                         </tbody>
