@@ -46,8 +46,11 @@ public class ItemService {
     }
 
     /* 전체 아이템 정보 */
-    public List<Item> getAllItem() {
-        return itemRepository.findListAll();
+    public List<Item> getAllItem(String cate) {
+        List<Item> result = new ArrayList<>();
+        result = itemRepository.findListAll(cate);
+
+        return result;
     }
 
     /* 최근 추가된 책 조회 */

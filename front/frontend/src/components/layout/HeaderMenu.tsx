@@ -15,7 +15,7 @@ const HeaderMenu = () => {
                     <div className="header-menu-item"> 
                         <div>
                             <div style={{cursor:'pointer'}} 
-                                onClick={() => onClickMenuItem('/best', '베스트')}>베스트
+                                onClick={() => onClickMenuItem('/BEST', '베스트')}>베스트
                             </div>
                             {/* <img src="/images/puppy.png" style={{width: '50px', height: '50px', cursor:'pointer'}}/> */}
                         </div>
@@ -23,28 +23,28 @@ const HeaderMenu = () => {
                     <div className="header-menu-item">
                         <div>
                             <div style={{cursor:'pointer'}}
-                                onClick={() => onClickMenuItem('/novel', '소설')}>소설
+                                onClick={() => onClickMenuItem('/FICTION', '소설')}>소설
                             </div>
                         </div>
                     </div>
                     <div className="header-menu-item">
                         <div>
                             <div style={{cursor:'pointer'}} 
-                                onClick={() => onClickMenuItem('/selfImprovement', '자기계발')}>자기계발
+                                onClick={() => onClickMenuItem('/SELF_IMPROVEMENT', '자기계발')}>자기계발
                             </div>
                         </div>
                     </div>
                     <div className="header-menu-item">
                         <div>
                             <div style={{cursor:'pointer'}} 
-                                onClick={() => onClickMenuItem('/itemList', '인문')}>인문
+                                onClick={() => onClickMenuItem('/HUMANITIES', '인문')}>인문
                             </div>
                         </div>
                     </div>
                     <div className="header-menu-item">
                         <div>
                             <div style={{cursor:'pointer'}} 
-                                onClick={() => onClickMenuItem('/essay', '시/에세이')}>시/에세이
+                                onClick={() => onClickMenuItem('/ESSAY', '시/에세이')}>에세이
                             </div>
                         </div>
                     </div>

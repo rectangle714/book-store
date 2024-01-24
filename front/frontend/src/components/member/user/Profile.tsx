@@ -188,7 +188,7 @@ const Profile = () => {
                                 </td>
                             </tr>
                             <tr>
-                                <td></td>
+                                <td>상세주소</td>
                                 <td>
                                     <TextField 
                                         variant='outlined'

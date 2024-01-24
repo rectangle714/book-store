@@ -5,14 +5,18 @@ import com.bootProject.repository.item.ItemRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Slf4j
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class itemTest {
 
@@ -45,6 +49,17 @@ public class itemTest {
         List<Item> itemList = new ArrayList<Item>();
         List<Item> recentRegisteredItem = itemRepository.findRecentRegisteredItem();
         for (Item item:recentRegisteredItem) {
+            log.info("item value = {}", item.getId());
+        }
+    }
+
+    @Test
+    @DisplayName("카테고리별 상품 정보 조회")
+    void findItemListByCate() {
+        String cate = null;
+
+        List<Item> fictionList = itemRepository.findListAll(cate);
+        for (Item item:fictionList) {
             log.info("item value = {}", item.getId());
         }
     }

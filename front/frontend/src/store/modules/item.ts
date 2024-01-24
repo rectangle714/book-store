@@ -39,7 +39,6 @@ export const registerItem = createAsyncThunk('REGISTER_ITEM', async(item:any) =>
 export const allItemInfo = createAsyncThunk('ALL_ITEM_INFO', async() => {
     try {
         const URL = process.env.REACT_APP_API_URL + '/item/findAll';
-
         const response = await axios.get(URL);
          return response.data;
     } catch(error) {
@@ -52,7 +51,6 @@ export const allItemInfo = createAsyncThunk('ALL_ITEM_INFO', async() => {
 export const recentRegisteredItem = createAsyncThunk('RECENT_REGISTERED_ITEM', async() => {
     try {
         const URL = process.env.REACT_APP_API_URL + '/item/findRecentRegisteredItem';
-
         const response = await axios.get(URL);
          return response.data;
     } catch(error) {
@@ -66,7 +64,6 @@ export const recentRegisteredItem = createAsyncThunk('RECENT_REGISTERED_ITEM', a
 export const itemDetailInfo = createAsyncThunk('ITEM_DETAIL_INFO', async(itemId:any) => {
     try {
         const URL = process.env.REACT_APP_API_URL + '/item/detail?itemId='+itemId;
-
         const response = await axios.get(URL);
          return response.data;
     } catch(error) {
@@ -79,7 +76,6 @@ export const itemDetailInfo = createAsyncThunk('ITEM_DETAIL_INFO', async(itemId:
 export const deleteItem = createAsyncThunk('DELETE_ITEM', async(param:any) => {
     console.log('[상품 삭제 시작]');
     const URL = process.env.REACT_APP_API_URL + '/item/delete';
-
     const response = await axios.post(URL, param);
     return response.status;
 })

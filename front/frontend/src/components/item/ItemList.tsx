@@ -1,10 +1,12 @@
-import { Container } from "@mui/material";
+import { useLocation } from "react-router";
 import SideBar from "components/layout/SideBar";
 import { useState } from "react";
 import styled from 'styled-components';
 import ItemGrid from "./ItemGrid";
+import PaginationForm from "components/common/PaginationForm";
+import ItemListItem from "./ItemListItem";
 
-const Post = styled.div`
+const BookList = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -19,7 +21,7 @@ const Post = styled.div`
   }
 `;
 
-const PostTop = styled.div`
+const BookListTop = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -41,7 +43,7 @@ const PostTop = styled.div`
   }
 `;
 
-const PostCards = styled.div`
+const BookCards = styled.div`
   display: flex;
   /* justify-content: space-around; */
   flex-wrap: wrap;
@@ -53,8 +55,8 @@ const PostCards = styled.div`
 `;
 
 const ItemList = () => {
-
   const [title, setTitle] = useState<string>('');
+  const [pageData, setPageData] = useState();
 
   return (
     <>
@@ -70,14 +72,14 @@ const ItemList = () => {
         >
           <SideBar setTitleValue={setTitle}/>
           <div style={{ width: '100%', height: '100%', marginTop: '7rem' }}>
-            <Post>
-              <PostTop>
+            <BookList>
+              <BookListTop>
                 <p style={{ fontSize: '2rem', color: 'black' }}>{title}</p>
-              </PostTop>
-              <PostCards>
-                <ItemGrid></ItemGrid>
-              </PostCards>
-            </Post>
+              </BookListTop>
+              <BookCards>
+                <ItemListItem title={title}/>
+              </BookCards>
+            </BookList>
           </div>
         </div>
       </div>

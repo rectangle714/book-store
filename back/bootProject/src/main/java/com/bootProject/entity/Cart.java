@@ -2,6 +2,8 @@ package com.bootProject.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 @Entity
 @Getter
@@ -23,7 +25,11 @@ public class Cart extends Base{
     @JoinColumn(name = "item_id")
     private Item itemId;
 
+    @Column(columnDefinition = "VARCHAR(1) default 'N'")
+    private String isPaid;
+
     private long quantity;
+
 
     public void updateQuantity(String flag, int quantity) {
         if("increse".equals(flag)) {

@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long>,  ItemRepositoryCustom{
     @Override
-    public List<Item> findListAll();
+    public List<Item> findListAll(String cate);
     @Override
     public ItemDTO findItemById(long id);
     @Override

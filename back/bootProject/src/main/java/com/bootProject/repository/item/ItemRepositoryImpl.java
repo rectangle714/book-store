@@ -4,7 +4,9 @@ import com.bootProject.common.code.CategoryType;
 import com.bootProject.dto.ItemDTO;
 import com.bootProject.entity.Item;
 import com.bootProject.mapper.ItemMapper;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 
 import static com.bootProject.entity.QItem.item;
@@ -18,12 +20,20 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom{
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<Item> findListAll() {
+    public List<Item> findListAll(String cate) {
         return queryFactory
                 .selectFrom(item)
                 .leftJoin(item.fileList, saveFile).fetchJoin()
+                .where(eqCategory(cate))
                 .orderBy(item.registerDate.desc())
                 .fetch();
+    }
+
+    private BooleanExpression eqCategory(String cate) {
+        if(StringUtils.isEmpty(cate)) {
+            return null;
+        }
+        return item.category.eq(cate);
     }
 
     @Override

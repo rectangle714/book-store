@@ -4,6 +4,7 @@ import com.bootProject.dto.ItemDTO;
 import com.bootProject.entity.Item;
 import com.bootProject.mapper.ItemMapper;
 import com.bootProject.service.ItemService;
+import io.lettuce.core.dynamic.annotation.Param;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.FileSystemResource;
@@ -43,9 +44,9 @@ public class ItemController {
 
     /* 상품 전체 찾기 */
     @GetMapping("/findAll")
-    public ResponseEntity<List<Item>> findAllItem() {
+    public ResponseEntity<List<Item>> findAllItem(@RequestParam(required = false)String cate) {
         List<Item> result = new ArrayList<Item>();
-        result = itemService.getAllItem();
+        result = itemService.getAllItem(cate);
         return ResponseEntity.ok(result);
     }
 

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ItemRepositoryCustom {
-    public List<Item> findListAll();
+    public List<Item> findListAll(String cate);
     public ItemDTO findItemById(long id);
     public List<Item> findRecentRegisteredItem();
 }
