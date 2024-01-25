@@ -85,6 +85,7 @@ const LoginForm = () => {
             const adjExpirationTime = new Date(expirationTime).getTime();
             const remainingDuration = adjExpirationTime - currentTime;
             logoutTimer = setTimeout(() =>{
+                alert('로그인 시간이 만료되었습니다.');
                 dispatch(logout());
                 navigate('/', {replace: true});
             }, remainingDuration);

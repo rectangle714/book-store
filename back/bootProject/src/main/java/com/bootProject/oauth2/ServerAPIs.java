@@ -1,13 +1,9 @@
 package com.bootProject.oauth2;
 
-import com.bootProject.dto.KakaoLoginDTO;
-import com.bootProject.dto.NaverLoginDTO;
-import jdk.jfr.ContentType;
-import okhttp3.RequestBody;
+import com.bootProject.web.auth.dto.KakaoLoginDTO;
+import com.bootProject.web.auth.dto.NaverLoginDTO;
 import retrofit2.Call;
 import retrofit2.http.*;
-
-import java.util.Map;
 
 public interface ServerAPIs {
 

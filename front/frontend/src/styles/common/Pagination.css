@@ -41,10 +41,6 @@ ul.pagination li.active a {
 ul.pagination li.active {
     background-color: #337ab7;
 }
- 
-ul.pagination li a:hover {
-    color: blue;
-}
 
 ul.pagination li a.active {
     color: white;

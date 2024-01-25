@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Layout from "components/layout/Layout";
 import { useAppSelect } from "store/configureStore";
 import HomePage from "pages/HomePage";
-import CreateAccountPage from "pages/user/CreateAccountPage";
+import CreateAccountPage from "pages/member/user/CreateAccountPage";
 
 import {LoginPage, ProfilePage, AdminPage, FindEmailPage, FindPasswordPage} from "./pages";
 import OAuthLogin from "components/auth/OAuthLogin";
@@ -10,6 +10,7 @@ import NotFound from "components/common/NotFound";
 import UpdatePassword from "components/member/user/UpdatePassword";
 import CartPage from "pages/cart/CartPage";
 import ItemListPage from "pages/item/ItemListPage";
+import ItemDetailPage from "pages/item/ItemDetailPage";
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         <Route path="/findEmail/*" element={<FindEmailPage/>}></Route>
         {/* Item */}
         <Route path="/itemList" element={<ItemListPage/>}></Route>
+        <Route path="/itemDetail/*" element={<ItemDetailPage/>}></Route>
         {/* Cart */}
         <Route path="/cart/*" element={!isLogin ? <Navigate to='/' /> : <CartPage/>}></Route>
         {/* Admin */}

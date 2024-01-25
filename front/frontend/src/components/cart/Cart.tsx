@@ -49,16 +49,17 @@ const Cart = () => {
       pg: 'nice_v2.'+process.env.REACT_APP_PAYMEMNTS_PG_KEY,
       pay_method: 'card',
       merchant_uid: `orderNo${new Date().getTime()}`,
-      amount: amount,
-      buyer_tel: '00-000-0000',
-      name:'주문명:결제테스트'
+      amount: 100,
+      buyer_tel: '010-1234-5678',
+      name:'Collie'
     }
     const callback = (response: RequestPayResponse) => {
-      const { success, merchant_uid, error_msg, imp_uid, error_code } = response
+      const {success, merchant_uid, error_msg, imp_uid, error_code} = response
       if (success) {
-        console.log(response)
+        console.log(success);
+        alert('결제가 완료됐습니다.');
       } else {
-        console.log(response)
+        console.log(response);
       }
     }
     window.IMP?.request_pay(data, callback)
@@ -66,7 +67,6 @@ const Cart = () => {
 
   const getCartList = async (currentPage:number) => {
     const URL = process.env.REACT_APP_API_URL + '/cart/selectList?email='+email+'&page='+currentPage;
-    console.log(isLogin);
     await axios.get(URL)
       .then(function(response) {
         if(response.data.content.length > 0) {
