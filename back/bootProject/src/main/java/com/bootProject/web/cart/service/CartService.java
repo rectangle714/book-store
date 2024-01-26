@@ -42,6 +42,7 @@ public class CartService {
         } else {
             cartDTO.setMember(member);
             cartDTO.setItem(item);
+            cartDTO.setIsPaid("N");
             Cart cart = CartMapper.INSTANCE.updateFromDto(cartDTO);
             cartRepository.save(cart);
         }

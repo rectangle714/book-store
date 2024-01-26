@@ -9,12 +9,17 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface CartRepository extends JpaRepository<Cart, Long>, CartRepositoryCustom {
+
     @Override
     public List<CartDTO> selectCartList(String email);
+
     @Override
     public Cart selectByItemIdAndMemberId(Long itemId, Long memberId);
 
     @Override
     public Page<CartDTO> selectCartPage(Pageable pageable, String email);
+
+    @Override
+    public void updateCartIsPaid(List<Long> ids);
 
 }

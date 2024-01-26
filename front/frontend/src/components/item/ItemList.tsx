@@ -73,10 +73,10 @@ const ItemList = () => {
           <div style={{ width: '100%', height: '100%', marginTop: '7rem' }}>
             <BookList>
               <BookListTop>
-                <p style={{ fontSize: '2rem', color: 'black' }}>{title}</p>
+                <p style={{ fontSize: '2rem', color: 'black' }}>{title != null ? title : ''}</p>
               </BookListTop>
               <BookCards>
-                <ItemListItem title={title}/>
+                <ItemListItem title={title != null ? title : ''}/>
               </BookCards>
             </BookList>
           </div>

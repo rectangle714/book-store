@@ -11,5 +11,5 @@ public interface CartRepositoryCustom {
     public List<CartDTO> selectCartList(String email);
     public Cart selectByItemIdAndMemberId(Long itemId, Long memberId);
     public Page<CartDTO> selectCartPage(Pageable pageable, String email);
-
+    public void updateCartIsPaid(List<Long> ids);
 }

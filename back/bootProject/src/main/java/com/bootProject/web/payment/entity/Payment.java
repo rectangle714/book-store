@@ -1,5 +1,6 @@
 package com.bootProject.web.payment.entity;
 
+import com.bootProject.web.common.entity.Base;
 import com.bootProject.web.member.entity.Member;
 import jakarta.persistence.*;
 import jdk.jfr.Description;
@@ -10,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Payment {
+public class Payment extends Base {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "payment_id")

@@ -52,9 +52,9 @@ const ItemGrid = () => {
   return (
     <>
       <div>
-        <Grid sx={{ flexGrow: 2, height: '512px'}} container spacing={1}>
+        <Grid sx={{flexGrow: 2, minHeight: '512px', height:'100%'}} container spacing={1}>
           <Grid item xs={12}>
-            <Grid container justifyContent="center" spacing={spacing} style={{paddingTop:10, justifyContent:'left', paddingLeft:'70px', overflow: 'auto' }}>
+            <Grid container justifyContent="center" spacing={spacing} style={{paddingTop:10, justifyContent:'left', paddingLeft:'70px', overflow: 'auto'}}>
               {rows.map((value, index) => (
                 <Grid key={value.id} item >
                   <Paper

@@ -47,7 +47,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/","/api/v1/auth/**", "/api/v1/item/**", "/api/v1/member/updatePassword", "/api/v1/common/**").permitAll()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .requestMatchers("/api/v1/member/**").hasAnyAuthority("USER","ADMIN","GUEST")
+                .requestMatchers("/api/v1/member/**", "/api/v1/payment/**").hasAnyAuthority("USER","ADMIN","GUEST")
                 .requestMatchers("/api/v1/admin/**").hasAnyAuthority("ADMIN")
                 .anyRequest().authenticated()
 

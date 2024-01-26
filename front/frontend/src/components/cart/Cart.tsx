@@ -29,9 +29,9 @@ export interface Page {
 }
 
 const Cart = () => {
+  const navigation = useNavigate();
   const isLogin = useAppSelect((state) => state.userReducer.isLogin);
   const email = useAppSelect((state) => state.userReducer.email);
-  const navigation = useNavigate();
   
   const [cartItems, setCartItems] = useState<Book[]>([]);
   const [totalItemPrice, setTotalItemPrice] = useState(0);
@@ -39,35 +39,76 @@ const Cart = () => {
 
   // 버튼 로직
   const handlePayment = () => {
+
+    if(cartItems.length < 1) {
+      alert('장바구니가 비어있습니다.');
+      return;
+    }
+
+    let payItemName = '';
+    if(cartItems.length > 1) {
+      payItemName = cartItems[0].title + ' 외 ' + (cartItems.length-1) + '건';
+    } else {
+      payItemName = cartItems[0].title!;
+    }
+
     window.IMP?.init(process.env.REACT_APP_PAYMEMNTS_KEY+'');
     const amount: number = totalItemPrice;
     if (!amount) {
-      alert('상품을 선택 후 주문해주세요.')
-      return
+      alert('상품을 선택 후 주문해주세요.');
+      return;
     }
+
     const data: RequestPayParams = {
       pg: 'nice_v2.'+process.env.REACT_APP_PAYMEMNTS_PG_KEY,
       pay_method: 'card',
       merchant_uid: `orderNo${new Date().getTime()}`,
       amount: 100,
       buyer_tel: '010-1234-5678',
-      name:'Collie'
+      name: payItemName
     }
+
     const callback = (response: RequestPayResponse) => {
-      const {success, merchant_uid, error_msg, imp_uid, error_code} = response
+      const {success, merchant_uid, error_msg, imp_uid, error_code} = response;
+
       if (success) {
-        console.log(success);
-        alert('결제가 완료됐습니다.');
       } else {
-        console.log(response);
+        const URL = process.env.REACT_APP_API_URL + '/payment/processPayment';
+        const paymentList:any = [];
+
+        cartItems.forEach(function(item){
+          let cartItem = {};
+          const amount = item.quantity * item.price!;
+          cartItem = {
+            id : item.cartId,
+            email : email,
+            amount : amount,
+            merchantUid : merchant_uid,
+            impUid : imp_uid
+          }
+          paymentList.push(cartItem);
+        })
+
+        axios.post(URL,paymentList)
+        .then(function(response) {
+          if(response.data == 'success') {
+            alert('결제가 완료됐습니다.');
+            window.location.reload();
+          }
+        })
+        .catch(function(error) {
+          alert('결제를 실패했습니다.');
+          console.log('결제 실패 : ' + error);
+        })
       }
     }
+
     window.IMP?.request_pay(data, callback)
   }
 
   const getCartList = async (currentPage:number) => {
     const URL = process.env.REACT_APP_API_URL + '/cart/selectList?email='+email+'&page='+currentPage;
-    await axios.get(URL)
+    axios.get(URL)
       .then(function(response) {
         if(response.data.content.length > 0) {
           setTotalItemPrice(response.data.content[0].totalBookPrice);
@@ -104,10 +145,6 @@ const Cart = () => {
       });
     }
   };
-
-  const onOrder = () => {
-    console.log('주문 버튼 이벤트');
-  }
 
   useEffect(() => {
     if(isLogin) {
@@ -147,7 +184,7 @@ const Cart = () => {
                     <span style={{float:'left'}}>상품금액 : </span><span style={{float:'right', fontWeight:'600'}}>{totalItemPrice.toLocaleString()}</span>
                   </div>
                 </div>
-                <div onClick={onOrder} style={{border:'3px solid grey', margin:'20px', borderRadius:'10px',
+                <div style={{border:'3px solid grey', margin:'20px', borderRadius:'10px',
                   height:'12%', textAlign:'center', paddingTop:'10px', cursor:'pointer', background:'#5055b1'}}>
                   <div style={{verticalAlign:'middle', height:'100%', color:'white', fontWeight:'500'}} onClick={()=>handlePayment()}>주문하기</div>
                 </div>

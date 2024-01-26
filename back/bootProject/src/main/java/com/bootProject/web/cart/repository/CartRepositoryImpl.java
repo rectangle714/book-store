@@ -51,7 +51,7 @@ public class CartRepositoryImpl implements CartRepositoryCustom{
                 .innerJoin(cart.itemId, item).fetchJoin()
                 .innerJoin(cart.memberId, member).fetchJoin()
                 .where(
-                    member.id.eq(memberId).and(item.id.eq(itemId).and(cart.isPaid.eq("N")))
+                    member.id.eq(memberId).and(item.id.eq(itemId)).and(cart.isPaid.eq("N"))
                 ).fetchOne();
     }
 
@@ -69,7 +69,7 @@ public class CartRepositoryImpl implements CartRepositoryCustom{
                                                 .from(cart)
                                                 .innerJoin(cart.memberId, member)
                                                 .innerJoin(cart.itemId, item)
-                                                .where(member.email.eq(email)), "totalBookPrice"
+                                                .where(member.email.eq(email).and(cart.isPaid.eq("N"))), "totalBookPrice"
                                 )
                         )
                 )
@@ -77,7 +77,7 @@ public class CartRepositoryImpl implements CartRepositoryCustom{
                 .innerJoin(cart.memberId, member)
                 .innerJoin(cart.itemId, item)
                 .innerJoin(item.fileList, saveFile)
-                .where(member.email.eq(email))
+                .where(member.email.eq(email).and(cart.isPaid.eq("N")))
                 .orderBy(cart.id.desc())
                 .offset(pageable.getOffset())       //페이지 번호
                 .limit(pageable.getPageSize())      // 페이지 사이즈
@@ -92,5 +92,14 @@ public class CartRepositoryImpl implements CartRepositoryCustom{
                 .where(member.email.eq(email));
 
         return PageableExecutionUtils.getPage(cartList, pageable, count::fetchOne);
+    }
+
+    @Override
+    public void updateCartIsPaid(List<Long> ids) {
+        long count = queryFactory
+                .update(cart)
+                .set(cart.isPaid, "Y")
+                .where(cart.id.in(ids))
+                .execute();
     }
 }
