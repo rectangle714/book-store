@@ -1,9 +1,13 @@
 package com.bootProject.web.item.controller;
 
+import com.bootProject.common.exception.BusinessException;
 import com.bootProject.web.item.dto.ItemDTO;
+import com.bootProject.web.item.dto.ReviewDTO;
 import com.bootProject.web.item.entity.Item;
 import com.bootProject.web.item.mapper.ItemMapper;
 import com.bootProject.web.item.service.ItemService;
+import com.bootProject.web.item.dto.PaymentDTO;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
@@ -66,6 +70,26 @@ public class ItemController {
     public Resource showImage(@PathVariable String filename) throws MalformedURLException {
         String path = "src/main/resources/images/";
         return new UrlResource("file:" + path +filename);
+    }
+
+    @PostMapping("/processPayment")
+    public ResponseEntity<String> processPayment(@RequestBody List<PaymentDTO> paymentList) throws BusinessException {
+        String result =itemService.processPayment(paymentList);
+        if("success".equals(result)) {
+            return ResponseEntity.ok("success");
+        } else {
+            return ResponseEntity.badRequest().body("fail");
+        }
+    }
+
+    @PostMapping("/writeReview")
+    public ResponseEntity<String> writeReview(ReviewDTO reviewDTO, HttpServletRequest request) {
+        String result = itemService.writeReview(reviewDTO, request);
+        if("success".equals(result)) {
+            return ResponseEntity.ok("success");
+        } else {
+            return ResponseEntity.badRequest().body("fail");
+        }
     }
 
 }

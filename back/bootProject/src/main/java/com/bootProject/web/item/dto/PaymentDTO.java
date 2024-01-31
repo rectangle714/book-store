@@ -1,4 +1,4 @@
-package com.bootProject.web.payment.dto;
+package com.bootProject.web.item.dto;
 
 import com.bootProject.web.member.entity.Member;
 import lombok.Data;

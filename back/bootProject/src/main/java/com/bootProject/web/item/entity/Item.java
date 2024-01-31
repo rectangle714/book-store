@@ -1,7 +1,6 @@
 package com.bootProject.web.item.entity;
 
 import com.bootProject.web.common.entity.Base;
-import com.bootProject.web.file.entity.SaveFile;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,8 +20,14 @@ public class Item extends Base {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id")
     private Long id;
+
+    @Comment("제목")
     private String title;
+
+    @Comment("내용")
     private String contents;
+
+    @Comment("가격")
     private long price;
 
     @Comment("00 - 선택, 01 - 소설, 02 - 자기계발, 03 - 에세이, 04 - 인문")
@@ -32,5 +37,8 @@ public class Item extends Base {
     @JsonManagedReference
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<SaveFile> fileList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    private List<Review> reviewList = new ArrayList<>();
 
 }

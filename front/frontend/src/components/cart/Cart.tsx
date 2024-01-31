@@ -71,9 +71,8 @@ const Cart = () => {
     const callback = (response: RequestPayResponse) => {
       const {success, merchant_uid, error_msg, imp_uid, error_code} = response;
 
-      if (success) {
-      } else {
-        const URL = process.env.REACT_APP_API_URL + '/payment/processPayment';
+      if (error_msg == undefined) {
+        const URL = process.env.REACT_APP_API_URL + '/item/processPayment';
         const paymentList:any = [];
 
         cartItems.forEach(function(item){
@@ -100,6 +99,9 @@ const Cart = () => {
           alert('결제를 실패했습니다.');
           console.log('결제 실패 : ' + error);
         })
+
+      } else {
+
       }
     }
 

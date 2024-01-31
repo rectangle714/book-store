@@ -1,16 +1,22 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import axios from 'axios';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 
 const ItemListItem = ({title}:any) => {
+    const navigate = useNavigate();
     const [rows, setRows] = useState<any[]>([]);
     const [spacing, setSpacing] = useState(2);
     const {state} = useLocation();
 
     const getItemList = async () => {
-        const URL = process.env.REACT_APP_API_URL + '/item/findAll?cate='+state.itemId.replace('/','');
+        let URL = '';
+        if(state != null) {
+            URL = process.env.REACT_APP_API_URL + '/item/findAll?cate='+state.itemId.replace('/','');
+        } else {
+            URL = process.env.REACT_APP_API_URL + '/item/findAll?cate=BEST';
+        }
         await axios.get(URL)
         .then(function(response) {
             setRows(response.data);
@@ -40,7 +46,7 @@ const ItemListItem = ({title}:any) => {
                                 backgroundColor: (theme) =>
                                     theme.palette.mode === 'dark' ? '#1A2027' : 'white', textAlign: 'left'
                                 }}
-                                // onClick={(e) => {handleOpen(value.id, e)}}
+                                onClick={(e) => {navigate('/item/detail/'+value.id)}}
                             >
                                 {value.fileList[0] != undefined? <img
                                     src={process.env.REACT_APP_FILE_URL + value.fileList[0].storedFileName}

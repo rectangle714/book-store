@@ -1,7 +1,7 @@
-package com.bootProject.web.payment.mapper;
+package com.bootProject.web.item.mapper;
 
-import com.bootProject.web.payment.dto.PaymentDTO;
-import com.bootProject.web.payment.entity.Payment;
+import com.bootProject.web.item.dto.PaymentDTO;
+import com.bootProject.web.item.entity.Payment;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;

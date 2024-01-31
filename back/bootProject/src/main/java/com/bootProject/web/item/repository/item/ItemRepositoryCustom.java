@@ -1,4 +1,4 @@
-package com.bootProject.web.item.repository;
+package com.bootProject.web.item.repository.item;
 
 import com.bootProject.web.item.dto.ItemDTO;
 import com.bootProject.web.item.entity.Item;

@@ -1,15 +1,12 @@
 package com.bootProject.web.payment;
 
-import com.bootProject.web.cart.entity.Cart;
 import com.bootProject.web.cart.repository.CartRepository;
+import com.bootProject.web.item.entity.Payment;
 import com.bootProject.web.member.entity.Member;
 import com.bootProject.web.member.repository.MemberRepository;
-import com.bootProject.web.payment.dto.PaymentDTO;
-import com.bootProject.web.payment.entity.Payment;
-import com.bootProject.web.payment.mapper.PaymentMapper;
-import com.bootProject.web.payment.repository.PaymentRepository;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import com.bootProject.web.item.dto.PaymentDTO;
+import com.bootProject.web.item.mapper.PaymentMapper;
+import com.bootProject.web.item.repository.payment.PaymentRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

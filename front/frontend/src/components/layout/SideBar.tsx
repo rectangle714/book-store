@@ -17,10 +17,10 @@ const Bar = styled.div`
 
 const SideBar = ({setTitleValue}:any) => {
   let {state} = useLocation();
-  setTitleValue(state.title);
+  state == null ? setTitleValue('베스트') : setTitleValue(state.title);
 
   const setActiveValue = (itemId:string) => {
-    state.itemId = itemId;
+    state.itemId != null ? state.itemId = itemId : state.itemId = '/BEST';
     switch (itemId) {
       case '/BEST':
         state.title = '베스트';
@@ -49,7 +49,7 @@ const SideBar = ({setTitleValue}:any) => {
     <>
       <Bar>
         <Navigation
-              activeItemId={state.itemId}
+              activeItemId={state == null ? '/BEST' : state.itemId}
               onSelect={(itemId) => {
                 setActiveValue(itemId.itemId);
               }}

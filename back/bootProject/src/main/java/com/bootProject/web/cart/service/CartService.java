@@ -9,7 +9,7 @@ import com.bootProject.web.member.entity.Member;
 import com.bootProject.web.cart.mapper.CartMapper;
 import com.bootProject.web.item.mapper.ItemMapper;
 import com.bootProject.web.cart.repository.CartRepository;
-import com.bootProject.web.item.repository.ItemRepository;
+import com.bootProject.web.item.repository.item.ItemRepository;
 import com.bootProject.web.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

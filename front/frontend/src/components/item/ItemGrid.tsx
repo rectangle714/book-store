@@ -1,6 +1,7 @@
 import { useAppDispatch } from "store/configureStore";
 import { useState, useEffect } from 'react';
 import { itemDetailInfo, recentRegisteredItem } from 'store/modules/item';
+import { useNavigate } from "react-router";
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import ItemModal from "./ItemModal";
@@ -15,6 +16,7 @@ interface modalValue {
 
 const ItemGrid = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [spacing, setSpacing] = useState(2);
   const [rows, setRows] = useState<any[]>([]);
   const [open, setOpen] = useState(false);
@@ -65,7 +67,7 @@ const ItemGrid = () => {
                       backgroundColor: (theme) =>
                         theme.palette.mode === 'dark' ? '#1A2027' : 'white', textAlign: 'left'
                     }}
-                    onClick={(e) => {handleOpen(value.id, e)}}
+                    onClick={(e) => {navigate('/item/detail/'+value.id)}}
                   >
                   {value.fileList[0] != undefined? <img
                     src={process.env.REACT_APP_FILE_URL + value.fileList[0].storedFileName}

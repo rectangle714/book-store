@@ -9,7 +9,6 @@ import lombok.*;
 @Entity
 @Getter
 @Table(name = "cart")
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Cart extends Base {

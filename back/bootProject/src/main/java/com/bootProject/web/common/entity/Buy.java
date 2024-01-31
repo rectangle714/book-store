@@ -21,9 +21,10 @@ public class Buy extends Base {
     @JoinColumn(name = "member_id")
     private Member member;
     
-    private String res_name;    //받은사람이름
-    private String res_address; //받는사람 주소
-    private String res_phone;   //받는 사람 핸드폰번호
-    private String res_requirement; //받는사람 요청사항
-    private Long total_price;   //합계
+    private String resName;    //받은사람이름
+    private String resAddress; //받는사람 주소
+    private String resPhone;   //받는 사람 핸드폰번호
+    private String resRequirement; //받는사람 요청사항
+    private Long totalPrice;   //합계
+
 }

@@ -1,6 +1,6 @@
 package com.bootProject.web.item.dto;
 
-import com.bootProject.web.file.entity.SaveFile;
+import com.bootProject.web.item.entity.SaveFile;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

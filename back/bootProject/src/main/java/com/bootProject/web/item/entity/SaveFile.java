@@ -1,4 +1,4 @@
-package com.bootProject.web.file.entity;
+package com.bootProject.web.item.entity;
 
 import com.bootProject.web.common.entity.Base;
 import com.bootProject.web.item.entity.Item;

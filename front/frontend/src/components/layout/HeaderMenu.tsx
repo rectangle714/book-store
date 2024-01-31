@@ -5,7 +5,7 @@ const HeaderMenu = () => {
     const navigate = useNavigate();
 
     const onClickMenuItem = (itemIdVal:string, titleVal:string) => {
-        navigate('/itemList',{state : {itemId:itemIdVal, title:titleVal}});
+        navigate('/item/list',{state : {itemId:itemIdVal, title:titleVal}});
     }
 
     return (

@@ -30,8 +30,8 @@ function App() {
         <Route path="/updatePassword/*" element={<UpdatePassword/>}></Route>
         <Route path="/findEmail/*" element={<FindEmailPage/>}></Route>
         {/* Item */}
-        <Route path="/itemList" element={<ItemListPage/>}></Route>
-        <Route path="/itemDetail/*" element={<ItemDetailPage/>}></Route>
+        <Route path="/item/list" element={<ItemListPage/>}></Route>
+        <Route path="/item/detail/:itemId" element={<ItemDetailPage/>}></Route>
         {/* Cart */}
         <Route path="/cart/*" element={!isLogin ? <Navigate to='/' /> : <CartPage/>}></Route>
         {/* Admin */}

@@ -2,11 +2,21 @@ package com.bootProject.web.item.service;
 
 import com.bootProject.common.code.ErrorCode;
 import com.bootProject.common.exception.BusinessException;
+import com.bootProject.web.cart.repository.CartRepository;
 import com.bootProject.web.item.dto.ItemDTO;
+import com.bootProject.web.item.dto.ReviewDTO;
 import com.bootProject.web.item.entity.Item;
-import com.bootProject.web.file.entity.SaveFile;
-import com.bootProject.web.file.repository.FileRepository;
-import com.bootProject.web.item.repository.ItemRepository;
+import com.bootProject.web.item.entity.SaveFile;
+import com.bootProject.web.item.repository.file.FileRepository;
+import com.bootProject.web.item.repository.item.ItemRepository;
+import com.bootProject.web.member.entity.Member;
+import com.bootProject.web.member.repository.MemberRepository;
+import com.bootProject.web.item.dto.PaymentDTO;
+import com.bootProject.web.item.entity.Payment;
+import com.bootProject.web.item.mapper.PaymentMapper;
+import com.bootProject.web.item.repository.payment.PaymentRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,6 +39,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ItemService {
 
+    private final PaymentRepository paymentRepository;
+    private final CartRepository cartRepository;
+    private final MemberRepository memberRepository;
     private final ItemRepository itemRepository;
     private final FileRepository fileRepository;
 
@@ -158,6 +171,54 @@ public class ItemService {
         }
 
         return fileList;
+    }
+
+    public String processPayment(List<PaymentDTO> paymentDtoList) throws BusinessException {
+        Member member = memberRepository.findByEmail(paymentDtoList.get(0).getEmail()).orElseThrow(() ->
+                new BusinessException(ErrorCode.ACCOUNT_NOT_FOUND, ErrorCode.ACCOUNT_NOT_FOUND.getDescription())
+        );
+        PaymentMapper paymentMapper = PaymentMapper.INSTANCE;
+        List<Payment> paymentList = new ArrayList<Payment>();
+        List<Long> cartIds = new ArrayList<Long>();
+
+        for(PaymentDTO paymentDTO : paymentDtoList) {
+            paymentDTO.setMemberId(member);
+            Payment payment = paymentMapper.toPayment(paymentDTO);
+            paymentList.add(payment);
+            cartIds.add(paymentDTO.getId());
+        }
+
+        cartRepository.updateCartIsPaid(cartIds);   //cart isPaid 값 Y로 변경
+        paymentRepository.saveAll(paymentList);     //payment 테이블에 값 추가
+
+        return "success";
+    }
+
+    public String writeReview(ReviewDTO reviewDTO, HttpServletRequest request) {
+        String clientIp = getRemoteIP(request);
+
+
+        return "success";
+    }
+
+    public static String getRemoteIP(HttpServletRequest request){
+        String ip = request.getHeader("X-FORWARDED-FOR");
+
+        //proxy 환경일 경우
+        if (ip == null || ip.length() == 0) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+
+        //웹로직 서버일 경우
+        if (ip == null || ip.length() == 0) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+
+        if (ip == null || ip.length() == 0) {
+            ip = request.getRemoteAddr() ;
+        }
+
+        return ip;
     }
 
 }
