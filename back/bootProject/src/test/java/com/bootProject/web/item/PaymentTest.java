@@ -1,4 +1,4 @@
-package com.bootProject.web.payment;
+package com.bootProject.web.item;
 
 import com.bootProject.web.cart.repository.CartRepository;
 import com.bootProject.web.item.entity.Payment;

@@ -6,17 +6,13 @@ import { useAppSelect} from "store/configureStore";
 import axios from 'axios';
 import TextField from '@mui/material/TextField';
 import { Textarea } from '@mui/joy';
+import { useRef } from 'react';
+import { useNavigate } from 'react-router';
 
-export type Cart = {
-  itemId? : Object,
-  email? : Object,
-  quantity? : Object
-}
-
-const ItemModal = ({ modalValue, imgSrc, open, handleOpen, handleClose }:any) => {
+const ReviewModal = ({ modalValue, imgSrc, open, handleOpen, handleClose }:any) => {
   const email = useAppSelect((state) => state.userReducer.email);
-  const isLogin = useAppSelect((state) => state.userReducer.isLogin);
-  console.log('modalValue ',modalValue);
+  const contentsInputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
 
   const style = {
     position: 'absolute' as 'absolute',
@@ -31,20 +27,35 @@ const ItemModal = ({ modalValue, imgSrc, open, handleOpen, handleClose }:any) =>
     p: 4,
   };
 
-  const onClickButton = async () => {
+  const onClickWriteButton = () => {
+    const URL = process.env.REACT_APP_API_URL + '/item/writeReview';
+    const contentsValue:string = contentsInputRef.current!.value;
+    let param = {
+      itemId : '',
+      contents : '',
+      email : ''
+    };
+    
+    param.itemId = modalValue.itemId;
+    param.contents = contentsValue.split('\n').join('<br>');
+    if(email == '') {
+      alert('로그인 후 이용해주세요.');
+      navigate('/login', {replace:true});
+      return;
+    } else {
+      param.email = email;
+    }
 
-    // const URL = process.env.REACT_APP_API_URL + '/cart/save';
-    // let param:Cart = {};
-    // param.itemId = modalValue.itemId;
-    // param.email = email;
-    // param.quantity = 1;
-    // const result = await axios.post(URL, param);
-    // if(result.data === 'success') {
-    //   alert('장바구니에 담겼습니다.');
-    // } else {
-    //   alert('장바구니 담기 실패했습니다.');
-    // }
-    // handleClose();
+    axios.post(URL, param)
+      .then(function(response) {
+        alert('리뷰가 작성되었습니다.');
+        console.log('response ',response);
+      })
+      .catch(function(error) {
+        alert('리뷰 작성을 실패했습니다.');
+        console.log('error ',error);
+      });
+    handleClose();
   }
 
   return (
@@ -82,15 +93,11 @@ const ItemModal = ({ modalValue, imgSrc, open, handleOpen, handleClose }:any) =>
                   <Typography id="modal-modal-description" sx={{ mt: 1, textAlign:'left' }}> 분류 </Typography>
                   <Typography id="modal-modal-description" sx={{ mt: 1, textAlign:'right', fontWeight:'600' }}>{modalValue.category}</Typography>
                 </div>
-                {/* <div style={{padding:'5px'}}>
-                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                    {modalValue.contents}
-                  </Typography>
-                </div> */}
               </div>
             </div>
             <div style={{textAlign:'center'}}>
               <TextField
+                inputRef={contentsInputRef}
                 sx={{width:'100%'}}
                 label="후기작성"
                 multiline
@@ -99,7 +106,8 @@ const ItemModal = ({ modalValue, imgSrc, open, handleOpen, handleClose }:any) =>
               />
             </div>
             <div style={{paddingTop:'10px', paddingBottom:'10px', marginLeft:'250px'}}>
-              <div style={{borderRadius: '15px', textAlign:'center', cursor:'pointer', background:'#5055b1',  height:'30px', width:'100px'}}>
+              <div style={{borderRadius: '15px', textAlign:'center', cursor:'pointer',
+                background:'#5055b1',  height:'30px', width:'100px'}} onClick={() => {onClickWriteButton()}}>
                 <span style={{verticalAlign:'middle', color:'white', fontWeight:'500'}}>등록</span>
               </div>
             </div>
@@ -109,4 +117,4 @@ const ItemModal = ({ modalValue, imgSrc, open, handleOpen, handleClose }:any) =>
   );
 };
 
-export default ItemModal;
+export default ReviewModal;

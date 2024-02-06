@@ -17,7 +17,7 @@ import java.util.List;
 import static com.bootProject.web.cart.entity.QCart.cart;
 import static com.bootProject.web.member.entity.QMember.member;
 import static com.bootProject.web.item.entity.QItem.item;
-import static com.bootProject.web.file.entity.QSaveFile.saveFile;
+import static com.bootProject.web.item.entity.QSaveFile.saveFile;
 
 @RequiredArgsConstructor
 public class CartRepositoryImpl implements CartRepositoryCustom{

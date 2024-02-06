@@ -1,4 +1,4 @@
-package com.bootProject.web.item.repository;
+package com.bootProject.web.item.repository.item;
 
 import com.bootProject.common.code.CategoryType;
 import com.bootProject.web.item.dto.ItemDTO;
@@ -10,7 +10,7 @@ import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 
 import static com.bootProject.web.item.entity.QItem.item;
-import static com.bootProject.web.file.entity.QSaveFile.saveFile;
+import static com.bootProject.web.item.entity.QSaveFile.saveFile;
 
 import java.util.Arrays;
 import java.util.List;

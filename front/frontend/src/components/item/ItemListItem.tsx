@@ -17,14 +17,14 @@ const ItemListItem = ({title}:any) => {
         } else {
             URL = process.env.REACT_APP_API_URL + '/item/findAll?cate=BEST';
         }
-        await axios.get(URL)
-        .then(function(response) {
+        axios.get(URL)
+          .then(function(response) {
             setRows(response.data);
-        })
-        .catch(function(error) {
+          })
+          .catch(function(error) {
             console.log('error ',error);
             alert('상품 조회 중 에러가 발생했습니다.');
-        })
+          })
     }
 
     useEffect(() => {

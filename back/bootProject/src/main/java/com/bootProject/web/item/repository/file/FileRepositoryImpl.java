@@ -1,4 +1,4 @@
-package com.bootProject.web.file.repository;
+package com.bootProject.web.item.repository.file;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;

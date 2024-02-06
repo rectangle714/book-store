@@ -6,7 +6,10 @@ import com.bootProject.web.cart.repository.CartRepository;
 import com.bootProject.web.item.dto.ItemDTO;
 import com.bootProject.web.item.dto.ReviewDTO;
 import com.bootProject.web.item.entity.Item;
+import com.bootProject.web.item.entity.Review;
 import com.bootProject.web.item.entity.SaveFile;
+import com.bootProject.web.item.mapper.ReviewMapper;
+import com.bootProject.web.item.repository.review.ReviewRepository;
 import com.bootProject.web.item.repository.file.FileRepository;
 import com.bootProject.web.item.repository.item.ItemRepository;
 import com.bootProject.web.member.entity.Member;
@@ -16,7 +19,6 @@ import com.bootProject.web.item.entity.Payment;
 import com.bootProject.web.item.mapper.PaymentMapper;
 import com.bootProject.web.item.repository.payment.PaymentRepository;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,6 +41,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ItemService {
 
+    private final ReviewRepository reviewRepository;
     private final PaymentRepository paymentRepository;
     private final CartRepository cartRepository;
     private final MemberRepository memberRepository;
@@ -173,6 +176,7 @@ public class ItemService {
         return fileList;
     }
 
+    @Transactional
     public String processPayment(List<PaymentDTO> paymentDtoList) throws BusinessException {
         Member member = memberRepository.findByEmail(paymentDtoList.get(0).getEmail()).orElseThrow(() ->
                 new BusinessException(ErrorCode.ACCOUNT_NOT_FOUND, ErrorCode.ACCOUNT_NOT_FOUND.getDescription())
@@ -194,11 +198,27 @@ public class ItemService {
         return "success";
     }
 
+    @Transactional
     public String writeReview(ReviewDTO reviewDTO, HttpServletRequest request) {
         String clientIp = getRemoteIP(request);
-
+        Item item = itemRepository.findById(reviewDTO.getItemId()).orElseThrow(IllegalAccessError::new);
+        Member member = memberRepository.findByEmail(reviewDTO.getEmail()).orElseThrow(IllegalAccessError::new);
+        Review review = new Review(reviewDTO.getContents(), clientIp, member, item);
+        try {
+            reviewRepository.save(review);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return "fail";
+        }
 
         return "success";
+    }
+
+    public List<ReviewDTO> getItemReviews(String itemId) {
+        ReviewMapper reviewMapper = ReviewMapper.INSTANCE;
+        List<Review> reviewList = reviewRepository.findReviewList(itemId);
+        List<ReviewDTO> reviewDTOList = reviewMapper.toDTOList(reviewList);
+        return reviewDTOList;
     }
 
     public static String getRemoteIP(HttpServletRequest request){

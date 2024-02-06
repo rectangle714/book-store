@@ -4,6 +4,7 @@ import com.bootProject.common.exception.BusinessException;
 import com.bootProject.web.item.dto.ItemDTO;
 import com.bootProject.web.item.dto.ReviewDTO;
 import com.bootProject.web.item.entity.Item;
+import com.bootProject.web.item.entity.Review;
 import com.bootProject.web.item.mapper.ItemMapper;
 import com.bootProject.web.item.service.ItemService;
 import com.bootProject.web.item.dto.PaymentDTO;
@@ -65,13 +66,14 @@ public class ItemController {
         return ResponseEntity.ok("success");
     }
 
-    /* 이미지 파일 조회 */
+    /* 서버에 저장되어있는 이미지 파일 조회 */
     @GetMapping("/images/{filename}")
     public Resource showImage(@PathVariable String filename) throws MalformedURLException {
         String path = "src/main/resources/images/";
         return new UrlResource("file:" + path +filename);
     }
 
+    /* 결제 작업 */
     @PostMapping("/processPayment")
     public ResponseEntity<String> processPayment(@RequestBody List<PaymentDTO> paymentList) throws BusinessException {
         String result =itemService.processPayment(paymentList);
@@ -82,14 +84,21 @@ public class ItemController {
         }
     }
 
+    /* 리뷰 작성 */
     @PostMapping("/writeReview")
-    public ResponseEntity<String> writeReview(ReviewDTO reviewDTO, HttpServletRequest request) {
+    public ResponseEntity<String> writeReview(@RequestBody ReviewDTO reviewDTO, HttpServletRequest request) {
         String result = itemService.writeReview(reviewDTO, request);
         if("success".equals(result)) {
             return ResponseEntity.ok("success");
         } else {
             return ResponseEntity.badRequest().body("fail");
         }
+    }
+
+    @GetMapping("/getItemReviews")
+    public ResponseEntity<List<ReviewDTO>> getItemReviews(String itemId) {
+        List<ReviewDTO> reviewList  = itemService.getItemReviews(itemId);
+        return ResponseEntity.ok(reviewList);
     }
 
 }

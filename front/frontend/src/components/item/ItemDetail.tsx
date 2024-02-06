@@ -3,7 +3,8 @@ import { itemDetailInfo } from 'store/modules/item';
 import { useAppDispatch, useAppSelect } from "store/configureStore";
 import { useParams, useNavigate } from "react-router-dom";
 import { Container } from "@mui/system";
-import ItemModal, { Cart } from "./ItemModal";
+import ItemModal from "./ReviewModal";
+import { Cart } from "../cart/Cart";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CreateIcon from '@mui/icons-material/Create';
 import axios from 'axios';
@@ -30,8 +31,21 @@ const ItemDetail = () => {
         }
     }
 
+    const getItemReview = () => {
+        const URL = process.env.REACT_APP_API_URL + '/item/getItemReviews';
+        const params = {itemId:itemId};
+        axios.get(URL, {params})
+            .then(function(response) {
+                console.log('response data : ', response);
+            })
+            .catch(function(error) {
+                console.log('error ', error);
+            })
+    }
+
     useEffect(() => {
         getItemDetail();
+        getItemReview();
         window.scrollTo(0, 0);  //스크롤 상단으로 이동
     }, []);
 
@@ -43,12 +57,12 @@ const ItemDetail = () => {
             param.email = email;
             param.quantity = 1;
             axios.post(URL, param)
-            .then(function(response) {
+              .then(function(response) {
                 alert('장바구니에 담겼습니다.');
-            })
-            .catch(function(error) {
+              })
+              .catch(function(error) {
                 alert('장바구니 담기 실패했습니다.');
-            })
+              })
         } else {
             alert('로그인을 해주세요.');
             navigate('/login');

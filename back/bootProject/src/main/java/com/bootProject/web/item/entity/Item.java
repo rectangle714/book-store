@@ -1,6 +1,7 @@
 package com.bootProject.web.item.entity;
 
 import com.bootProject.web.common.entity.Base;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -38,6 +39,7 @@ public class Item extends Base {
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<SaveFile> fileList = new ArrayList<>();
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<Review> reviewList = new ArrayList<>();
 

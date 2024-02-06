@@ -13,6 +13,12 @@ declare global {
   }
 }
 
+export type Cart = {
+  itemId? : Object,
+  email? : Object,
+  quantity? : Object
+}
+
 export interface Book {
   cartId: number;
   category?: string;
@@ -89,16 +95,16 @@ const Cart = () => {
         })
 
         axios.post(URL,paymentList)
-        .then(function(response) {
-          if(response.data == 'success') {
-            alert('결제가 완료됐습니다.');
-            window.location.reload();
-          }
-        })
-        .catch(function(error) {
-          alert('결제를 실패했습니다.');
-          console.log('결제 실패 : ' + error);
-        })
+          .then(function(response) {
+            if(response.data == 'success') {
+              alert('결제가 완료됐습니다.');
+              window.location.reload();
+            }
+          })
+          .catch(function(error) {
+            alert('결제를 실패했습니다.');
+            console.log('결제 실패 : ' + error);
+          })
 
       } else {
 
@@ -135,16 +141,16 @@ const Cart = () => {
   const handleRemoveItem = async (cartId: number) => {
     if(window.confirm('해당 상품을 삭제 하시겠습니까?')) {
       const URL = process.env.REACT_APP_API_URL + '/cart/delete';
-      await axios.post(URL, cartId)
-      .then(function(response) {
-        if(response.data == 'success') {
-          alert('해당 상품이 삭제 되었습니다.');
-          window.location.reload();
-        }
-      }).catch(function(error) {
-        console.log('error ',error);
-        alert('삭제 작업 중 문제가 발생했습니다.');
-      });
+      axios.post(URL, cartId)
+        .then(function(response) {
+          if(response.data == 'success') {
+            alert('해당 상품이 삭제 되었습니다.');
+            window.location.reload();
+          }
+        }).catch(function(error) {
+          console.log('error ',error);
+          alert('삭제 작업 중 문제가 발생했습니다.');
+        });
     }
   };
 

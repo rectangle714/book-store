@@ -2,13 +2,13 @@ package com.bootProject.web.item.entity;
 
 import com.bootProject.web.common.entity.Base;
 import com.bootProject.web.member.entity.Member;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Review extends Base {
 
@@ -27,5 +27,12 @@ public class Review extends Base {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    public Review(String contents, String ipAddress, Member member, Item item) {
+        this.contents = contents;
+        this.ipAddress = ipAddress;
+        this.member = member;
+        this.item = item;
+    }
 
 }

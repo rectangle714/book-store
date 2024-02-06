@@ -4,7 +4,7 @@ import { itemDetailInfo, recentRegisteredItem } from 'store/modules/item';
 import { useNavigate } from "react-router";
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import ItemModal from "./ItemModal";
+import ItemModal from "./ReviewModal";
 
 interface modalValue {
   itemId: string,
