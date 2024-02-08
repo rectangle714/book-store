@@ -13,7 +13,9 @@ public interface ReviewMapper {
     ReviewMapper INSTANCE = Mappers.getMapper(ReviewMapper.class);
 
     @Named("reviewDTOLIst")
-    @Mapping(target = "member", source = "member")
+    @Mapping(target = "writerEmail", source = "member.email")
+    @Mapping(target = "writerNickname", source = "member.nickname")
+    @Mapping(target = "registerDate", source = "registerDate")
     public ReviewDTO toDTO(Review review);
 
     @IterableMapping(qualifiedByName = "reviewDTOLIst")

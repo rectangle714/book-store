@@ -24,6 +24,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom{
                 .selectFrom(review)
                 .join(review.member, member).fetchJoin()
                 .where(item.id.eq(Long.parseLong(itemId)))
+                .orderBy(review.registerDate.desc())
                 .fetch();
         return reviewList;
     }

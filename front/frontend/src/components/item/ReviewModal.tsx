@@ -35,7 +35,7 @@ const ReviewModal = ({ modalValue, imgSrc, open, handleOpen, handleClose }:any) 
       contents : '',
       email : ''
     };
-    
+
     param.itemId = modalValue.itemId;
     param.contents = contentsValue.split('\n').join('<br>');
     if(email == '') {
@@ -50,10 +50,12 @@ const ReviewModal = ({ modalValue, imgSrc, open, handleOpen, handleClose }:any) 
       .then(function(response) {
         alert('리뷰가 작성되었습니다.');
         console.log('response ',response);
+        window.location.reload();
       })
       .catch(function(error) {
         alert('리뷰 작성을 실패했습니다.');
         console.log('error ',error);
+        window.location.reload();
       });
     handleClose();
   }

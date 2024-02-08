@@ -39,7 +39,7 @@ public class Item extends Base {
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<SaveFile> fileList = new ArrayList<>();
 
-    @JsonManagedReference
+    @JsonIgnore
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<Review> reviewList = new ArrayList<>();
 

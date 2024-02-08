@@ -8,6 +8,7 @@ import { Cart } from "../cart/Cart";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CreateIcon from '@mui/icons-material/Create';
 import axios from 'axios';
+import ReviewItem from "./ReviewItem";
 
 const ItemDetail = () => {
     const dispatch = useAppDispatch();
@@ -15,6 +16,7 @@ const ItemDetail = () => {
     const {itemId} = useParams();
     const [imgSrc, setImgSrc] = useState('');
     const [itemDetail, setItemDetail] = useState<any>({});
+    const [reviewList, setReviewList] = useState<any[]>([]);
     const [open, setOpen] = useState(false);
     const modalClose = () => setOpen(false);
 
@@ -36,6 +38,7 @@ const ItemDetail = () => {
         const params = {itemId:itemId};
         axios.get(URL, {params})
             .then(function(response) {
+                setReviewList(response.data);
                 console.log('response data : ', response);
             })
             .catch(function(error) {
@@ -132,6 +135,9 @@ const ItemDetail = () => {
                         </span>
                     </div>
                 </div>
+                {
+                    reviewList && <ReviewItem reviewList={reviewList}/>
+                }
             </Container>
             <ItemModal modalValue={itemDetail} imgSrc={imgSrc} open={open} handleClose={modalClose} />
         </>
