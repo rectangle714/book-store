@@ -13,6 +13,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -96,8 +99,9 @@ public class ItemController {
     }
 
     @GetMapping("/getItemReviews")
-    public ResponseEntity<List<ReviewDTO>> getItemReviews(String itemId) {
-        List<ReviewDTO> reviewList  = itemService.getItemReviews(itemId);
+    public ResponseEntity<Page<ReviewDTO>> getItemReviews(@PageableDefault(page = 0, size = 5) Pageable pageable,
+                                                               String itemId) {
+        Page<ReviewDTO> reviewList  = itemService.getItemReviews(pageable, itemId);
         return ResponseEntity.ok(reviewList);
     }
 

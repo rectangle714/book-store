@@ -9,6 +9,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CreateIcon from '@mui/icons-material/Create';
 import axios from 'axios';
 import ReviewItem from "./ReviewItem";
+import PaginationForm, { Page } from "components/common/PaginationForm";
 
 const ItemDetail = () => {
     const dispatch = useAppDispatch();
@@ -17,6 +18,7 @@ const ItemDetail = () => {
     const [imgSrc, setImgSrc] = useState('');
     const [itemDetail, setItemDetail] = useState<any>({});
     const [reviewList, setReviewList] = useState<any[]>([]);
+    const [pageData, setPageData] = useState<Page>(Object);
     const [open, setOpen] = useState(false);
     const modalClose = () => setOpen(false);
 
@@ -38,7 +40,7 @@ const ItemDetail = () => {
         const params = {itemId:itemId};
         axios.get(URL, {params})
             .then(function(response) {
-                setReviewList(response.data);
+                setReviewList(response.data.content);
                 console.log('response data : ', response);
             })
             .catch(function(error) {
@@ -138,6 +140,9 @@ const ItemDetail = () => {
                 {
                     reviewList && <ReviewItem reviewList={reviewList}/>
                 }
+                <div style={{height: '100px', borderTop:'1px solid #eaeaea'}}>
+                    <PaginationForm pageData={pageData} getDataList={getItemReview} />
+                </div>
             </Container>
             <ItemModal modalValue={itemDetail} imgSrc={imgSrc} open={open} handleClose={modalClose} />
         </>

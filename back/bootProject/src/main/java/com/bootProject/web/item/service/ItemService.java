@@ -22,6 +22,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
@@ -214,11 +216,9 @@ public class ItemService {
         return "success";
     }
 
-    public List<ReviewDTO> getItemReviews(String itemId) {
-        ReviewMapper reviewMapper = ReviewMapper.INSTANCE;
-        List<Review> reviewList = reviewRepository.findReviewList(itemId);
-        List<ReviewDTO> reviewDTOList = reviewMapper.toDTOList(reviewList);
-        return reviewDTOList;
+    public Page<ReviewDTO> getItemReviews(Pageable pageable, String itemId) {
+        Page<ReviewDTO> reviewList = reviewRepository.findReviewList(pageable, itemId);
+        return reviewList;
     }
 
     public static String getRemoteIP(HttpServletRequest request){

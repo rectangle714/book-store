@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Table, Typography } from '@mui/material';
 import { useAppSelect } from "store/configureStore";
 import CartItem from './CartItem';
-import PaginationForm from 'components/common/PaginationForm';
+import PaginationForm, { Page } from 'components/common/PaginationForm';
 import { Iamport, RequestPayParams, RequestPayResponse } from 'store/modules/payment';
 
 declare global {
@@ -27,11 +27,6 @@ export interface Book {
   price?: number;
   quantity: number;
   storedFileName?: string;
-}
-
-export interface Page {
-  totalDataCount: number;
-  totalPageCount: number;
 }
 
 const Cart = () => {
@@ -200,7 +195,7 @@ const Cart = () => {
             </div>
         </section>
         <div style={{width:'65%'}}>
-          {pageData.totalPageCount != undefined ? <PaginationForm pageData={pageData} getCartList={getCartList}/> : ''}
+          {pageData.totalPageCount != undefined ? <PaginationForm pageData={pageData} getDataList={getCartList}/> : ''}
         </div>
     </>
   );

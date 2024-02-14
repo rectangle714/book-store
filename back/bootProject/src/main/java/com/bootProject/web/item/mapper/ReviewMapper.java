@@ -4,6 +4,7 @@ import com.bootProject.web.item.dto.ReviewDTO;
 import com.bootProject.web.item.entity.Review;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
