@@ -17,7 +17,7 @@ return (
                 <div className="comment_header" style={{marginBottom:'16px' }}>
                     <div className="left_area">
                         <div className="user_info_box">
-                            <span className="info_item">{value.writerNickname}</span>
+                            <span className="info_item">{value.writerNickname} 님</span>
                             <span className="gap"> | </span>
                             <span className="info_item">{value.registerDate}</span>
                                                 {/* <span className="gap"> | </span>

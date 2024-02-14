@@ -35,12 +35,13 @@ const ItemDetail = () => {
         }
     }
 
-    const getItemReview = () => {
+    const getItemReview = (currentPage:number) => {
         const URL = process.env.REACT_APP_API_URL + '/item/getItemReviews';
-        const params = {itemId:itemId};
+        const params = {itemId:itemId, page:currentPage};
         axios.get(URL, {params})
             .then(function(response) {
                 setReviewList(response.data.content);
+                setPageData({totalDataCount:response.data.totalElements, totalPageCount:response.data.totalPages});
                 console.log('response data : ', response);
             })
             .catch(function(error) {
@@ -50,7 +51,7 @@ const ItemDetail = () => {
 
     useEffect(() => {
         getItemDetail();
-        getItemReview();
+        getItemReview(0);
         window.scrollTo(0, 0);  //스크롤 상단으로 이동
     }, []);
 
@@ -138,11 +139,13 @@ const ItemDetail = () => {
                     </div>
                 </div>
                 {
-                    reviewList && <ReviewItem reviewList={reviewList}/>
+                    reviewList.length > 0 && <ReviewItem reviewList={reviewList}/>
                 }
-                <div style={{height: '100px', borderTop:'1px solid #eaeaea'}}>
-                    <PaginationForm pageData={pageData} getDataList={getItemReview} />
-                </div>
+                {
+                    reviewList.length > 0 && <div style={{height: '100px', borderTop:'1px solid #eaeaea'}}>
+                        <PaginationForm pageData={pageData} getDataList={getItemReview} />
+                    </div>
+                }
             </Container>
             <ItemModal modalValue={itemDetail} imgSrc={imgSrc} open={open} handleClose={modalClose} />
         </>

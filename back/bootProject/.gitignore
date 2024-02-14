@@ -18,7 +18,7 @@ bin/
 !**/src/test/**/bin/
 
 # Q클래스 ignore 설정
-**/generated/com/bootProject/entity
+**/generated
 # 파일 저장공간
 images/**
 # yml 파일

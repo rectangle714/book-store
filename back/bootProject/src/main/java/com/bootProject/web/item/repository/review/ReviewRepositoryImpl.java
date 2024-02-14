@@ -28,16 +28,18 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom{
         List<Review> reviewList = new ArrayList<>();
         reviewList = queryFactory
                 .selectFrom(review)
-                .leftJoin(review.member, member).fetchJoin()
+                .join(review.member, member).fetchJoin()
                 .where(item.id.eq(Long.parseLong(itemId)))
                 .orderBy(review.registerDate.desc())
+                .offset(pageable.getOffset())       //페이지 번호
+                .limit(pageable.getPageSize())      // 페이지 사이즈
                 .fetch();
         List<ReviewDTO> reviewDTOList = reviewMapper.toDTOList(reviewList);
 
         JPAQuery<Long> count = queryFactory
                 .select(review.count())
                 .from(review)
-                .leftJoin(review.member, member).fetchJoin()
+                .join(review.member, member)
                 .where(item.id.eq(Long.parseLong(itemId)));
 
         return PageableExecutionUtils.getPage(reviewDTOList, pageable, count::fetchOne);
