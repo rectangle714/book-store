@@ -37,8 +37,9 @@ const OAuthLogin = (props:any) => {
   
               navigate('/', {replace:true, state:logoutTimer});
           } else {
-              alert('에러가 발생했습니다.');
-              navigate('/');
+            console.log(result);
+            alert('에러가 발생했습니다.');
+            navigate('/');
           }
         }
       };

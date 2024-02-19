@@ -2,6 +2,7 @@ import { useAppDispatch } from "store/configureStore";
 import { useState, useEffect } from 'react';
 import { itemDetailInfo, recentRegisteredItem } from 'store/modules/item';
 import { useNavigate } from "react-router";
+import axios from 'axios';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import ItemModal from "./ReviewModal";
@@ -17,7 +18,6 @@ interface modalValue {
 const ItemGrid = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [spacing, setSpacing] = useState(2);
   const [rows, setRows] = useState<any[]>([]);
   const [open, setOpen] = useState(false);
   const modalClose = () => setOpen(false);
@@ -36,14 +36,16 @@ const ItemGrid = () => {
 
   const handleOpen = async (arg:any, e:any) => {
     e.stopPropagation();
-    const result = await dispatch(itemDetailInfo(arg));
-    if(result.payload != undefined) {
-      setModalValue({itemId:result.payload.itemId, title:result.payload.title, contents:result.payload.contents,
-        price:result.payload.price, category:result.payload.category});
-      if(result.payload.saveFileList[0] != undefined) {
-        setImgSrc(process.env.REACT_APP_FILE_URL + result.payload.saveFileList[0].storedFileName);
-      }
-    }
+    const URL = process.env.REACT_APP_API_URL + '/item/detail?itemId='+arg;
+    await axios.get(URL)
+      .then(function(response) {
+        setModalValue({itemId:response.data.itemId, title:response.data.title, contents:response.data.contents,
+          price:response.data.price, category:response.data.category});
+      })
+      .catch(function(error) {
+        console.log('error :', error);
+        alert('오류가 발생했습니다.');
+      });
     setOpen(() => true);
   }
 
@@ -56,7 +58,7 @@ const ItemGrid = () => {
       <div>
         <Grid sx={{flexGrow: 2, minHeight: '512px', height:'100%'}} container spacing={1}>
           <Grid item xs={12}>
-            <Grid container justifyContent="center" spacing={spacing} style={{paddingTop:10, justifyContent:'left', paddingLeft:'70px', overflow: 'auto'}}>
+            <Grid container justifyContent="center" spacing={2} style={{paddingTop:10, justifyContent:'left', paddingLeft:'70px', overflow: 'auto'}}>
               {rows.map((value, index) => (
                 <Grid key={value.id} item >
                   <Paper

@@ -1,4 +1,3 @@
-import React, { useEffect, useState, useRef } from 'react';
 import { useLocation } from "react-router";
 import 'styles/layout/sideBar.css';
 import BookIcon from '@mui/icons-material/Book';
@@ -63,61 +62,21 @@ const SideBar = ({setTitleValue}:any) => {
                 {
                   title: '소설',
                   itemId: '/FICTION',
-                  // subNav: [
-                  //   {
-                  //     title: '국내소설',
-                  //     itemId: '/novel/korea',
-                  //   },
-                  //   {
-                  //     title: '외국소설',
-                  //     itemId: '/novel/other',
-                  //   },
-                  // ],
                   elemBefore: () => <BookIcon style={{ fontSize: '1.2rem' }}/>,
                 },
                 {
                   title: '자기계발',
                   itemId: '/SELF_IMPROVEMENT',
-                  // subNav: [
-                  //   {
-                  //     title: '성공/처세',
-                  //     itemId: '/selfImprovement/successCircumstances',
-                  //   },
-                  //   {
-                  //     title: '자기능력계발',
-                  //     itemId: '/selfImprovement/selfImprovement',
-                  //   },
-                  // ],
                   elemBefore: () => <BookIcon name="inbox" style={{ fontSize: '1.2rem' }}/>,
                 },
                 {
                   title: '인문',
                   itemId: '/HUMANITIES',
-                  // subNav: [
-                  //   {
-                  //     title: '인문학일반',
-                  //     itemId: '/humanities/11',
-                  //   },
-                  //   {
-                  //     title: '심리학',
-                  //     itemId: '/humanities/22',
-                  //   },
-                  // ],
                   elemBefore: () => <BookIcon name="inbox" style={{ fontSize: '1.2rem' }}/>,
                 },
                 {
                   title: '시/에세이',
                   itemId: '/ESSAY',
-                  // subNav: [
-                  //   {
-                  //     title: '한국시',
-                  //     itemId: '/essay/korea',
-                  //   },
-                  //   {
-                  //     title: '해외시',
-                  //     itemId: '/essay/other',
-                  //   },
-                  // ],
                   elemBefore: () => <BookIcon name="inbox" style={{ fontSize: '1.2rem' }}/>,
                 }
               ]}

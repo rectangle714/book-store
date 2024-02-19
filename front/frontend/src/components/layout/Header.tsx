@@ -13,7 +13,7 @@ const Header = () => {
     const navigate = useNavigate();
 
     const navFunction = (e:any, path:string) => {
-        if(path == 'main') {
+        if(path == 'main') {  
             navigate('/');
         } else if(path == 'login') {
             navigate('/login');
@@ -32,7 +32,6 @@ const Header = () => {
     const toggleLogoutHandler = async () => {
         const result = await dispatch(logout());
         if( result.payload != undefined ) {
-            alert('로그아웃');
             clearTimeout(state);
         }
         navigate('/');

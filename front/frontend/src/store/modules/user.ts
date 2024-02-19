@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { removeCookie } from 'store/cookie';
+import { removeCookie, getCookie } from 'store/cookie';
 import { LoginTokenHandler } from 'store/modules/auth'
 import { kakaoParam } from "components/auth/OAuthLogin";
 
@@ -181,9 +181,25 @@ export const logout = createAsyncThunk('LOGOUT', async () => {
         const response = await axios.post(URL, []);
         if(response.status == 200) {
             console.log('[로그아웃 성공]');
-            removeCookie('accessToken');
-            removeCookie('refreshToken');
-            removeCookie('expirationTime');
+            removeCookie('accessToken', {path:'/'});
+            console.log('accessToken', getCookie('accessToken'));
+            removeCookie('refreshToken', {path:'/'});
+            removeCookie('expirationTime', {path:'/'});
+
+            // axios({
+            //     method: 'get',
+            //     url: 'https://kapi.kakao.com/v1/oauth/logout?client_id={process.env.REACT_APP_KAKAO_CLIENT_ID}&logout_redirect_uri=http://localhost:3000/login',
+            //     headers: {"Content-type": "application/x-www-form-urlencoded;charset=utf-8"},
+            //     params: {
+            //         'client_id': process.env.REACT_APP_KAKAO_CLIENT_ID,
+            //         'logout_redirect_uri' : 'http://localhost:3000/login'
+            //     }
+            //   }).then(() => {
+            //     alert('카카오 로그아웃 성공');
+            //     window.location.href = '/';
+            //   }).catch((e) => {
+            //     console.log('e : ' , e);
+            //   })
         }
         
         return response.data;

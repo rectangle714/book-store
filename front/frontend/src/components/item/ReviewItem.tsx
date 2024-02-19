@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 
-
 const ReviewItem = ({reviewList}:any) => {
-
     const [rows, setRows] = useState<any[]>([]);
 
     useEffect(() => {
@@ -20,7 +18,7 @@ return (
                             <span className="info_item">{value.writerNickname} 님</span>
                             <span className="gap"> | </span>
                             <span className="info_item">{value.registerDate}</span>
-                                                {/* <span className="gap"> | </span>
+                            {/* <span className="gap"> | </span>
                             <span className="info_item">
                                 <button className="btn_comment_util" type="button" data-role="report">
                                     <span className="text">신고/차단</span>

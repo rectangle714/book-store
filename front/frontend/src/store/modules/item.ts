@@ -65,7 +65,7 @@ export const itemDetailInfo = createAsyncThunk('ITEM_DETAIL_INFO', async(itemId:
     try {
         const URL = process.env.REACT_APP_API_URL + '/item/detail?itemId='+itemId;
         const response = await axios.get(URL);
-         return response.data;
+        return response.data;
     } catch(error) {
         alert('상품 조회 에러가 발생했습니다.');
         console.log('에러발생 : ' + error);

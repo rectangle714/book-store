@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
-import { itemDetailInfo } from 'store/modules/item';
 import { useAppDispatch, useAppSelect } from "store/configureStore";
 import { useParams, useNavigate } from "react-router-dom";
 import { Container } from "@mui/system";
 import ItemModal from "./ReviewModal";
 import { Cart } from "../cart/Cart";
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CreateIcon from '@mui/icons-material/Create';
 import axios from 'axios';
 import ReviewItem from "./ReviewItem";
@@ -26,13 +24,18 @@ const ItemDetail = () => {
     const email = useAppSelect((state) => state.userReducer.email);
 
     const getItemDetail = async () => {
-        const result = await dispatch(itemDetailInfo(itemId));
-        if(result.payload != undefined) {
-            setItemDetail(result.payload);
-          if(result.payload.saveFileList[0] != undefined) {
-            setImgSrc(process.env.REACT_APP_FILE_URL + result.payload.saveFileList[0].storedFileName);
-          }
-        }
+        const URL = process.env.REACT_APP_API_URL + '/item/detail?itemId='+itemId;
+        await axios.get(URL)
+            .then(function(response) {
+                setItemDetail(response.data);
+                if(response.data.saveFileList[0] != undefined) {
+                    setImgSrc(process.env.REACT_APP_FILE_URL + response.data.saveFileList[0].storedFileName);
+                }
+            })
+            .catch(function(error) {
+                alert('상품 정보 조회 중 오류가 발생했습니다.');
+                console.log(error);
+            })
     }
 
     const getItemReview = (currentPage:number) => {
@@ -70,7 +73,7 @@ const ItemDetail = () => {
                 alert('장바구니 담기 실패했습니다.');
               })
         } else {
-            alert('로그인을 해주세요.');
+            alert('로그인 후 이용해주세요.');
             navigate('/login');
         }
       }

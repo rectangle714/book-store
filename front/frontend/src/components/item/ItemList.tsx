@@ -1,9 +1,7 @@
 import SideBar from "components/layout/SideBar";
 import { useState } from "react";
-import { useNavigate } from "react-router";
 import styled from 'styled-components';
 import ItemListItem from "./ItemListItem";
-
 
 const BookList = styled.div`
   display: flex;
@@ -55,7 +53,6 @@ const BookCards = styled.div`
 
 const ItemList = () => {
   const [title, setTitle] = useState<string>('');
-  const [pageData, setPageData] = useState();
 
   return (
     <>

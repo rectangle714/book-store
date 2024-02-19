@@ -9,14 +9,14 @@ module.exports = function(app) {
             },
             changeOrigin: true
         })
-    )
+    ),
 
     app.use(
         createProxyMiddleware(['/api/v1'], {
             target: 'http://localhost:30001',
             changeOrigin: true
         })
-    )
+    ),
 
     app.use(
         createProxyMiddleware(['/api/v1'], {

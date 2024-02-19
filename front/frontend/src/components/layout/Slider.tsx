@@ -5,7 +5,6 @@ import imageData from "../../store/imageData";
 import Styles from "../../styles/layout/Slider.module.css";
 
 const Slider = () => {
-
     const renderSlides = imageData.map(image => (
         <div key={image.alt} style={{margin: 'auto'}}>
           <img src={image.url} alt={image.alt} className={Styles.carousel} />

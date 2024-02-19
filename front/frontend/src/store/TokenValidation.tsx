@@ -13,9 +13,9 @@ const TokenValidation = () => {
   const [isLoading, setIsLoading] = useState(false);
   axios.interceptors.request.use(
     function (request) {
-      if(request.url != countQuantityURL) {
-        setIsLoading(true);
-      }
+      if(request.method == 'post') { setIsLoading(true); }
+      if(request.url == countQuantityURL) { setIsLoading(false); }
+
       const accessToken = getCookie('accessToken');
       const refreshToken = getCookie('refreshToken');
       if( undefined != accessToken && undefined != refreshToken ) {

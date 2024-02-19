@@ -11,6 +11,8 @@ const Profile = () => {
 
     const email = useAppSelect((state) => state.userReducer.email);
     const phone = useAppSelect((state) => state.userReducer.phone);
+    const role = useAppSelect((state) => state.userReducer.role);
+    console.log('role ',role);
     const nickname = useAppSelect((state) => state.userReducer.nickname);
     const zipNo = useAppSelect((state) => state.userReducer.zipNo);
     const address = useAppSelect((state) => state.userReducer.address);
@@ -126,19 +128,21 @@ const Profile = () => {
                                     />
                                 </td>
                             </tr>
-                            <tr>
-                                <td>패스워드</td>
-                                <td>
-                                    <TextField 
-                                        type='password'
-                                        variant='outlined'
-                                        sx={{width:'100%', input: {textAlign: "center"}}}
-                                        placeholder="패스워드를 입력해주세요"
-                                        id='password'
-                                        inputRef={ passwordInputRef } 
-                                    />
-                                </td>
-                            </tr>
+                            { role != 'GUEST' ? 
+                                <tr>
+                                    <td>패스워드</td>
+                                    <td>
+                                        <TextField 
+                                            type='password'
+                                            variant='outlined'
+                                            sx={{width:'100%', input: {textAlign: "center"}}}
+                                            placeholder="패스워드를 입력해주세요"
+                                            id='password'
+                                            inputRef={ passwordInputRef } 
+                                        />
+                                    </td>
+                                </tr> : ''
+                            }
                             <tr>
                                 <td>휴대폰</td>
                                 <td>

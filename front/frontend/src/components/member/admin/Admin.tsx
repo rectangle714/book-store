@@ -2,7 +2,6 @@ import { useState } from 'react';
 import Container from '@mui/material/Container';
 import { Tabs, Tab, Box } from '@mui/material';
 import Styls from'../../../styles/member/admin/Admin.module.css';
-import { useAppDispatch } from "../../../store/configureStore";
 import AdminMemberInfo from './AdminMemberInfo';
 import AdminItemList from './AdminItemList';
 import AdminItemRegister from './AdminItemRegister'; 
@@ -41,7 +40,6 @@ function TabPanel(props: TabPanelProps) {
 }
 
 const Admin = () => {
-
     const [value, setValue] = useState(0);
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
       setValue(newValue);

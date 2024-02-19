@@ -1,5 +1,4 @@
-import { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { Button, TextField, ButtonGroup, InputAdornment, Alert } from '@mui/material';
 import EmailIcon from '@mui/icons-material/Email';
 import KeyIcon from '@mui/icons-material/Key';
@@ -46,22 +45,22 @@ const FindEmail = () => {
     };
 
     return (
-        <>
-           <Container maxWidth="lg" fixed>
-                <section style={{
-                    minHeight:'84.8vh',
-                    display:'flex',
-                    flexDirection:'column',
-                    alignItems:'center',
-                    justifyContent:'center',
-                    fontSize:'calc(10px + 2vmin)'
-                }}>
-                    <div style={{fontWeight:800, fontSize:'28px', lineHeight:'20px', textAlign:'center', marginBottom:'20px'}}>이메일 찾기</div>
-                    <Box sx={{ borderBottom: 1, borderColor: 'divider'}}>
-                        <Tabs centered={true} value={value} onChange={handleChange} aria-label="basic tabs example">
-                            <Tab label="휴대폰 인증" {...a11yProps(0)} />
-                        </Tabs>
-                    </Box>
+      <>
+        <Container maxWidth="lg" fixed>
+          <section style={{
+            minHeight:'84.8vh',
+            display:'flex',
+            flexDirection:'column',
+            alignItems:'center',
+            justifyContent:'center',
+            fontSize:'calc(10px + 2vmin)'
+        }}>
+        <div style={{fontWeight:800, fontSize:'28px', lineHeight:'20px', textAlign:'center', marginBottom:'20px'}}>이메일 찾기</div>
+          <Box sx={{ borderBottom: 1, borderColor: 'divider'}}>
+            <Tabs centered={true} value={value} onChange={handleChange} aria-label="basic tabs example">
+              <Tab label="휴대폰 인증" {...a11yProps(0)} />
+            </Tabs>
+          </Box>
                     {/* 휴대폰 인증 */}
                     <TabPanel value={value} index={0}>
                         <form>

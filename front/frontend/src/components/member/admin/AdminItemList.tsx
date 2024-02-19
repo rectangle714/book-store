@@ -1,16 +1,13 @@
 import { useAppDispatch } from "store/configureStore";
 import { useState, useEffect } from 'react';
 import { allItemInfo, deleteItem } from 'store/modules/item';
-import { useNavigate } from "react-router-dom";
 import { Button } from '@mui/material';
 import { DataGrid, GridColDef, GridColumnVisibilityModel } from '@mui/x-data-grid';
 
 const AdminItemList = () => {
-
     const [rows, setRows] = useState<any[]>([]);
     const [selectedRows, setSelectedRows] = useState<any[]>([]);
     const dispatch = useAppDispatch();
-    const navigate = useNavigate();
 
     const rowData = async () => {
         const result = await dispatch(allItemInfo());
@@ -28,7 +25,6 @@ const AdminItemList = () => {
       id: false
     });
     
-
     const columns: GridColDef[] = [
         { field: 'id', headerName: 'ID', width: 70, hideable: true},
         { field: 'title', headerName: '제목', width: 150 },
