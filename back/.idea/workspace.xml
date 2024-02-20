@@ -5,7 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d62c2aee-2082-4479-b4b6-bfb938cb7c71" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/bootProject/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/resources/images/485195368240800.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/resources/images/485235054854600.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/frontend/src/.env.development" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/frontend/src/components/member/user/FindEmail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/frontend/src/components/member/user/FindEmail.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/frontend/src/components/member/user/FindPassword.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/frontend/src/components/member/user/FindPassword.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/frontend/src/components/member/user/Profile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/frontend/src/components/member/user/Profile.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/frontend/src/pages/item/ItemDetailPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/frontend/src/pages/item/ItemDetailPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/frontend/src/pages/member/user/LoginPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/frontend/src/pages/member/user/LoginPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/frontend/src/store/modules/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../front/frontend/src/store/modules/auth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/frontend/src/store/modules/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../front/frontend/src/store/modules/user.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,8 +90,8 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "C:/Users/USER/Desktop/기타/bootPrj/back/bootProject/build.gradle",
-    "project.structure.last.edited": "Modules",
+    "last_opened_file_path": "C:/Users/USER/Desktop/기타/bootPrj/back",
+    "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "reference.projectsettings.compiler.javacompiler"

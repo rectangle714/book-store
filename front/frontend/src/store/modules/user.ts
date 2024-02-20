@@ -185,21 +185,6 @@ export const logout = createAsyncThunk('LOGOUT', async () => {
             console.log('accessToken', getCookie('accessToken'));
             removeCookie('refreshToken', {path:'/'});
             removeCookie('expirationTime', {path:'/'});
-
-            // axios({
-            //     method: 'get',
-            //     url: 'https://kapi.kakao.com/v1/oauth/logout?client_id={process.env.REACT_APP_KAKAO_CLIENT_ID}&logout_redirect_uri=http://localhost:3000/login',
-            //     headers: {"Content-type": "application/x-www-form-urlencoded;charset=utf-8"},
-            //     params: {
-            //         'client_id': process.env.REACT_APP_KAKAO_CLIENT_ID,
-            //         'logout_redirect_uri' : 'http://localhost:3000/login'
-            //     }
-            //   }).then(() => {
-            //     alert('카카오 로그아웃 성공');
-            //     window.location.href = '/';
-            //   }).catch((e) => {
-            //     console.log('e : ' , e);
-            //   })
         }
         
         return response.data;

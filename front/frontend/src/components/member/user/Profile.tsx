@@ -1,5 +1,4 @@
 import { ChangeEvent, useRef, useState } from 'react';
-import { useNavigate } from "react-router-dom";
 import { Button, TextField } from '@mui/material';
 import { useAppSelect } from "store/configureStore";
 import { User } from "store/modules/user";
@@ -12,7 +11,6 @@ const Profile = () => {
     const email = useAppSelect((state) => state.userReducer.email);
     const phone = useAppSelect((state) => state.userReducer.phone);
     const role = useAppSelect((state) => state.userReducer.role);
-    console.log('role ',role);
     const nickname = useAppSelect((state) => state.userReducer.nickname);
     const zipNo = useAppSelect((state) => state.userReducer.zipNo);
     const address = useAppSelect((state) => state.userReducer.address);
@@ -101,7 +99,6 @@ const Profile = () => {
         const regPhone = /^((01[1|6|7|8|9])[1-9]+[0-9]{6,7})|(010[1-9][0-9]{7})$/;
         return regPhone.test(phoneNum);
     }
-
 
     return (
         <>

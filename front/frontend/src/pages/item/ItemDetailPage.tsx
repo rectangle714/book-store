@@ -1,4 +1,3 @@
-import { Container } from "@mui/material";
 import ItemDetail from "components/item/ItemDetail"
 
 const ItemDetailPage = () => {

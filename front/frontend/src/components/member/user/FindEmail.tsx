@@ -55,66 +55,63 @@ const FindEmail = () => {
             justifyContent:'center',
             fontSize:'calc(10px + 2vmin)'
         }}>
-        <div style={{fontWeight:800, fontSize:'28px', lineHeight:'20px', textAlign:'center', marginBottom:'20px'}}>이메일 찾기</div>
-          <Box sx={{ borderBottom: 1, borderColor: 'divider'}}>
-            <Tabs centered={true} value={value} onChange={handleChange} aria-label="basic tabs example">
-              <Tab label="휴대폰 인증" {...a11yProps(0)} />
-            </Tabs>
-          </Box>
-                    {/* 휴대폰 인증 */}
-                    <TabPanel value={value} index={0}>
-                        <form>
-                            <div>
-                                <TextField 
-                                    label='이름'
-                                    variant='standard'
-                                    autoComplete='true'
-                                    style={{width:'290px', height: '60px'}}
-                                    placeholder="이름을 입력해주세요"
-                                    id='name'
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position='start'>
-                                            <EmailIcon />
-                                            </InputAdornment>
-                                        ),
-                                    }}
-                                    />
-                            </div>
-                            <div style={{marginTop:'30px'}}>
-                                <TextField 
-                                    label='휴대폰 번호'
-                                    type='text'
-                                    variant='standard'
-                                    style={{width:'290px'}}
-                                    placeholder="휴대폰 번호를 입력해주세요"
-                                    id='phone'
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position='start'>
-                                            <KeyIcon />
-                                            </InputAdornment>
-                                        ),
-                                    }}
-                                    />
-                            </div>
-                            <Button style={{width: '100%', height:'50px', marginTop:'30px'}} color='success' variant='contained' type='submit'>인증번호 받기</Button>
-                        </form>
-                        <div style={{
-                                paddingTop: 20,
-                            }}>
-                        </div>
-                        <div style={{
-                                paddingTop: 10,
-                                fontSize: 12, 
-                                color: 'red',
-                                textAlign: 'center',
-                                paddingLeft: 30
-                            }}>
-                        </div>
-                    </TabPanel>
-                </section>
-            </Container>
+          <div style={{fontWeight:800, fontSize:'28px', lineHeight:'20px', textAlign:'center', marginBottom:'20px'}}>이메일 찾기</div>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider'}}>
+              <Tabs centered={true} value={value} onChange={handleChange} aria-label="basic tabs example">
+                <Tab label="휴대폰 인증" {...a11yProps(0)} />
+              </Tabs>
+            </Box>
+            {/* 휴대폰 인증 */}
+            <TabPanel value={value} index={0}>
+              <form>
+                <div>
+                  <TextField 
+                    label='이름'
+                    variant='standard'
+                    autoComplete='true'
+                    style={{width:'290px', height: '60px'}}
+                    placeholder="이름을 입력해주세요"
+                    id='name'
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position='start'>
+                          <EmailIcon />
+                        </InputAdornment>
+                      ),
+                      }}
+                    />
+                  </div>
+                  <div style={{marginTop:'30px'}}>
+                    <TextField 
+                      label='휴대폰 번호'
+                      type='text'
+                      variant='standard'
+                      style={{width:'290px'}}
+                      placeholder="휴대폰 번호를 입력해주세요"
+                      id='phone'
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position='start'>
+                            <KeyIcon />
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  </div>
+                  <Button style={{width: '100%', height:'50px', marginTop:'30px'}} color='success' variant='contained' type='submit'>인증번호 받기</Button>
+                </form>
+                  <div style={{paddingTop: 20}}></div>
+                    <div style={{
+                      paddingTop: 10,
+                      fontSize: 12, 
+                      color: 'red',
+                      textAlign: 'center',
+                      paddingLeft: 30
+                    }}>
+                    </div>
+              </TabPanel>
+            </section>
+          </Container>
         </>
     )
 }
