@@ -4,20 +4,112 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d62c2aee-2082-4479-b4b6-bfb938cb7c71" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="d62c2aee-2082-4479-b4b6-bfb938cb7c71" name="Changes" comment="front 코드 정리, batch 서버 생성 예정 - 20240221">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bootProject/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/bootProject/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/gradlew" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/gradlew.bat" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/gradlew.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/BootProjectApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/BootProjectApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/aop/LogAspect.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/aop/LogAspect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/common/code/CategoryType.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/common/code/CategoryType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/common/code/EnumMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/common/code/EnumMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/common/code/EnumMapperType.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/common/code/EnumMapperType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/common/code/EnumMapperValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/common/code/EnumMapperValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/common/code/ErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/common/code/ErrorCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/common/code/SuccessCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/common/code/SuccessCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/common/exception/BusinessException.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/common/exception/BusinessException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/common/exception/ErrorResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/common/exception/ErrorResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/common/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/common/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/common/util/CookieUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/common/util/CookieUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/common/util/RedisUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/common/util/RedisUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/common/util/SecurityUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/common/util/SecurityUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/config/EmailConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/config/EmailConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/config/JpaAuditingConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/config/JpaAuditingConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/config/JwtSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/config/JwtSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/config/QueryDslConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/config/QueryDslConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/config/RedisConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/config/RedisConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/config/RetrofitConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/config/RetrofitConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/config/WebConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/config/WebConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/config/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/config/WebSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/jwt/JwtAccessDeniedHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/jwt/JwtAccessDeniedHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/jwt/JwtAuthenticationEntryPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/jwt/JwtAuthenticationEntryPoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/jwt/JwtFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/jwt/JwtFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/jwt/TokenProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/jwt/TokenProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/oauth2/ServerAPIs.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/oauth2/ServerAPIs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/oauth2/SocialType.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/oauth2/SocialType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/security/CustomUserDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/security/CustomUserDetailsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/security/TokenDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/security/TokenDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/auth/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/auth/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/auth/dto/ChangePasswordRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/auth/dto/ChangePasswordRequestDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/auth/dto/KakaoLoginDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/auth/dto/KakaoLoginDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/auth/dto/NaverLoginDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/auth/dto/NaverLoginDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/auth/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/auth/service/AuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/cart/controller/CartController.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/cart/controller/CartController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/cart/dto/CartDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/cart/dto/CartDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/cart/entity/Cart.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/cart/entity/Cart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/cart/mapper/CartMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/cart/mapper/CartMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/cart/repository/CartRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/cart/repository/CartRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/cart/repository/CartRepositoryCustom.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/cart/repository/CartRepositoryCustom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/cart/repository/CartRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/cart/repository/CartRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/cart/service/CartService.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/cart/service/CartService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/common/controller/CommonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/common/controller/CommonController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/common/entity/Base.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/common/entity/Base.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/common/entity/Buy.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/common/entity/Buy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/common/entity/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/common/entity/Role.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/item/controller/ItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/item/controller/ItemController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/item/dto/ItemDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/item/dto/ItemDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/item/dto/PaymentDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/item/dto/PaymentDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/item/dto/ReviewDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/item/dto/ReviewDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/item/entity/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/item/entity/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/item/entity/Payment.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/item/entity/Payment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/item/entity/Review.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/item/entity/Review.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/item/entity/SaveFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/item/entity/SaveFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/item/mapper/ItemMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/item/mapper/ItemMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/item/mapper/PaymentMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/item/mapper/PaymentMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/item/mapper/ReviewMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/item/mapper/ReviewMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/item/repository/file/FileRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/item/repository/file/FileRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/item/repository/file/FileRepositoryCustom.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/item/repository/file/FileRepositoryCustom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/item/repository/file/FileRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/item/repository/file/FileRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/item/repository/item/ItemRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/item/repository/item/ItemRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/item/repository/item/ItemRepositoryCustom.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/item/repository/item/ItemRepositoryCustom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/item/repository/item/ItemRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/item/repository/item/ItemRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/item/repository/payment/PaymentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/item/repository/payment/PaymentRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/item/repository/review/ReviewRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/item/repository/review/ReviewRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/item/repository/review/ReviewRepositoryCustom.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/item/repository/review/ReviewRepositoryCustom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/item/repository/review/ReviewRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/item/repository/review/ReviewRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/item/service/ItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/item/service/ItemService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/mail/MailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/mail/MailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/member/controller/MemberController.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/member/controller/MemberController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/member/dto/MemberDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/member/dto/MemberDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/member/entity/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/member/entity/Member.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/member/mapper/MemberMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/member/mapper/MemberMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/member/repository/MemberRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/member/repository/MemberRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/member/repository/MemberRepositoryCustom.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/member/repository/MemberRepositoryCustom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/member/repository/MemberRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/member/repository/MemberRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/java/com/bootProject/web/member/service/MemberService.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/java/com/bootProject/web/member/service/MemberService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/resources/images/1890421038446700.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/resources/images/1890421038446700.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/resources/images/2201126631053500.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/resources/images/2201126631053500.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/resources/images/2201157101024299.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/resources/images/2201157101024299.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/resources/images/42954576694400.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/resources/images/42954576694400.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/resources/images/43831741955200.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/resources/images/43831741955200.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/resources/images/46897977108600.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/resources/images/46897977108600.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/resources/images/46939030937800.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/resources/images/46939030937800.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/resources/images/46958682393100.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/resources/images/46958682393100.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/resources/images/46987352704400.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/resources/images/46987352704400.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/main/resources/images/47183948998800.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/main/resources/images/47183948998800.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bootProject/src/main/resources/images/485195368240800.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/bootProject/src/main/resources/images/485235054854600.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/test/java/com/bootProject/BootProjectApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/test/java/com/bootProject/BootProjectApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/test/java/com/bootProject/web/item/PaymentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/test/java/com/bootProject/web/item/PaymentTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/test/java/com/bootProject/web/item/itemTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/test/java/com/bootProject/web/item/itemTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootProject/src/test/java/com/bootProject/web/member/memberTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/bs_web/src/test/java/com/bootProject/web/member/memberTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bs_batch/.idea/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../front/frontend/src/.env.development" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front/frontend/src/components/member/user/FindEmail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/frontend/src/components/member/user/FindEmail.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front/frontend/src/components/member/user/FindPassword.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/frontend/src/components/member/user/FindPassword.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front/frontend/src/components/member/user/Profile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/frontend/src/components/member/user/Profile.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front/frontend/src/pages/item/ItemDetailPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/frontend/src/pages/item/ItemDetailPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front/frontend/src/pages/member/user/LoginPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/frontend/src/pages/member/user/LoginPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front/frontend/src/store/modules/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../front/frontend/src/store/modules/auth.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front/frontend/src/store/modules/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../front/frontend/src/store/modules/user.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,7 +182,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "C:/Users/USER/Desktop/기타/bootPrj/back",
+    "last_opened_file_path": "C:/Users/USER/Desktop/기타/bootPrj/back/bs_web",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
@@ -232,6 +324,14 @@
       <option name="presentableId" value="Default" />
       <updated>1683874252525</updated>
     </task>
+    <task id="LOCAL-00001" summary="front 코드 정리, batch 서버 생성 예정 - 20240221">
+      <created>1708472428348</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1708472428348</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -244,6 +344,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="front 코드 정리, batch 서버 생성 예정 - 20240221" />
+    <option name="LAST_COMMIT_MESSAGE" value="front 코드 정리, batch 서버 생성 예정 - 20240221" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
